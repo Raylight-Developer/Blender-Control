@@ -13,49 +13,37 @@ bl_info = {
 
 pip.main(["install", "PySide6", "--user"])
 
-bpy.context.scene["DRIVER"] = """
-row : Row = layout.row()
-test_slider: FloatProperty = row.prop(Type.FLOAT, "Test Slider")
-test_slider.expression('bpy.data.objects["Cube"].data.shape_keys.key_blocks["Example"].value = driver')
-"""
 #--------------------------------------------------------------------------------------------------
 from BUI import *
 #--------------------------------------------------------------------------------------------------
-class Program_Window(QMainWindow):
+class DRIVER_Program_Window(QT_Window):
 	def __init__(self):
 		super().__init__()
-		Reload_Analyzer = QPushButton()
-		Reload_Analyzer.setText("⟳")
-		Reload_Analyzer.setFixedSize(30,30)
+		self.mouse_pressed = False
+		Reload_Analyzer = QT_Button().setIcon(QIcon("./Resources/file_refresh.svg")).setFixedSize(30,30)
 		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QPushButton()
-		Exit_Analyzer.setText("❌")
-		Exit_Analyzer.setFixedSize(30,30)
+		Exit_Analyzer = QT_Button().setIcon(QIcon("./Resources/panel_close.svg")).setFixedSize(30,30)
 		Exit_Analyzer.clicked.connect(self.quit)
 
-		self.BUI_Header = Column()
+		self.BUI_Header = Row()
 		self.BUI_Header.setFixedHeight(30)
-		self.BUI_Header.setContentsMargins(0,0,0,0)
-		self.BUI_Header.Layout.addWidget(Reload_Analyzer, 1, Qt.AlignmentFlag.AlignRight)
-		self.BUI_Header.Layout.addWidget(Exit_Analyzer, 1, Qt.AlignmentFlag.AlignRight)
+		self.BUI_Header.addWidget(Reload_Analyzer, 1, Qt.AlignmentFlag.AlignRight).addWidget(Exit_Analyzer, 1, Qt.AlignmentFlag.AlignRight)
 		self.BUI_Header.installEventFilter(self)
 
 		self.BUI_Layout = Column()
 
-		BUI_Splitter  = QSplitter()
-		BUI_Splitter.setOrientation(Qt.Orientation.Vertical)
-
-		BUI_Splitter.setContentsMargins(0,0,0,0)
-		BUI_Splitter.addWidget(self.BUI_Header)
-		BUI_Splitter.addWidget(self.BUI_Layout)
-		BUI_Splitter.setStyleSheet("background:rgb(50,50,50)")
-		BUI_Splitter.setHandleWidth(5)
+		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
 		
-		self.setCentralWidget(BUI_Splitter)
-		self.setWindowTitle("Analyzer")
+		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER")
 		self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.CustomizeWindowHint)
 		self.show()
+		if "DRIVER" not in bpy.context.scene:
+			bpy.context.scene["DRIVER"] = """
+row : Row = layout.row()
+test_slider: FloatProperty = row.prop(Type.FLOAT, "Test Slider")
+test_slider.set_expression('bpy.data.objects["Cube"].data.shape_keys.key_blocks["Example"].value = float(driver/100)')
+"""
 		self.processUI()
 
 	def processUI(self):
@@ -63,7 +51,6 @@ class Program_Window(QMainWindow):
 			self.BUI_Layout.Layout.itemAt(i).widget().deleteLater()
 		layout = self.BUI_Layout
 		code = bpy.context.scene["DRIVER"]
-		print(code)
 		exec(code)
 
 	def eventFilter(self, source, event):
@@ -89,7 +76,7 @@ class Program_Window(QMainWindow):
 
 #--------------------------------------------------------------------------------------------------
 
-class Qt_Window_Event_Loop(bpy.types.Operator):
+class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
 	bl_idname = 'screen.qt_event_loop'
 	bl_label = 'Qt Event Loop'
 
@@ -124,26 +111,26 @@ class Qt_Window_Event_Loop(bpy.types.Operator):
 
 		return {'RUNNING_MODAL'}
 
-class Blender_Functions(Qt_Window_Event_Loop):
-	bl_idname = 'screen.blender_control'
+class DRIVER_Blender_Functions(DRIVER_Qt_Window_Event_Loop):
+	bl_idname = 'driver.open'
 	bl_label = 'Control'
 
 	def __init__(self):
-		super().__init__(Program_Window)
+		super().__init__(DRIVER_Program_Window)
 		
-class Blender_Interface(bpy.types.Panel):
+class DRIVER_Blender_Interface(bpy.types.Panel):
 	bl_label = "Blender Controls"
 	bl_space_type = "PROPERTIES"
 	bl_region_type = "WINDOW"
 	bl_context = "scene"
 
 	def draw(self, context):
-		self.layout.row().operator("screen.blender_control", text = "CONTROLS")
+		self.layout.row().operator("driver.open", text = "CONTROLS")
 
 Classes = [
-	Blender_Interface,
-	Blender_Functions,
-	Qt_Window_Event_Loop
+	DRIVER_Blender_Interface,
+	DRIVER_Blender_Functions,
+	DRIVER_Qt_Window_Event_Loop
 ]
 
 def register():

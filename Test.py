@@ -1,40 +1,33 @@
 import sys
 from BUI import *
 
-class Central_Layout(QSplitter):
+class Central_Layout(QT_Splitter):
 	def __init__(self):
 		super().__init__()
-		super().setOrientation(Qt.Orientation.Vertical)
-		Exit_Analyzer = QPushButton()
-		Exit_Analyzer.setText("❌")
-		Exit_Analyzer.setFixedSize(30,30)
+		self.mouse_pressed = False
+		Reload_Analyzer = QT_Button().setIcon(QIcon("./Resources/file_refresh.svg"))#.setFixedSize(30,30)
+		Reload_Analyzer.clicked.connect(self.processUI)
+
+		Exit_Analyzer = QT_Button().setIcon(QIcon("./Resources/panel_close.svg"))#.setFixedSize(30,30)
 		Exit_Analyzer.clicked.connect(self.quit)
 
-		self.BUI_Header = Column()
-		self.BUI_Header.setFixedHeight(30)
-		self.BUI_Header.setContentsMargins(0,0,0,0)
-		self.BUI_Header.Layout.addWidget(Exit_Analyzer, 1, Qt.AlignmentFlag.AlignRight)
+		self.BUI_Header = Row()
+		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
+		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)#.setFixedHeight(30)
 		self.BUI_Header.installEventFilter(self)
 
 		self.BUI_Layout = Column()
 
-		self.setContentsMargins(0,0,0,0)
-		self.addWidget(self.BUI_Header)
-		self.addWidget(self.BUI_Layout)
-		self.setStyleSheet("background:rgb(50,50,50)")
-		self.setHandleWidth(5)
-
+		self.addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
 		self.processUI()
 
 	def processUI(self):
-		for i in range(self.BUI_Layout.Layout.count()):
-			self.BUI_Layout.Layout.itemAt(i).widget().deleteLater()
+		self.BUI_Layout.clear()
 		layout = self.BUI_Layout
-		code = open("UI.bui", "r", -1, "utf-8").read().replace("from BUI_Editing import *\n", "")
-		print(code)
+		code = open("UI.py", "r", -1, "utf-8").read().split("\n",2)[2]
 		exec(code)
 
-	def eventFilter(self, source, event):
+	def eventFilter(self, source, event: QEvent):
 		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
 			if event.button() == Qt.MouseButton.RightButton:
 				self.initial_pos = event.globalPos()
@@ -48,6 +41,12 @@ class Central_Layout(QSplitter):
 			self.mouse_pressed = False
 		return super().eventFilter(source, event)
 	
+	def mousePressEvent(self, event):
+		focused_widget = QApplication.focusWidget()
+		if isinstance(focused_widget, QT_Line_Editor):
+			focused_widget.clearFocus()
+		super().mousePressEvent(event)
+
 	def quit(self):
 		self.close()
 		QCoreApplication.quit()
@@ -56,6 +55,7 @@ class Central_Layout(QSplitter):
 		QCoreApplication.instance().exit()
 
 App = QApplication()
+App.setStyleSheet(open("./Stylesheet.css","r").read())
 Window = Central_Layout()
 Window.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
 Window.show()
