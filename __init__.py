@@ -1,7 +1,7 @@
 import sys, bpy, pip
 
 bl_info = {
-	"name": "Blender Controls",
+	"name": "Blender DRIVER",
 	"description": "",
 	"author": "Pekoyo",
 	"version": (0, 0, 1, 0),
@@ -14,11 +14,13 @@ bl_info = {
 pip.main(["install", "PySide6", "--user"])
 
 #--------------------------------------------------------------------------------------------------
-from BUI import *
+from .BUI import *
 #--------------------------------------------------------------------------------------------------
 class DRIVER_Program_Window(QT_Window):
 	def __init__(self):
 		super().__init__()
+		self.setStyleSheet(open("./Resources/Stylesheet.css", "r", encoding="utf-8").read())
+
 		self.mouse_pressed = False
 		Reload_Analyzer = QT_Button().setIcon(QIcon("./Resources/file_refresh.svg")).setFixedSize(30,30)
 		Reload_Analyzer.clicked.connect(self.processUI)
@@ -28,41 +30,38 @@ class DRIVER_Program_Window(QT_Window):
 
 		self.BUI_Header = Row()
 		self.BUI_Header.setFixedHeight(30)
-		self.BUI_Header.addWidget(Reload_Analyzer, 1, Qt.AlignmentFlag.AlignRight).addWidget(Exit_Analyzer, 1, Qt.AlignmentFlag.AlignRight)
+		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
+		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)
 		self.BUI_Header.installEventFilter(self)
 
 		self.BUI_Layout = Column()
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
 		
-		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER")
+		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon("./Resources/shapekey_data.svg"))
 		self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.CustomizeWindowHint)
 		self.show()
-		if "DRIVER" not in bpy.context.scene:
-			bpy.context.scene["DRIVER"] = """
-row : Row = layout.row()
-test_slider: FloatProperty = row.prop(Type.FLOAT, "Test Slider")
-test_slider.set_expression('bpy.data.objects["Cube"].data.shape_keys.key_blocks["Example"].value = float(driver/100)')
-"""
+		if not bpy.data.texts.get("DRIVER"):
+			new_text_block = bpy.data.texts.new(name="DRIVER")
+			new_text_block.write("row = layout.row()")
 		self.processUI()
 
 	def processUI(self):
-		for i in range(self.BUI_Layout.Layout.count()):
-			self.BUI_Layout.Layout.itemAt(i).widget().deleteLater()
+		self.BUI_Layout.clear()
 		layout = self.BUI_Layout
-		code = bpy.context.scene["DRIVER"]
+		code = bpy.data.texts.get("DRIVER").as_string()
 		exec(code)
 
 	def eventFilter(self, source, event):
 		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
 			if event.button() == Qt.MouseButton.RightButton:
-				self.initial_pos = event.globalPos()
+				self.initial_pos =  event.globalPosition()
 				self.mouse_pressed = True
 		elif source == self.BUI_Header and event.type() == QEvent.Type.MouseMove and self.mouse_pressed:
-			delta = event.globalPos() - self.initial_pos
-			pos = self.pos() + delta
+			delta = event.globalPosition() - self.initial_pos
+			pos = QPointF(self.pos()) + delta
 			self.move(pos.x(), pos.y())
-			self.initial_pos = event.globalPos()
+			self.initial_pos =  event.globalPosition()
 		elif event.type() == QEvent.Type.MouseButtonRelease and event.button() == Qt.MouseButton.RightButton:
 			self.mouse_pressed = False
 		return super().eventFilter(source, event)

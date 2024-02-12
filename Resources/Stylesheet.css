@@ -1,0 +1,63 @@
+* {
+	background: rgb(50,50,50);
+	color: rgb(255,255,255);
+	border-style: solid;
+	border-width: 0px;
+	border-color: transparent;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+QPushButton {
+	width: 24px;
+	height: 24px;
+}
+#Int_R {
+	border-radius: 0px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+#Int_L {
+	border-radius: 0px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+#Int_L, #Int_R{
+	width: 24px;
+	height: 24px;
+	background: rgb(75,75,75);
+}
+#Int_L:hover, #Int_R:hover  {
+	background: rgb(100,100,100);
+}
+QPushButton:hover {
+	background: rgb(100,100,100);
+}
+QPushButton:checked {
+	background: rgba(215, 175, 55, 100);
+}
+
+QSlider {
+	height: 24px;
+	min-width: 72px;
+}
+#Int_Slider {
+	height: 24px;
+	min-width: 24px;
+	border-radius: 0px;
+}
+QSlider { background: rgb(75,75,75); }
+QSlider:hover { background: rgb(100,100,100); }
+QSlider::sub-page {
+	background: rgb(100,100,250);
+	border-style: solid;
+	border-width: 0px;
+	border-color: transparent;
+	border-radius: 5px;
+}
+#Int_Slider::sub-page {
+	background: rgb(100,100,250);
+	border-radius: 0px;
+}
+QSlider::handle:horizontal { background: transparent; width: 0px; }
+QSlider::groove:horizontal { background: transparent; }

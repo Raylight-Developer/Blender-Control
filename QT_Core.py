@@ -11,6 +11,10 @@ class QT_Slider(QSlider):
 		else: super().__init__(Qt.Orientation.Horizontal)
 		super().setContentsMargins(0,0,0,0)
 
+	def setStyle(self, Name: str):
+		super().setObjectName(Name)
+		return self
+
 	def setRange(self, Min: int, Max: int):
 		super().setRange(Min, Max)
 		return self
@@ -43,6 +47,10 @@ class QT_Button(QPushButton):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
+
+	def setStyle(self, Name: str):
+		super().setObjectName(Name)
+		return self
 
 	def setText(self, Text: str):
 		super().setText(Text)
@@ -209,12 +217,14 @@ class QT_Scroll_Area(QScrollArea):
 		super().__init__()
 		super().setWidgetResizable(True)
 		super().setContentsMargins(0,0,0,0)
+		self.Contents = QT_Linear_Contents(Vertical)
+		self.setWidget(self.Contents)
 
 		if Vertical: super().setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 		else: super().setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
-	def setWidget(self, Widget):
-		super().setWidget(Widget)
+	def addWidget(self, Widget):
+		self.Contents.addWidget(Widget)
 		return self
 	
 	def setFixedHeight(self, Height: int):
@@ -263,7 +273,7 @@ class QT_Splitter(QSplitter):
 class QT_Label(QLabel):
 	def __init__(self):
 		super().__init__()
-		super().setContentsMargins(0,0,0,0)
+		super().setContentsMargins(5,0,5,0)
 	
 	def setLayout(self, Layout: QLayout):
 		super().setLayout(Layout)
