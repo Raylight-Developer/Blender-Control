@@ -10,6 +10,7 @@ class QT_Slider(QSlider):
 		if Vertical: super().__init__(Qt.Orientation.Vertical)
 		else: super().__init__(Qt.Orientation.Horizontal)
 		super().setContentsMargins(0,0,0,0)
+		
 
 	def setStyle(self, Name: str):
 		super().setObjectName(Name)
@@ -47,6 +48,7 @@ class QT_Button(QPushButton):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
+		
 
 	def setStyle(self, Name: str):
 		super().setObjectName(Name)
@@ -58,6 +60,10 @@ class QT_Button(QPushButton):
 
 	def setCheckable(self, Checkable:bool):
 		super().setCheckable(Checkable)
+		return self
+
+	def setChecked(self, Checked:bool):
+		super().setChecked(Checked)
 		return self
 
 	def setIcon(self, Icon:QIcon):
@@ -87,6 +93,7 @@ class QT_Linear_Contents(QWidget):
 	def __init__(self, Vertical: bool = False):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
+		
 		self.Linear_Layout = QT_Linear_Layout(Vertical)
 		super().setLayout(self.Linear_Layout)
 
@@ -216,17 +223,27 @@ class QT_Scroll_Area(QScrollArea):
 	def __init__(self, Vertical: bool = True):
 		super().__init__()
 		super().setWidgetResizable(True)
-		super().setContentsMargins(0,0,0,0)
+		super().setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 		self.Contents = QT_Linear_Contents(Vertical)
+		self.Contents.setContentsMargins(5,5,5,5)
+		self.Contents.Linear_Layout.setSpacing(5)
 		self.setWidget(self.Contents)
 
-		if Vertical: super().setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-		else: super().setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+		if Vertical:
+			super().setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+			super().setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+		else:
+			super().setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+			super().setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
 	def addWidget(self, Widget):
 		self.Contents.addWidget(Widget)
 		return self
-	
+
+	def setStyle(self, Name: str):
+		super().setObjectName(Name)
+		return self
+
 	def setFixedHeight(self, Height: int):
 		super().setFixedHeight(Height)
 		return self
@@ -344,6 +361,7 @@ class QT_Menu(QMenu):
 class QT_Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		super().setContentsMargins(5,5,5,5)
 
 	def setWindowTitle(self, Title: str):
 		super().setWindowTitle(Title)

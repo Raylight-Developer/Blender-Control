@@ -7,10 +7,16 @@
 	border-radius: 5px;
 	font-size: 14px;
 }
+#Box {
+	background: rgba(0,0,0,60);
+}
 
 QPushButton {
-	width: 24px;
+	background: rgb(75,75,75);
 	height: 24px;
+}
+#Icon , #Key {
+	width: 24px;
 }
 #Int_R {
 	border-radius: 0px;
@@ -33,8 +39,20 @@ QPushButton {
 QPushButton:hover {
 	background: rgb(100,100,100);
 }
-QPushButton:checked {
+#Key:checked {
 	background: rgba(215, 175, 55, 100);
+}
+QPushButton:checked {
+	background: rgb(100, 100, 100);
+}
+#Bool_Prop:checked {
+	background: rgb(100,100,250);
+}
+QPushButton:checked:hover {
+	background: rgb(125, 125, 125);
+}
+#Bool_Prop:checked:hover {
+	background: rgb(125,125,250);
 }
 
 QSlider {
@@ -48,16 +66,62 @@ QSlider {
 }
 QSlider { background: rgb(75,75,75); }
 QSlider:hover { background: rgb(100,100,100); }
-QSlider::sub-page {
+QSlider:sub-page {
 	background: rgb(100,100,250);
 	border-style: solid;
 	border-width: 0px;
 	border-color: transparent;
 	border-radius: 5px;
 }
-#Int_Slider::sub-page {
+#Int_Slider:sub-page {
 	background: rgb(100,100,250);
 	border-radius: 0px;
 }
-QSlider::handle:horizontal { background: transparent; width: 0px; }
-QSlider::groove:horizontal { background: transparent; }
+QSlider:handle:horizontal { background: transparent; width: 0px; }
+QSlider:groove:horizontal { background: transparent; }
+
+QSplitter:handle { background: rgb(0,0,0); }
+
+
+QScrollBar {
+	background: rgb(75, 75, 75);
+	width: 18px;
+	margin: 18px,18px,0,0;
+}
+QScrollBar:handle:vertical {
+	background: rgb(100,100,250);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 0px;
+	border-color: rgb(0,0,0);
+}
+QScrollBar:add-line:vertical {
+	background: rgb(100,100,100);
+	height: 18px;
+	border-style: solid;
+	border-width: 1px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-color: rgb(0,0,0);
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+QScrollBar:sub-line:vertical {
+	background: rgb(100,100,100);
+	height: 18px;
+	border-style: solid;
+	border-width: 1px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-color: rgb(0,0,0);
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: transparent;
+	border-style: solid;
+	border-color: rgb(0,0,0);
+	border-left-width: 1px;
+	border-right-width: 1px;
+}

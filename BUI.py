@@ -116,28 +116,35 @@ class Icon(Enum):
 
 # PROPERTY-----------------------------------------------------------------------------------------
 class IntProperty(QT_Linear_Contents):
-	def __init__(self, fetch):
+	def __init__(self):
 		super().__init__(False)
+		self.setFixedHeight(24)
+		self.Linear_Layout.setStretch(0, 4)
+		self.Linear_Layout.setStretch(1, 6)
+
 		self.driver_expression = ""
 		self.add_keyframe_expression = ""
 		self.remove_keyframe_expression = ""
+		self.fetch_expression = None
 		self.text = ""
 		self.icon = Icon.NONE
 		self.min = 0
 		self.max = 1
+
 		self.label = QT_Label().setText(self.text)
+		self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
 		self.slider = Int_Slider()
-		self.keyframer = QT_Button().setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
-		self.decrease = QT_Button().setStyle("Int_L").setIcon(QIcon("./Resources/left_arrow_thin.svg"))
-		self.increase = QT_Button().setStyle("Int_R").setIcon(QIcon("./Resources/right_arrow_thin.svg"))
+		self.keyframer = QT_Button().setStyle("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.decrease = QT_Button().setStyle("Int_L").setFixedWidth(24).setIcon(QIcon("./Resources/left_arrow_thin.svg"))
+		self.increase = QT_Button().setStyle("Int_R").setFixedWidth(24).setIcon(QIcon("./Resources/right_arrow_thin.svg"))
 
 		self.addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
-		if fetch:
+		if self.fetch_expression:
 			try:
-				exec(f"self.input.setText({fetch})")
-				exec(f"self.slider.setValue({fetch})")
+				exec(f"self.input.setText({self.fetch_expression})")
+				exec(f"self.slider.setValue({self.fetch_expression})")
 			except Exception as error: print(error)
 		self.slider.valueChanged.connect(self.execute_expression)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
@@ -196,36 +203,33 @@ class IntProperty(QT_Linear_Contents):
 		try: exec(self.driver_expression)
 		except Exception as error: print(error)
 
-class BoolProperty(QT_Button):
-	def __init__(self):
-		super().__init__()
-		super().setCheckable(True)
-	def expression(expression: str = ""): pass
-	def execute(self, driver):
-		try: exec(self.expr)
-		except: pass
-
 class FloatProperty(QT_Linear_Contents):
-	def __init__(self, fetch):
+	def __init__(self):
 		super().__init__(False)
+		self.setFixedHeight(24)
+		self.Linear_Layout.setStretch(0, 4)
+		self.Linear_Layout.setStretch(1, 6)
+
 		self.driver_expression = ""
 		self.add_keyframe_expression = ""
 		self.remove_keyframe_expression = ""
+		self.fetch_expression = None
 		self.text = ""
 		self.icon = Icon.NONE
 		self.min = 0
 		self.max = 1
 		self.label = QT_Label().setText(self.text)
+		self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
 		self.slider = Float_Slider()
-		self.keyframer = QT_Button().setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.keyframer = QT_Button().setStyle("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.slider).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
-		if fetch:
+		if self.fetch_expression:
 			try:
-				exec(f"self.input.setText({fetch})")
-				exec(f"self.slider.setValue({fetch})")
+				exec(f"self.input.setText({self.fetch_expression})")
+				exec(f"self.slider.setValue({self.fetch_expression})")
 			except Exception as error: print(error)
 		self.slider.valueChanged.connect(self.execute_expression)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
@@ -285,62 +289,236 @@ class FloatProperty(QT_Linear_Contents):
 		try: exec(self.driver_expression)
 		except Exception as error: print(error)
 
+class BoolProperty(QT_Linear_Contents):
+	def __init__(self):
+		super().__init__()
+		self.setFixedHeight(24)
+
+		self.driver_expression = ""
+		self.add_keyframe_expression = ""
+		self.remove_keyframe_expression = ""
+		self.fetch_expression = None
+		self.text = ""
+		self.icon = Icon.NONE
+
+		self.input = QT_Button().setStyle("Bool_Prop").setCheckable(True).setText(self.text)
+		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyle("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+
+		self.addWidget(self.input).addWidget(self.keyframer)
+		self.input.clicked.connect(self.execute_expression)
+	def set_label(self, value: str = ""):
+		self.text = value
+		self.input.setText(value)
+	def set_driver_expression(self, driver_expression: str = ""):
+		self.driver_expression = driver_expression
+	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
+		self.add_keyframe_expression = keyframe_expression
+	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
+		self.remove_keyframe_expression = keyframe_expression
+	def execute_keyframe(self, keyframe):
+		if keyframe:
+			self.keyframer.setIcon(QIcon("./Resources/decorate_keyframe.svg"))
+			try: exec(self.add_keyframe_expression)
+			except Exception as error: print(error)
+		else:
+			self.keyframer.setIcon(QIcon("./Resources/keyframe.svg"))
+			try: exec(self.remove_keyframe_expression)
+			except Exception as error: print(error)
+	def execute_expression(self, driver):
+		try: exec(self.driver_expression)
+		except Exception as error: print(error)
+
+class EnumProperty(QT_Linear_Contents):
+	def __init__(self):
+		super().__init__()
+		self.setFixedHeight(24)
+
+		self.driver_expression = ""
+		self.add_keyframe_expression = ""
+		self.remove_keyframe_expression = ""
+		self.fetch_expression = None
+		self.text = ""
+		self.icon = Icon.NONE
+
+		self.Linear_Layout.setStretch()
+
+		self.label = QT_Label().setText(self.text)
+		self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+		self.input = QT_Button().setStyle("Bool_Prop").setCheckable(True).setText(self.text)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyle("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+
+		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
+		self.input.clicked.connect(self.execute_expression)
+	def set_label(self, value: str = ""):
+		self.text = value
+		self.label.setText(value)
+	def set_driver_expression(self, driver_expression: str = ""):
+		self.driver_expression = driver_expression
+	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
+		self.add_keyframe_expression = keyframe_expression
+	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
+		self.remove_keyframe_expression = keyframe_expression
+	def execute_keyframe(self, keyframe):
+		if keyframe:
+			self.keyframer.setIcon(QIcon("./Resources/decorate_keyframe.svg"))
+			try: exec(self.add_keyframe_expression)
+			except Exception as error: print(error)
+		else:
+			self.keyframer.setIcon(QIcon("./Resources/keyframe.svg"))
+			try: exec(self.remove_keyframe_expression)
+			except Exception as error: print(error)
+	def execute_expression(self, driver):
+		try: exec(self.driver_expression)
+		except Exception as error: print(error)
+
 # LAYOUT-------------------------------------------------------------------------------------------
 
 class Row(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
+		self.Linear_Layout.setSpacing(5)
+		self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
+	def row(self, align: bool = False) -> 'Row':
+		row = Row()
+		self.addWidget(row)
+		return row
 	def column(self, align: bool = False) -> 'Column':
 		column = Column()
 		self.addWidget(column)
 		return column
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE, fetch: str = None) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def box(self, align: bool = False) -> 'Box':
+		box = Box()
+		self.addWidget(box)
+		return box
+	def dropdown(self, align: bool = False) -> 'Dropdown':
+		dropdown = Dropdown()
+		self.addWidget(dropdown)
+		return dropdown
+	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
-			prop = FloatProperty(fetch)
+			prop = FloatProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Type.INT:
-			prop = IntProperty(fetch)
+			prop = IntProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
+		elif type == Type.BOOL:
+			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
 		return prop
 
 class Column(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
+		self.Linear_Layout.setSpacing(5)
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.addWidget(row)
 		return row
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE, fetch: str = None) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def column(self, align: bool = False) -> 'Column':
+		column = Column()
+		self.addWidget(column)
+		return column
+	def box(self, align: bool = False) -> 'Box':
+		box = Box()
+		self.addWidget(box)
+		return box
+	def dropdown(self, align: bool = False) -> 'Dropdown':
+		dropdown = Dropdown()
+		self.addWidget(dropdown)
+		return dropdown
+	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
-			prop = FloatProperty(fetch)
+			prop = FloatProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Type.INT:
-			prop = IntProperty(fetch)
+			prop = IntProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
+		elif type == Type.BOOL:
+			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
+		return prop
+
+class Box(QT_Linear_Contents):
+	def __init__(self):
+		super().__init__(True)
+		self.Linear_Layout.setSpacing(5)
+		self.setStyle("Box")
+	def row(self, align: bool = False) -> 'Row':
+		row = Row()
+		self.addWidget(row)
+		return row
+	def column(self, align: bool = False) -> 'Column':
+		column = Column()
+		self.addWidget(column)
+		return column
+	def box(self, align: bool = False) -> 'Box':
+		box = Box()
+		self.addWidget(box)
+		return box
+	def dropdown(self, align: bool = False) -> 'Dropdown':
+		dropdown = Dropdown()
+		self.addWidget(dropdown)
+		return dropdown
+	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+		if type == Type.FLOAT:
+			prop = FloatProperty()
+			prop.set_label(text)
+			self.addWidget(prop)
+		elif type == Type.INT:
+			prop = IntProperty()
+			prop.set_label(text)
+			self.addWidget(prop)
+		elif type == Type.BOOL:
+			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
 		return prop
 
 class Dropdown(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
-		self.Toggle = QT_Button().setText("E/C").setCheckable(True)
-		self.Container = QT_Scroll_Area()
+		self.Toggle = QT_Button().setText("E/C").setCheckable(True).setChecked(True).setFixedHeight(24)
+		self.Container = QT_Scroll_Area().setStyle("Box")
 		self.addWidget(self.Toggle)
 		self.addWidget(self.Container)
+		self.Toggle.clicked.connect(self.expandCollapse)
+	def expandCollapse(self, toggle):
+		if toggle: self.Container.show()
+		else: self.Container.hide()
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.Container.addWidget(row)
 		return row
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE, fetch: str = None) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def column(self, align: bool = False) -> 'Column':
+		column = Column()
+		self.Container.addWidget(column)
+		return column
+	def box(self, align: bool = False) -> 'Box':
+		box = Box()
+		self.Container.addWidget(box)
+		return box
+	def dropdown(self, align: bool = False) -> 'Dropdown':
+		dropdown = Dropdown()
+		self.Container.addWidget(dropdown)
+		return dropdown
+	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
-			prop = FloatProperty(fetch)
+			prop = FloatProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Type.INT:
-			prop = IntProperty(fetch)
+			prop = IntProperty()
 			prop.set_label(text)
-			self.addWidget(prop)
+			self.Container.addWidget(prop)
+		elif type == Type.BOOL:
+			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
 		return prop

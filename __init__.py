@@ -22,14 +22,14 @@ class DRIVER_Program_Window(QT_Window):
 		self.setStyleSheet(open("./Resources/Stylesheet.css", "r", encoding="utf-8").read())
 
 		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setIcon(QIcon("./Resources/file_refresh.svg")).setFixedSize(30,30)
+		Reload_Analyzer = QT_Button().setStyle("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg")).setFixedSize(30,30)
 		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QT_Button().setIcon(QIcon("./Resources/panel_close.svg")).setFixedSize(30,30)
+		Exit_Analyzer = QT_Button().setStyle("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg")).setFixedSize(30,30)
 		Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = Row()
-		self.BUI_Header.setFixedHeight(30)
+		self.BUI_Header.setFixedHeight(24)
 		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)
 		self.BUI_Header.installEventFilter(self)
@@ -52,7 +52,7 @@ class DRIVER_Program_Window(QT_Window):
 		code = bpy.data.texts.get("DRIVER").as_string()
 		exec(code)
 
-	def eventFilter(self, source, event):
+	def eventFilter(self, source, event: QEvent | QMouseEvent | QKeyEvent):
 		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
 			if event.button() == Qt.MouseButton.RightButton:
 				self.initial_pos =  event.globalPosition()
