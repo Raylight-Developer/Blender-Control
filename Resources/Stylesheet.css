@@ -13,6 +13,8 @@ QPushButton {
 	height: 24px;
 }
 #Dropdown {
+	border-color: rgb(175, 175, 175);
+	border-width: 2px;
 }
 #Icon , #Key {
 	width: 24px;

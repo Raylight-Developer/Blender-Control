@@ -1,9 +1,11 @@
 from typing import *
-import math
+import math, os
 from enum import Enum
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+
+PATH = os.path.dirname(os.path.realpath(__file__))
 
 class QT_Slider(QSlider):
 	def __init__(self, Vertical: bool = False):
@@ -155,6 +157,7 @@ class QT_Line_Editor(QLineEdit):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
+		self.aligned_icon = None
 
 	def setText(self, Text: str):
 		super().setText(Text)
@@ -187,6 +190,24 @@ class QT_Line_Editor(QLineEdit):
 	def setFixedSize(self, Width: int, Height: int):
 		super().setFixedSize(Width, Height)
 		return self
+
+	def setLeftIcon(self, Icon: QIcon):
+		self.aligned_icon = Icon
+		self.update()
+		return self
+
+	def paintEvent(self, event):
+		super().paintEvent(event)
+		painter = QPainter(self)
+		option = QStyleOption()
+		option.initFrom(self)
+
+		if self.aligned_icon:
+			left_icon_rect: QRect = option.rect
+			left_icon_size = self.aligned_icon.actualSize(left_icon_rect.size())
+			left_icon_rect.setWidth(left_icon_size.width())
+			left_icon_rect.translate(5,0)
+			self.aligned_icon.paint(painter, left_icon_rect)
 
 class QT_Text_Editor(QTextEdit):
 	def __init__(self):
@@ -316,6 +337,7 @@ class QT_Label(QLabel):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(5,0,5,0)
+		self.aligned_icon = None
 	
 	def setLayout(self, Layout: QLayout):
 		super().setLayout(Layout)
@@ -340,6 +362,24 @@ class QT_Label(QLabel):
 	def setFixedSize(self, Width: int, Height: int):
 		super().setFixedSize(Width, Height)
 		return self
+	
+	def setLeftIcon(self, Icon: QIcon):
+		self.aligned_icon = Icon
+		self.update()
+		return self
+
+	def paintEvent(self, event):
+		super().paintEvent(event)
+		painter = QPainter(self)
+		option = QStyleOption()
+		option.initFrom(self)
+
+		if self.aligned_icon:
+			left_icon_rect: QRect = option.rect
+			left_icon_size = self.aligned_icon.actualSize(left_icon_rect.size())
+			left_icon_rect.setWidth(left_icon_size.width())
+			left_icon_rect.translate(5,0)
+			self.aligned_icon.paint(painter, left_icon_rect)
 
 class QT_Widget(QWidget):
 	def __init__(self):
@@ -390,6 +430,7 @@ class QT_Menu(QMenu):
 class QT_Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
+		super().setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
 	def setWindowTitle(self, Title: str):
 		super().setWindowTitle(Title)

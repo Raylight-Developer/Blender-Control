@@ -132,9 +132,9 @@ class IntProperty(QT_Linear_Contents):
 		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
 		self.slider = Int_Slider().setToolTip(self.text)
-		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
-		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon("./Resources/left_arrow_thin.svg"))
-		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon("./Resources/right_arrow_thin.svg"))
+		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/left_arrow_thin.svg"))
+		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 
 		self.addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
@@ -189,17 +189,21 @@ class IntProperty(QT_Linear_Contents):
 	def set_step(self, value : int = 1): pass
 	def execute_keyframe(self, keyframe):
 		if keyframe:
-			self.keyframer.setIcon(QIcon("./Resources/decorate_keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
 			try: exec(self.add_keyframe_expression)
 			except Exception as error: print(error)
 		else:
-			self.keyframer.setIcon(QIcon("./Resources/keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 			try: exec(self.remove_keyframe_expression)
 			except Exception as error: print(error)
 	def execute_expression(self, driver):
 		self.input.setText(f"{driver}")
 		try: exec(self.driver_expression)
 		except Exception as error: print(error)
+	def fetch(self):
+		if self.fetch_expression:
+			try: exec(self.fetch_expression)
+			except Exception as error: print(error)
 
 class FloatProperty(QT_Linear_Contents):
 	def __init__(self):
@@ -217,7 +221,7 @@ class FloatProperty(QT_Linear_Contents):
 		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
 		self.slider = Float_Slider().setToolTip(self.text)
-		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.slider).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
@@ -272,11 +276,11 @@ class FloatProperty(QT_Linear_Contents):
 		self.slider.precision = value
 	def execute_keyframe(self, keyframe):
 		if keyframe:
-			self.keyframer.setIcon(QIcon("./Resources/decorate_keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
 			try: exec(self.add_keyframe_expression)
 			except Exception as error: print(error)
 		else:
-			self.keyframer.setIcon(QIcon("./Resources/keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 			try: exec(self.remove_keyframe_expression)
 			except Exception as error: print(error)
 	def execute_expression(self, driver):
@@ -284,6 +288,10 @@ class FloatProperty(QT_Linear_Contents):
 		driver = float(driver / self.slider.divider)
 		try: exec(self.driver_expression)
 		except Exception as error: print(error)
+	def fetch(self):
+		if self.fetch_expression:
+			try: exec(self.fetch_expression)
+			except Exception as error: print(error)
 
 class BoolProperty(QT_Linear_Contents):
 	def __init__(self):
@@ -299,7 +307,7 @@ class BoolProperty(QT_Linear_Contents):
 
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text).setToolTip(self.text)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 
 		self.addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
@@ -315,16 +323,20 @@ class BoolProperty(QT_Linear_Contents):
 		self.remove_keyframe_expression = keyframe_expression
 	def execute_keyframe(self, keyframe):
 		if keyframe:
-			self.keyframer.setIcon(QIcon("./Resources/decorate_keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
 			try: exec(self.add_keyframe_expression)
 			except Exception as error: print(error)
 		else:
-			self.keyframer.setIcon(QIcon("./Resources/keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 			try: exec(self.remove_keyframe_expression)
 			except Exception as error: print(error)
 	def execute_expression(self, driver):
 		try: exec(self.driver_expression)
 		except Exception as error: print(error)
+	def fetch(self):
+		if self.fetch_expression:
+			try: exec(self.fetch_expression)
+			except Exception as error: print(error)
 
 class EnumProperty(QT_Linear_Contents):
 	def __init__(self):
@@ -342,7 +354,7 @@ class EnumProperty(QT_Linear_Contents):
 
 		self.label = QT_Label().setText(self.text).setFixedWidth(120).setToolTip(self.text)
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
@@ -358,16 +370,20 @@ class EnumProperty(QT_Linear_Contents):
 		self.remove_keyframe_expression = keyframe_expression
 	def execute_keyframe(self, keyframe):
 		if keyframe:
-			self.keyframer.setIcon(QIcon("./Resources/decorate_keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
 			try: exec(self.add_keyframe_expression)
 			except Exception as error: print(error)
 		else:
-			self.keyframer.setIcon(QIcon("./Resources/keyframe.svg"))
+			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 			try: exec(self.remove_keyframe_expression)
 			except Exception as error: print(error)
 	def execute_expression(self, driver):
 		try: exec(self.driver_expression)
 		except Exception as error: print(error)
+	def fetch(self):
+		if self.fetch_expression:
+			try: exec(self.fetch_expression)
+			except Exception as error: print(error)
 
 # LAYOUT-------------------------------------------------------------------------------------------
 
@@ -388,11 +404,15 @@ class Row(QT_Linear_Contents):
 		box = Box()
 		self.addWidget(box)
 		return box
-	def dropdown(self, align: bool = False) -> 'Dropdown':
-		dropdown = Dropdown()
+	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(text)
 		self.addWidget(dropdown)
 		return dropdown
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def list(self, text: str = "List"):
+		list = Search_List(text)
+		self.addWidget(list)
+		return list
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -405,6 +425,7 @@ class Row(QT_Linear_Contents):
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
+		window.Properties.append(prop)
 		return prop
 
 class Column(QT_Linear_Contents):
@@ -423,11 +444,15 @@ class Column(QT_Linear_Contents):
 		box = Box()
 		self.addWidget(box)
 		return box
-	def dropdown(self, align: bool = False) -> 'Dropdown':
-		dropdown = Dropdown()
+	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(text)
 		self.addWidget(dropdown)
 		return dropdown
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def list(self, text: str = "List"):
+		list = Search_List(text)
+		self.addWidget(list)
+		return list
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -440,6 +465,7 @@ class Column(QT_Linear_Contents):
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
+		window.Properties.append(prop)
 		return prop
 
 class Box(QT_Linear_Contents):
@@ -459,11 +485,15 @@ class Box(QT_Linear_Contents):
 		box = Box()
 		self.addWidget(box)
 		return box
-	def dropdown(self, align: bool = False) -> 'Dropdown':
-		dropdown = Dropdown()
+	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(text)
 		self.addWidget(dropdown)
 		return dropdown
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def list(self, text: str = "List"):
+		list = Search_List(text)
+		self.addWidget(list)
+		return list
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -476,23 +506,25 @@ class Box(QT_Linear_Contents):
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
+		window.Properties.append(prop)
 		return prop
 
 class Dropdown(QT_Linear_Contents):
-	def __init__(self):
+	def __init__(self, text):
 		super().__init__(True)
-		self.Toggle = QT_Button().setStyleName("Dropdown").setText("E/C").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon("./Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
+		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
 		self.addWidget(self.Container)
 		self.Toggle.clicked.connect(self.expandCollapse)
 	def expandCollapse(self, toggle):
 		if toggle:
 			self.Container.show()
-			self.Toggle.setLeftIcon(QIcon("./Resources/down_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		else:
 			self.Container.hide()
-			self.Toggle.setLeftIcon(QIcon("./Resources/right_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.Container.addWidget(row)
@@ -505,11 +537,15 @@ class Dropdown(QT_Linear_Contents):
 		box = Box()
 		self.Container.addWidget(box)
 		return box
-	def dropdown(self, align: bool = False) -> 'Dropdown':
-		dropdown = Dropdown()
+	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(text)
 		self.Container.addWidget(dropdown)
 		return dropdown
-	def prop(self, type: Type = Type.FLOAT, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def list(self, text: str = "List"):
+		list = Search_List(text)
+		self.Container.addWidget(list)
+		return list
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -522,4 +558,60 @@ class Dropdown(QT_Linear_Contents):
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
+		window.Properties.append(prop)
+		return prop
+
+class Search_List(QT_Linear_Contents):
+	def __init__(self, text):
+		super().__init__(True)
+		self.SearchBar = QT_Line_Editor().setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/viewzoom.svg"))
+		self.SearchBar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Container = QT_Scroll_Area().setStyleName("Box")
+		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+		self.addWidget(self.Toggle)
+		self.addWidget(self.Container)
+		self.Container.addWidget(self.SearchBar)
+		self.Toggle.clicked.connect(self.expandCollapse)
+	def expandCollapse(self, toggle):
+		if toggle:
+			self.Container.show()
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		else:
+			self.Container.hide()
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+	def row(self, align: bool = False) -> 'Row':
+		row = Row()
+		self.Container.addWidget(row)
+		return row
+	def column(self, align: bool = False) -> 'Column':
+		column = Column()
+		self.Container.addWidget(column)
+		return column
+	def box(self, align: bool = False) -> 'Box':
+		box = Box()
+		self.Container.addWidget(box)
+		return box
+	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(text)
+		self.Container.addWidget(dropdown)
+		return dropdown
+	def list(self, text: str = "List"):
+		list = Search_List(text)
+		self.Container.addWidget(list)
+		return list
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+		if type == Type.FLOAT:
+			prop = FloatProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
+		elif type == Type.INT:
+			prop = IntProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
+		elif type == Type.BOOL:
+			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
+		window.Properties.append(prop)
 		return prop

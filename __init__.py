@@ -19,13 +19,14 @@ from .BUI import *
 class DRIVER_Program_Window(QT_Window):
 	def __init__(self):
 		super().__init__()
-		self.setStyleSheet(open("./Resources/Stylesheet.css", "r", encoding="utf-8").read())
+		self.setStyleSheet(open(PATH+"/Resources/Stylesheet.css", "r", encoding="utf-8").read())
+		self.Properties = []
 
 		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg"))
+		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/file_refresh.svg"))
 		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg"))
+		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/panel_close.svg"))
 		Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = Row()
@@ -40,12 +41,9 @@ class DRIVER_Program_Window(QT_Window):
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
 		
-		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon("./Resources/shapekey_data.svg"))
+		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/shapekey_data.svg"))
 		self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.CustomizeWindowHint)
 		self.show()
-		if not bpy.data.texts.get("DRIVER"):
-			new_text_block = bpy.data.texts.new(name="DRIVER")
-			new_text_block.write("row = layout.row()")
 		self.processUI()
 
 	def processUI(self):
@@ -53,10 +51,13 @@ class DRIVER_Program_Window(QT_Window):
 		layout = self.BUI_Layout
 		code = bpy.data.texts.get("DRIVER").as_string()
 		exec(code)
+		for widget in self.Properties:
+			try: widget.fetch()
+			except Exception as err: print(err)
 
 	def eventFilter(self, source, event: QEvent | QMouseEvent | QKeyEvent):
 		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
-			if event.button() == Qt.MouseButton.RightButton:
+			if event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton:
 				self.initial_pos =  event.globalPosition()
 				self.mouse_pressed = True
 		elif source == self.BUI_Header and event.type() == QEvent.Type.MouseMove and self.mouse_pressed:
@@ -64,10 +65,21 @@ class DRIVER_Program_Window(QT_Window):
 			pos = QPointF(self.pos()) + delta
 			self.move(pos.x(), pos.y())
 			self.initial_pos =  event.globalPosition()
-		elif event.type() == QEvent.Type.MouseButtonRelease and event.button() == Qt.MouseButton.RightButton:
+		elif event.type() == QEvent.Type.MouseButtonRelease and (event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton):
 			self.mouse_pressed = False
 		return super().eventFilter(source, event)
-	
+
+	def mousePressEvent(self, event):
+		focused_widget = QApplication.focusWidget()
+		if isinstance(focused_widget, QT_Line_Editor):
+			focused_widget.clearFocus()
+		super().mousePressEvent(event)
+
+	def focusInEvent(self, event: QFocusEvent):
+		for widget in self.Properties:
+			try: widget.fetch()
+			except Exception as err: print(err)
+
 	def quit(self):
 		self.close()
 		QCoreApplication.quit()
@@ -99,7 +111,6 @@ class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
 		return {'PASS_THROUGH'}
 
 	def execute(self, context):
-
 		self.App = QApplication.instance()
 		if not self.App:
 			self.App = QApplication(sys.argv)
@@ -127,6 +138,7 @@ class DRIVER_Blender_Interface(bpy.types.Panel):
 
 	def draw(self, context):
 		self.layout.row().operator("driver.open", text = "CONTROLS")
+		self.layout.row().operator("wm.toggle_system_console", icon = 'CONSOLE')
 
 Classes = [
 	DRIVER_Blender_Interface,
@@ -135,14 +147,19 @@ Classes = [
 ]
 
 def register():
+	if not bpy.data.texts.get("DRIVER"):
+		new_text_block = bpy.data.texts.new(name="DRIVER")
+		new_text_block.write("row = layout.row()")
+		new_text_block.write("test: FloatProperty = row.prop(Type.FLOAT, self, \"Test Float\")")
+	if not bpy.data.texts.get("DRIVER Settings"):
+		new_text_block = bpy.data.texts.new(name="DRIVER Settings")
+		new_text_block.write("row = layout.row()")
 	for Class in Classes:
 		bpy.utils.register_class(Class)
-
 
 def unregister():
 	for Class in Classes:
 		bpy.utils.unregister_class(Class)
-
 
 if __name__ == "__main__":
 	register()
