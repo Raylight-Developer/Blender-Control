@@ -1,3 +1,1 @@
 # Blender Control
- 
-![](Documentation.svg)
