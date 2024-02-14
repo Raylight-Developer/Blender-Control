@@ -5,7 +5,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 
-PATH = os.path.dirname(os.path.realpath(__file__))
+PATH = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 
 class QT_Slider(QSlider):
 	def __init__(self, Vertical: bool = False):
@@ -108,6 +108,84 @@ class QT_Button(QPushButton):
 			left_icon_rect.setWidth(left_icon_size.width())
 			left_icon_rect.translate(5,0)
 			self.aligned_icon.paint(painter, left_icon_rect)
+
+class QT_Icon_Button(QToolButton):
+	def __init__(self):
+		super().__init__()
+		super().setContentsMargins(0,0,0,0)
+		super().setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+
+	def setStyleName(self, Style: str):
+		super().setObjectName(Style)
+		return self
+
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
+		return self
+
+	def setText(self, Text: str):
+		super().setText(Text)
+		return self
+
+	def setCheckable(self, Checkable:bool):
+		super().setCheckable(Checkable)
+		return self
+
+	def setChecked(self, Checked:bool):
+		super().setChecked(Checked)
+		return self
+
+	def setIcon(self, Icon: QIcon):
+		super().setIcon(Icon)
+		return self
+
+	def setFixedSize(self, Width:int, Height:int):
+		super().setFixedSize(Width, Height)
+		return self
+
+	def setFixedHeight(self, H: int):
+		super().setFixedHeight(H)
+		return self
+
+	def setFixedWidth(self, W: int):
+		super().setFixedWidth(W)
+		return self
+
+
+class QT_Option(QComboBox):
+	def __init__(self):
+		super().__init__()
+		super().setContentsMargins(0,0,0,0)
+		super().setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+		super().setStyleSheet("QComboBox::down-arrow { image: url(" + PATH +"/Resources/down_arrow_thin.svg); }")
+
+	def setStyleName(self, Style: str):
+		super().setObjectName(Style)
+		return self
+
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
+		return self
+
+	def setText(self, Text: str):
+		super().setText(Text)
+		return self
+
+	def addItem(self, Text: str):
+		super().addItem(Text)
+		return self
+
+	def setFixedSize(self, Width:int, Height:int):
+		super().setFixedSize(Width, Height)
+		return self
+
+	def setFixedHeight(self, H: int):
+		super().setFixedHeight(H)
+		return self
+
+	def setFixedWidth(self, W: int):
+		super().setFixedWidth(W)
+		return self
 
 class QT_Spacer(QLabel):
 	def __init__(self, Vertical: bool = True, Size: int = 10):

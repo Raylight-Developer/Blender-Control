@@ -110,6 +110,7 @@ class Type(Enum):
 	INT = 0
 	BOOL = 1
 	FLOAT = 2
+	ENUM = 3
 
 class Icon(Enum):
 	NONE = 0
@@ -350,15 +351,13 @@ class EnumProperty(QT_Linear_Contents):
 		self.text = ""
 		self.icon = Icon.NONE
 
-		self.Linear_Layout.setStretch()
-
 		self.label = QT_Label().setText(self.text).setFixedWidth(120).setToolTip(self.text)
-		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text)
+		self.input = QT_Option().addItem("Item")
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
-		self.input.clicked.connect(self.execute_expression)
+
 	def set_label(self, value: str = ""):
 		self.text = value
 		self.label.setText(value).setToolTip(self.text)
@@ -412,7 +411,7 @@ class Row(QT_Linear_Contents):
 		list = Search_List(text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -424,7 +423,11 @@ class Row(QT_Linear_Contents):
 		elif type == Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
-			self.Container.addWidget(prop)
+			self.addWidget(prop)
+		elif type == Type.ENUM:
+			prop = EnumProperty()
+			prop.set_label(text)
+			self.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
 
@@ -452,7 +455,7 @@ class Column(QT_Linear_Contents):
 		list = Search_List(text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -464,7 +467,11 @@ class Column(QT_Linear_Contents):
 		elif type == Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
-			self.Container.addWidget(prop)
+			self.addWidget(prop)
+		elif type == Type.ENUM:
+			prop = EnumProperty()
+			prop.set_label(text)
+			self.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
 
@@ -493,7 +500,7 @@ class Box(QT_Linear_Contents):
 		list = Search_List(text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -505,14 +512,18 @@ class Box(QT_Linear_Contents):
 		elif type == Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
-			self.Container.addWidget(prop)
+			self.addWidget(prop)
+		elif type == Type.ENUM:
+			prop = EnumProperty()
+			prop.set_label(text)
+			self.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
 
 class Dropdown(QT_Linear_Contents):
 	def __init__(self, text):
 		super().__init__(True)
-		self.Toggle = QT_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Icon_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
@@ -521,10 +532,10 @@ class Dropdown(QT_Linear_Contents):
 	def expandCollapse(self, toggle):
 		if toggle:
 			self.Container.show()
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+			self.Toggle.setIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		else:
 			self.Container.hide()
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+			self.Toggle.setIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.Container.addWidget(row)
@@ -545,7 +556,7 @@ class Dropdown(QT_Linear_Contents):
 		list = Search_List(text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -556,6 +567,10 @@ class Dropdown(QT_Linear_Contents):
 			self.Container.addWidget(prop)
 		elif type == Type.BOOL:
 			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
+		elif type == Type.ENUM:
+			prop = EnumProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
 		window.Properties.append(prop)
@@ -600,7 +615,7 @@ class Search_List(QT_Linear_Contents):
 		list = Search_List(text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty]:
+	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -611,6 +626,10 @@ class Search_List(QT_Linear_Contents):
 			self.Container.addWidget(prop)
 		elif type == Type.BOOL:
 			prop = BoolProperty()
+			prop.set_label(text)
+			self.Container.addWidget(prop)
+		elif type == Type.ENUM:
+			prop = EnumProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
 		window.Properties.append(prop)

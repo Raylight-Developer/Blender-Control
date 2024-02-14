@@ -131,3 +131,6 @@ QLabel {
 #Box {
 	background: rgba(0,0,0,125);
 }
+
+QComboBox { background: rgb(0,0,0); }
+QComboBox::drop-down { width: 24px; }

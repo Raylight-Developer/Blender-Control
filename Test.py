@@ -43,6 +43,7 @@ class Central_Layout(QT_Window):
 		row = dropdown.row()
 		dropdown: Dropdown = row.dropdown()
 		list: Search_List = row.list()
+		list.prop(Type.ENUM, self, "Enum")
 		#----------------------------------------
 		for widget in self.Properties:
 			try: widget.fetch()
