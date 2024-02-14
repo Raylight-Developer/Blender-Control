@@ -22,19 +22,21 @@ class DRIVER_Program_Window(QT_Window):
 		self.setStyleSheet(open("./Resources/Stylesheet.css", "r", encoding="utf-8").read())
 
 		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyle("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg")).setFixedSize(30,30)
+		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg"))
 		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QT_Button().setStyle("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg")).setFixedSize(30,30)
+		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg"))
 		Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = Row()
-		self.BUI_Header.setFixedHeight(24)
+		self.BUI_Header.setContentsMargins(5,5,5,5)
+		self.BUI_Header.setFixedHeight(34)
 		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)
 		self.BUI_Header.installEventFilter(self)
 
 		self.BUI_Layout = Column()
+		self.BUI_Layout.setContentsMargins(5,5,5,5)
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
 		

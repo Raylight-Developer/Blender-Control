@@ -5,14 +5,15 @@ class Central_Layout(QT_Window):
 	def __init__(self):
 		super().__init__()
 		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyle("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg"))#.setFixedSize(30,30)
+		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg"))
 		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QT_Button().setStyle("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg"))#.setFixedSize(30,30)
+		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg"))
 		Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = Row()
-		self.BUI_Header.setFixedHeight(24)
+		self.BUI_Header.setContentsMargins(5,5,5,5)
+		self.BUI_Header.setFixedHeight(34)
 		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)
 		self.BUI_Header.installEventFilter(self)
@@ -36,7 +37,7 @@ class Central_Layout(QT_Window):
 		dropdown: Dropdown = layout.dropdown()
 		test: IntProperty = dropdown.prop(Type.INT, "Test Int")
 		test: BoolProperty = dropdown.prop(Type.BOOL, "Test Bool")
-		test: IntProperty = dropdown.prop(Type.INT, "Test Integer")
+		test: IntProperty = dropdown.prop(Type.INT, "Test Integer Number walalala")
 		test: IntProperty = dropdown.prop(Type.INT, "Test Int 5")
 		#----------------------------------------
 
@@ -72,8 +73,8 @@ class Central_Layout(QT_Window):
 		event.accept()
 
 App = QApplication()
-App.setStyleSheet(open("./Resources/Stylesheet.css","r").read())
 Window = Central_Layout()
+Window.processUI()
 Window.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
 Window.show()
 sys.exit(App.exec())

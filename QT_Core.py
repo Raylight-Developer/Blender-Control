@@ -10,9 +10,12 @@ class QT_Slider(QSlider):
 		if Vertical: super().__init__(Qt.Orientation.Vertical)
 		else: super().__init__(Qt.Orientation.Horizontal)
 		super().setContentsMargins(0,0,0,0)
-		
 
-	def setStyle(self, Name: str):
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
+		return self
+
+	def setStyleName(self, Name: str):
 		super().setObjectName(Name)
 		return self
 
@@ -48,10 +51,14 @@ class QT_Button(QPushButton):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
-		
+		self.aligned_icon = None
 
-	def setStyle(self, Name: str):
-		super().setObjectName(Name)
+	def setStyleName(self, Style: str):
+		super().setObjectName(Style)
+		return self
+
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
 		return self
 
 	def setText(self, Text: str):
@@ -66,7 +73,7 @@ class QT_Button(QPushButton):
 		super().setChecked(Checked)
 		return self
 
-	def setIcon(self, Icon:QIcon):
+	def setIcon(self, Icon: QIcon):
 		super().setIcon(Icon)
 		return self
 
@@ -81,6 +88,24 @@ class QT_Button(QPushButton):
 	def setFixedWidth(self, W: int):
 		super().setFixedWidth(W)
 		return self
+
+	def setLeftIcon(self, Icon: QIcon):
+		self.aligned_icon = Icon
+		self.update()
+		return self
+
+	def paintEvent(self, event):
+		super().paintEvent(event)
+		painter = QPainter(self)
+		option = QStyleOption()
+		option.initFrom(self)
+
+		if self.aligned_icon:
+			left_icon_rect: QRect = option.rect
+			left_icon_size = self.aligned_icon.actualSize(left_icon_rect.size())
+			left_icon_rect.setWidth(left_icon_size.width())
+			left_icon_rect.translate(5,0)
+			self.aligned_icon.paint(painter, left_icon_rect)
 
 class QT_Spacer(QLabel):
 	def __init__(self, Vertical: bool = True, Size: int = 10):
@@ -240,7 +265,7 @@ class QT_Scroll_Area(QScrollArea):
 		self.Contents.addWidget(Widget)
 		return self
 
-	def setStyle(self, Name: str):
+	def setStyleName(self, Name: str):
 		super().setObjectName(Name)
 		return self
 
@@ -260,7 +285,7 @@ class QT_Splitter(QSplitter):
 	def __init__(self, Vertical: bool = True):
 		if Vertical: super().__init__(Qt.Orientation.Vertical)
 		else: super().__init__(Qt.Orientation.Horizontal)
-		super().setHandleWidth(5)
+		super().setHandleWidth(2)
 		super().setContentsMargins(0,0,0,0)
 
 	def addWidget(self, Widget):
@@ -298,6 +323,10 @@ class QT_Label(QLabel):
 
 	def setText(self, Text: str):
 		super().setText(Text)
+		return self
+
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
 		return self
 
 	def setFixedHeight(self, Height: int):
@@ -361,7 +390,6 @@ class QT_Menu(QMenu):
 class QT_Window(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		super().setContentsMargins(5,5,5,5)
 
 	def setWindowTitle(self, Title: str):
 		super().setWindowTitle(Title)

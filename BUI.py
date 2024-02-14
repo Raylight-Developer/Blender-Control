@@ -6,7 +6,7 @@ class Int_Slider(QT_Slider):
 		super().__init__()
 
 		self.setRange(0, 1)
-		self.setStyle("Int_Slider")
+		self.setStyleName("Int_Slider")
 
 	def setValue(self, value):
 		super().setValue(int(value))
@@ -119,8 +119,6 @@ class IntProperty(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
-		self.Linear_Layout.setStretch(0, 4)
-		self.Linear_Layout.setStretch(1, 6)
 
 		self.driver_expression = ""
 		self.add_keyframe_expression = ""
@@ -131,13 +129,12 @@ class IntProperty(QT_Linear_Contents):
 		self.min = 0
 		self.max = 1
 
-		self.label = QT_Label().setText(self.text)
-		self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
-		self.slider = Int_Slider()
-		self.keyframer = QT_Button().setStyle("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
-		self.decrease = QT_Button().setStyle("Int_L").setFixedWidth(24).setIcon(QIcon("./Resources/left_arrow_thin.svg"))
-		self.increase = QT_Button().setStyle("Int_R").setFixedWidth(24).setIcon(QIcon("./Resources/right_arrow_thin.svg"))
+		self.slider = Int_Slider().setToolTip(self.text)
+		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon("./Resources/left_arrow_thin.svg"))
+		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon("./Resources/right_arrow_thin.svg"))
 
 		self.addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
@@ -174,7 +171,8 @@ class IntProperty(QT_Linear_Contents):
 		self.remove_keyframe_expression = keyframe_expression
 	def set_label(self, value: str = ""):
 		self.text = value
-		self.label.setText(value)
+		self.label.setText(value).setToolTip(self.text)
+		self.slider.setToolTip(self.text)
 	def set_icon(self, value: Icon = Icon.NONE):
 		self.icon = value
 	def set_min(self, value : int = 0):
@@ -207,8 +205,6 @@ class FloatProperty(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
-		self.Linear_Layout.setStretch(0, 4)
-		self.Linear_Layout.setStretch(1, 6)
 
 		self.driver_expression = ""
 		self.add_keyframe_expression = ""
@@ -218,11 +214,10 @@ class FloatProperty(QT_Linear_Contents):
 		self.icon = Icon.NONE
 		self.min = 0
 		self.max = 1
-		self.label = QT_Label().setText(self.text)
-		self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
-		self.slider = Float_Slider()
-		self.keyframer = QT_Button().setStyle("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.slider = Float_Slider().setToolTip(self.text)
+		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.slider).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
@@ -257,7 +252,8 @@ class FloatProperty(QT_Linear_Contents):
 		self.remove_keyframe_expression = keyframe_expression
 	def set_label(self, value: str = ""):
 		self.text = value
-		self.label.setText(value)
+		self.label.setText(value).setToolTip(self.text)
+		self.slider.setToolTip(self.text)
 	def set_icon(self, value: Icon = Icon.NONE):
 		self.icon = value
 	def set_min(self, value : float = 0.0):
@@ -301,15 +297,16 @@ class BoolProperty(QT_Linear_Contents):
 		self.text = ""
 		self.icon = Icon.NONE
 
-		self.input = QT_Button().setStyle("Bool_Prop").setCheckable(True).setText(self.text)
+		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text).setToolTip(self.text)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyle("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
 
 		self.addWidget(self.input).addWidget(self.keyframer)
+		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
 		self.input.clicked.connect(self.execute_expression)
 	def set_label(self, value: str = ""):
 		self.text = value
-		self.input.setText(value)
+		self.input.setText(value).setToolTip(self.text)
 	def set_driver_expression(self, driver_expression: str = ""):
 		self.driver_expression = driver_expression
 	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
@@ -343,16 +340,16 @@ class EnumProperty(QT_Linear_Contents):
 
 		self.Linear_Layout.setStretch()
 
-		self.label = QT_Label().setText(self.text)
-		self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-		self.input = QT_Button().setStyle("Bool_Prop").setCheckable(True).setText(self.text)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyle("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
+		self.label = QT_Label().setText(self.text).setFixedWidth(120).setToolTip(self.text)
+		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon("./Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
+		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
 		self.input.clicked.connect(self.execute_expression)
 	def set_label(self, value: str = ""):
 		self.text = value
-		self.label.setText(value)
+		self.label.setText(value).setToolTip(self.text)
 	def set_driver_expression(self, driver_expression: str = ""):
 		self.driver_expression = driver_expression
 	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
@@ -449,7 +446,7 @@ class Box(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
 		self.Linear_Layout.setSpacing(5)
-		self.setStyle("Box")
+		self.setStyleName("Box")
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.addWidget(row)
@@ -484,14 +481,18 @@ class Box(QT_Linear_Contents):
 class Dropdown(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
-		self.Toggle = QT_Button().setText("E/C").setCheckable(True).setChecked(True).setFixedHeight(24)
-		self.Container = QT_Scroll_Area().setStyle("Box")
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText("E/C").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon("./Resources/down_arrow_thin.svg"))
+		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.addWidget(self.Toggle)
 		self.addWidget(self.Container)
 		self.Toggle.clicked.connect(self.expandCollapse)
 	def expandCollapse(self, toggle):
-		if toggle: self.Container.show()
-		else: self.Container.hide()
+		if toggle:
+			self.Container.show()
+			self.Toggle.setLeftIcon(QIcon("./Resources/down_arrow_thin.svg"))
+		else:
+			self.Container.hide()
+			self.Toggle.setLeftIcon(QIcon("./Resources/right_arrow_thin.svg"))
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.Container.addWidget(row)
