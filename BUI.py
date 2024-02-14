@@ -56,9 +56,13 @@ class Float_Slider(QT_Slider):
 	def __init__(self):
 		super().__init__()
 		self.precision = 3
-		self.divider = 1000
+		self.divider = int("1"+"0"*self.precision)
 
 		self.setRange(0, self.divider)
+
+	def setPrecision(self, precision):
+		self.precision = precision
+		self.divider = int("1"+"0"*self.precision)
 
 	def setValue(self, value):
 		super().setValue(int(value * self.divider))
@@ -420,22 +424,18 @@ class Row(QT_Linear_Contents):
 		list = Search_List(text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.INT:
 			prop = IntProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
@@ -464,7 +464,7 @@ class Column(QT_Linear_Contents):
 		list = Search_List(text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -509,7 +509,7 @@ class Box(QT_Linear_Contents):
 		list = Search_List(text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -565,7 +565,7 @@ class Dropdown(QT_Linear_Contents):
 		list = Search_List(text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: prop_type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
@@ -624,7 +624,7 @@ class Search_List(QT_Linear_Contents):
 		list = Search_List(text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
