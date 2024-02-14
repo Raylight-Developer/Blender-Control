@@ -1,5 +1,5 @@
 from typing import *
-import math, os
+import math, sys, os
 from enum import Enum
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *

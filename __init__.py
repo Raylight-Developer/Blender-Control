@@ -1,4 +1,4 @@
-import sys, bpy, pip
+import bpy, pip
 
 bl_info = {
 	"name": "Blender DRIVER",

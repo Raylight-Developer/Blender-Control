@@ -106,7 +106,7 @@ class Float_Slider(QT_Slider):
 
 # TYPES--------------------------------------------------------------------------------------------
 
-class Type(Enum):
+class Prop_Type(Enum):
 	INT = 0
 	BOOL = 1
 	FLOAT = 2
@@ -421,19 +421,19 @@ class Row(QT_Linear_Contents):
 		self.addWidget(list)
 		return list
 	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
-		if type == Type.FLOAT:
+		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.INT:
+		elif type == Prop_Type.INT:
 			prop = IntProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.BOOL:
+		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.ENUM:
+		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
@@ -465,19 +465,19 @@ class Column(QT_Linear_Contents):
 		self.addWidget(list)
 		return list
 	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
-		if type == Type.FLOAT:
+		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.INT:
+		elif type == Prop_Type.INT:
 			prop = IntProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.BOOL:
+		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.ENUM:
+		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
@@ -510,19 +510,19 @@ class Box(QT_Linear_Contents):
 		self.addWidget(list)
 		return list
 	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
-		if type == Type.FLOAT:
+		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.INT:
+		elif type == Prop_Type.INT:
 			prop = IntProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.BOOL:
+		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
-		elif type == Type.ENUM:
+		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			prop.set_label(text)
 			self.addWidget(prop)
@@ -565,20 +565,20 @@ class Dropdown(QT_Linear_Contents):
 		list = Search_List(text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
-		if type == Type.FLOAT:
+	def prop(self, type: prop_type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
-		elif type == Type.INT:
+		elif type == Prop_Type.INT:
 			prop = IntProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
-		elif type == Type.BOOL:
+		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
-		elif type == Type.ENUM:
+		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
@@ -625,19 +625,19 @@ class Search_List(QT_Linear_Contents):
 		self.Container.addWidget(list)
 		return list
 	def prop(self, type: Type, window: 'Central_Layout' = None, text: str = '', icon: Icon = Icon.NONE) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
-		if type == Type.FLOAT:
+		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
-		elif type == Type.INT:
+		elif type == Prop_Type.INT:
 			prop = IntProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
-		elif type == Type.BOOL:
+		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)
-		elif type == Type.ENUM:
+		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			prop.set_label(text)
 			self.Container.addWidget(prop)

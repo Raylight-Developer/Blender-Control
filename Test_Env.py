@@ -1,4 +1,3 @@
-import sys
 from BUI import *
 
 class Central_Layout(QT_Window):

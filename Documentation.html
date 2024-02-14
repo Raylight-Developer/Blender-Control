@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+	* {
+		font-family: 'Courier New', monospace;
+		background: transparent;
+		color: rgb(155,220,255);
+	}
+	h1 {
+		margin-left: 2.5%;
+	}
+	body {
+		background: rgb(15,15,15);
+	}
+	pre {
+		margin-left: 5%;
+		margin-right: 5%;
+		padding: 10px;
+		border-radius: 10px;
+		background: rgb(30,30,30);
+		font-weight: 700;
+		tab-size: 4;
+	}
+	class {
+		color: rgb(80, 200, 175);
+	}
+	def {
+		color: rgb(220, 220, 170);
+	}
+	func {
+		color: rgb(200, 135, 190);
+	}
+	brck {
+		color: rgb(255,215,0);
+	}
+	enum {
+		color: rgb(160, 130, 240);
+	}
+</style>
+<body>
+	<h1>Enum</h1>
+	<pre>
+<func>Enum</func> <class>Prop_Type</class> <brck>{</brck>
+	<enum>INT
+	BOOL
+	FLOAT
+	ENUM</enum>
+<brck>}</brck>
+
+<func>Enum</func> <class>Icon</class> <brck>{</brck>
+	<enum>SEARCH</enum>
+<brck>}</brck></pre>
+
+	<h1>Properties</h1>
+	<pre>
+<h2><def>prop</def><brck>(</brck>prop_type, window, text, icon<brck>)</brck></h2>
+<b>prop_type</b> :
+<class>Prop_Type</class>
+
+<b>window</b>    :
+<class>None | </class>
+
+<b>text</b>      :
+<class>None | String</class>
+
+<b>icon</b>      :
+<class>None | Icon</class>
+
+<func>return</func>    :
+<class>IntProperty | BoolProperty | FloatProperty | EnumProperty</class></pre>
+
+<pre>
+<h2><class>IntProperty </class></h2>
+	<def>.setLabel()</def>
+</pre>
+<pre>
+<h2><class>FloatProperty </class></h2></pre>
+<pre>
+<h2><class>BoolProperty </class></h2></pre>
+<pre>
+<h2><class>EnumProperty</class></h2></pre>
+</body>
