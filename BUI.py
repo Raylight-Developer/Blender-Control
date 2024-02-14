@@ -170,10 +170,12 @@ class IntProperty(QT_Linear_Contents):
 		self.add_keyframe_expression = keyframe_expression
 	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
 		self.remove_keyframe_expression = keyframe_expression
-	def set_label(self, value: str = ""):
+	def set_label(self, value: str = "", enabled: bool = True):
 		self.text = value
-		self.label.setText(value).setToolTip(self.text)
 		self.slider.setToolTip(self.text)
+		self.label.setText(value).setToolTip(self.text)
+		if enabled: self.label.show()
+		else: self.label.hide()
 	def set_icon(self, value: Icon = Icon.NONE):
 		self.icon = value
 	def set_min(self, value : int = 0):
@@ -255,10 +257,12 @@ class FloatProperty(QT_Linear_Contents):
 		self.add_keyframe_expression = keyframe_expression
 	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
 		self.remove_keyframe_expression = keyframe_expression
-	def set_label(self, value: str = ""):
+	def set_label(self, value: str = "", enabled: bool = True):
 		self.text = value
-		self.label.setText(value).setToolTip(self.text)
 		self.slider.setToolTip(self.text)
+		self.label.setText(value).setToolTip(self.text)
+		if enabled: self.label.show()
+		else: self.label.hide()
 	def set_icon(self, value: Icon = Icon.NONE):
 		self.icon = value
 	def set_min(self, value : float = 0.0):
@@ -306,16 +310,20 @@ class BoolProperty(QT_Linear_Contents):
 		self.text = ""
 		self.icon = Icon.NONE
 
+		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text).setToolTip(self.text)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 
-		self.addWidget(self.input).addWidget(self.keyframer)
+		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
 		self.input.clicked.connect(self.execute_expression)
-	def set_label(self, value: str = ""):
+	def set_label(self, value: str = "", enabled: bool = False):
 		self.text = value
+		self.label.setText(value).setToolTip(self.text)
 		self.input.setText(value).setToolTip(self.text)
+		if enabled: self.label.show()
+		else: self.label.hide()
 	def set_driver_expression(self, driver_expression: str = ""):
 		self.driver_expression = driver_expression
 	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
@@ -357,10 +365,11 @@ class EnumProperty(QT_Linear_Contents):
 
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
-
-	def set_label(self, value: str = ""):
+	def set_label(self, value: str = "", enabled: bool = True):
 		self.text = value
 		self.label.setText(value).setToolTip(self.text)
+		if enabled: self.label.show()
+		else: self.label.hide()
 	def set_driver_expression(self, driver_expression: str = ""):
 		self.driver_expression = driver_expression
 	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
@@ -523,7 +532,7 @@ class Box(QT_Linear_Contents):
 class Dropdown(QT_Linear_Contents):
 	def __init__(self, text):
 		super().__init__(True)
-		self.Toggle = QT_Icon_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
@@ -532,10 +541,10 @@ class Dropdown(QT_Linear_Contents):
 	def expandCollapse(self, toggle):
 		if toggle:
 			self.Container.show()
-			self.Toggle.setIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		else:
 			self.Container.hide()
-			self.Toggle.setIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 	def row(self, align: bool = False) -> 'Row':
 		row = Row()
 		self.Container.addWidget(row)
