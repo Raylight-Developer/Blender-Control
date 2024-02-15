@@ -3,25 +3,34 @@
 <style>
 	* {
 		font-family: 'Courier New', monospace;
+		font-size: medium;
 		background: transparent;
 		color: rgb(155,220,255);
 		border-style: solid;
 		border-color: rgb(0,0,0);
 		border-width: 0px;
 	}
+	a {
+		color: rgb(85, 155, 215);
+		text-decoration: none;
+	}
 	h1 {
 		font-size: xx-large;
 		font-weight: bolder;
 		text-align: center;
-		margin-top: 80px;
-		margin-bottom: 20px;
+		margin-top: 60px;
+		padding-bottom: 40px;
 		color: rgb(255,255,255);
 		border-bottom-width: 2px;
 	}
 	h2 {
 		font-size: x-large;
-		margin-left: 2.5%;
+		padding-left: 2.5%;
 		color: rgb(255,255,255);
+
+		padding-top: 20px;
+		border-color: rgb(200, 200, 200);
+		border-top-width: 2px;
 	}
 	h3 {
 		font-size: large;
@@ -38,6 +47,7 @@
 		background: rgb(30,30,30);
 	}
 	div {
+		position: relative;
 		background: rgb(75,75,75);
 		border-radius: 10px;
 		padding: 10px;
@@ -52,11 +62,19 @@
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 		background: rgb(50,50,50);
-		font-size: 16px;
 		font-weight: 700;
 		tab-size: 4;
 		white-space: pre-wrap;
 		word-wrap: break-word;
+	}
+	.Box {
+		margin-left: 5%;
+		font-weight: 700;
+		border-width: 1px;
+		border-radius: 0px;
+		border-width: 0px;
+		padding: 0px;
+		background: transparent;
 	}
 	desc {
 		color:rgb(255,255,255);
@@ -90,203 +108,249 @@
 	type {
 		color: rgb(85, 155, 215);
 	}
+	.T1 {
+		font-size: xx-large;
+	}
+	.T2 {
+		font-size: x-large;
+	}
+	.T3 {
+		font-size: larger;
+	}
+	.T4 {
+		font-size: large;
+	}
+	.T5 {
+		font-size: medium;
+	}
+	.T6 {
+		font-size: smaller;
+	}
+	.T7 {
+		font-size: small;
+	}
+	.T8 {
+		font-size: x-small;
+	}
+	.T9 {
+		font-size: xx-small;
+	}
+	.Example {
+		font-weight: 500;
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		padding: 2px;
+		padding-left: 5px;
+		padding-right: 5px;
+		background: rgba(145, 205, 255, 0.4);
+		color: rgb(255, 255, 255);
+		border-radius: 10px;
+	}
+	a:hover {
+		color: rgb(150, 205, 255);
+	}
+
+
 </style>
 <body>
 <h1>Blender DRIVER Documentation</h1>
-<h2>Enum</h2>
-<h3><func>Enum</func> <class>Prop_Type</class></h3>
+<h2>Sections</h2>
+<pre class="Box"><a class="Example T8" href="#">Examples</a>
+<a class="T3" href="#Enums">Enumerators</a>
+	<a class="T4" href="#Prop_Type">Prop_Type</a>
+	<a class="T4" href="#Icon">Icon</a>
+
+<a class="T3" href="#Layout_Items">Layout Items</a>
+	<a class="T4" href="#Row">Row</a>
+	<a class="T4" href="#Column">Column</a>
+	<a class="T4" href="#Box">Box</a>
+	<a class="T4" href="#Dropdown">Dropdown</a>
+	<a class="T4" href="#Search_List">Search_List</a>
+
+<a class="T3" href="#Layout_Methods">Layout Methods</a>
+	<a class="T4" href="#row">.row()</a>
+	<a class="T4" href="#column">.column()</a>
+	<a class="T4" href="#box">.box()</a>
+	<a class="T4" href="#dropdown">.dropdown()</a>
+	<a class="T4" href="#list">.list()</a>
+
+<a class="T3" href="#Properties">Properties</a>
+	<a class="T4" href="#IntProperty">IntProperty</a>
+	<a class="T4" href="#FloatProperty">FloatProperty</a>
+	<a class="T4" href="#BoolProperty">BoolProperty</a>
+	<a class="T4" href="#EnumProperty">EnumProperty</a>
+	<a class="T4" href="#SharedPropMethods">Shared Property Methods</a>
+</pre>
+<h2 id="Enums">Enumerators</h2>
+<h3 id="Prop_Type"><func>Enum</func> <class>Prop_Type</class></h3>
 <pre>
 <enum>INT
 BOOL
 FLOAT
 ENUM</enum>
 </pre>
-<h3><func>Enum</func> <class>Icon</class></h3>
+<h3 id="Icon"><func>Enum</func> <class>Icon</class></h3>
 <pre>
 <enum>SEARCH</enum>
 </pre>
-<h2>Layout Items</h2>
-<h3><class>Row</class></h3>
+<h2 id="Layout_Items">Layout Items</h2>
+<h3 id="Row"><class>Row</class></h3>
 <pre>
 <desc>Layout to add items horizontally.</desc>
 </pre>
-<h3><class>Column</class></h3>
+<h3 id="Column"><class>Column</class></h3>
 <pre>
 <desc>Layout to add items vertically.</desc>
 </pre>
-<h3><class>Box</class></h3>
+<h3 id="Box"><class>Box</class></h3>
 <pre>
 <desc>Layout to add items vertically, while adding an outline.</desc>
 </pre>
-<h3><class>Dropdown</class></h3>
+<h3 id="Dropdown"><class>Dropdown</class></h3>
 <pre>
 <desc>Layout to add items vertically. Can be expanded and collapsed.</desc>
 
 <div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
-	<desc>Set the labels and the tooltips text.</desc>
+	<desc>Set the labels and the tooltips text.</desc><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
-<h3><class>Search_List</class></h3>
+<h3 id="Search_List"><class>Search_List</class></h3>
 <pre>
 <desc>Layout to add items vertically. Can be expanded and collapsed. Has a Searchbar.</desc>
 
 <div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
-	<desc>Set the labels and the tooltips text.</desc>
+	<desc>Set the labels and the tooltips text.</desc><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 
-<h2>Layout Operators</h2>
+<h2 id="Layout_Methods">Layout Methods</h2>
 <h3><def>row</def></h3>
 <pre>
-<div><def>.row</def><brck>()</brck>
-<func>return</func> <class>Row</class>
+<div id="row"><def>.row</def><brck>()</brck>
+<func>return</func> <class>Row</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 <h3><def>column</def></h3>
 <pre>
-<div><def>.column</def><brck>()</brck>
-<func>return</func> <class>Column</class>
+<div id="column"><def>.column</def><brck>()</brck>
+<func>return</func> <class>Column</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 <h3><def>box</def></h3>
 <pre>
-<div><def>.box</def><brck>()</brck>
-<func>return</func> <class>Box</class>
+<div id="box"><def>.box</def><brck>()</brck>
+<func>return</func> <class>Box</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 <h3><def>dropdown</def></h3>
 <pre>
-<div><def>.dropdown</def><brck>(</brck>
+<div id="dropdown"><def>.dropdown</def><brck>(</brck>
 	text <opt>(optional)</opt> : <class>String</class>
-<brck>)</brck> <func>return</func> <class>Dropdown</class>
+<brck>)</brck> <func>return</func> <class>Dropdown</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 <h3><def>list</def></h3>
 <pre>
-<div><def>.list</def><brck>(</brck>
+<div id="list"><def>.list</def><brck>(</brck>
 	text <opt>(optional)</opt> : <class>String</class>
-<brck>)</brck> <func>return</func> <class>Search_List</class>
+<brck>)</brck> <func>return</func> <class>Search_List</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 
 <h3><def>prop</def></h3>
 <pre>
-
-<div><def>.prop</def><brck>(</brck>
+<div id="prop"><def>.prop</def><brck>(</brck>
 	prop_type <req>(required)</req> : <class>Prop_Type.</class><enum>ENUM</enum>
 	register  <opt>(optional)</opt> : <type>self</type>
 	label     <opt>(optional)</opt> : <class>String</class>
 	icon      <opt>(optional)</opt> : <class>Icon.</class><enum>ENUM</enum>
-<brck>)</brck> <func>return</func> <class>[ IntProperty | BoolProperty | FloatProperty | EnumProperty ]</class>
+<brck>)</brck> <func>return</func> <class>[ IntProperty | BoolProperty | FloatProperty | EnumProperty ]</class><a class="Example T8" href="#">Examples</a>
 </div>
 prop_type : <desc>Type of the driver, set from the Enum.</desc>
 register  : <desc>If set to self, the property will be refreshed with the changes made in blender. Else its value will not change in sync with blender.</desc>
 </pre>
 
-<h2>Properties</h2>
+<h2 id="Properties">Properties</h2>
 
-<h3><class>IntProperty </class></h3>
+<h3 id="IntProperty"><class>IntProperty </class></h3>
 <pre>
-<div><def>.setLabelIsVisible</def><brck>(</brck>
-	visible : <class>Boolean </class>
-<brck>)</brck>
-</div>
-	<desc>Whether the label should be visible.</desc>
-
-	<div><def>.setLabel</def><brck>(</brck>
-	text : <class>String</class>
-<brck>)</brck>
-</div>
-	<desc>Set the labels and the tooltips text.</desc></li>
-
-<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck>
-</div>
-	<desc>Set the Icon of the label.</desc>
-
-<div><def>.setMin</def><brck>(</brck> min : <class>Int</class> <brck>)</brck>
+<div><def>.setMin</def><brck>(</brck> min : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set Absolute Min.</desc>
 
-<div><def>.setMax</def><brck>(</brck> max : <class>Int</class> <brck>)</brck>
+<div><def>.setMax</def><brck>(</brck> max : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set Absolute Max.</desc>
 
-<div><def>.setSoftMin</def><brck>(</brck> soft_min : <class>Int</class> <brck>)</brck>
+<div><def>.setSoftMin</def><brck>(</brck> soft_min : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set Slider Min.</desc>
 
-<div><def>.setSoftMax</def><brck>(</brck> soft_max : <class>Int</class> <brck>)</brck>
+<div><def>.setSoftMax</def><brck>(</brck> soft_max : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set Slider Max.</desc>
 </pre>
-<h3><class>FloatProperty </class></h3>
+<h3 id="FloatProperty"><class>FloatProperty </class></h3>
 <pre>
-<div><def>.setLabelIsVisible</def><brck>(</brck> visible : <class>Boolean </class><brck>)</brck>
-</div>
-	<desc>Whether the label should be visible.</desc>
-
-<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
-</div>
-	<desc>Set the labels and the tooltips text.</desc>
-
-<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck>
-</div>
-	<desc>Set the icon of the label.</desc>
-
-<div><def>.setMin</def><brck>(</brck> min : <class>Float</class> <brck>)</brck>
+<div><def>.setMin</def><brck>(</brck> min : <class>Float</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set absolute min.</desc>
 
-<div><def>.setMax</def><brck>(</brck> max : <class>Float</class> <brck>)</brck>
+<div><def>.setMax</def><brck>(</brck> max : <class>Float</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set absolute max.</desc>
 
-<div><def>.setSoftMin</def><brck>(</brck> soft_min : <class>Float</class> <brck>)</brck>
+<div><def>.setSoftMin</def><brck>(</brck> soft_min : <class>Float</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set slider Min.</desc>
 
-<div><def>.setSoftMax</def><brck>(</brck> soft_max : <class>Float</class> <brck>)</brck>
+<div><def>.setSoftMax</def><brck>(</brck> soft_max : <class>Float</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set slider Max.</desc>
 
-<div><def>.setDecimals</def><brck>(</brck> decimals : <class>Int</class> <brck>)</brck>
+<div><def>.setDecimals</def><brck>(</brck> decimals : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set displayed decimal places.</desc>
 </pre>
-<h3><class>BoolProperty </class></h3>
+<h3 id="BoolProperty"><class>BoolProperty </class></h3>
 <pre>
-<div><def>.setLabelIsVisible</def><brck>(</brck> visible : <class>Boolean</class> <brck>)</brck>
-</div>
-	<desc>Whether the label should be visible.</desc>
-
-<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
-</div>
-	<desc>Set the labels and the tooltips text.</desc>
-
-<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck>
-</div>
-	<desc>Set the icon of the label.</desc>
-
-<div><def>.setButtonLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
+<div><def>.setButtonLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set the buttons and the tooltips text.</desc>
 
-<div><def>.setButtonIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck>
+<div><def>.setButtonIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set the icon of the button.</desc>
 </pre>
-<h3><class>EnumProperty</class></h3>
+<h3 id="EnumProperty"><class>EnumProperty</class></h3>
 <pre>
-<div><def>.setLabelIsVisible</def><brck>(</brck> visible : <class>Boolean</class> <brck>)</brck>
-</div>
-	<desc>Whether the label should be visible.</desc>
+</pre>
 
-<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
+<h3 id="SharedPropMethods">Shared Property Methods</h3>
+<pre>
+<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set the labels and the tooltips text.</desc>
 
-<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck>
+<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
 	<desc>Set the icon of the label.</desc>
+
+<div><def>.setLabelIsVisible</def><brck>(</brck> visible : <class>Boolean</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>Whether the label should be visible.</desc>
+
+<div><def>.setPythonDriver</def><brck>(</brck> expr : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>Python Driver Expression.</desc>
+
+<div><def>.setAddKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>Add Keyframe Expression.</desc>
+
+<div><def>.setRemoveKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>Remove Keyframe Expression.</desc>
 </pre>
 </body>
