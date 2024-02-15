@@ -641,6 +641,17 @@ class Dropdown(QT_Linear_Contents):
 		self.addWidget(self.Toggle)
 		self.addWidget(self.Container)
 		self.Toggle.clicked.connect(self.expandCollapse)
+	def saveState(self) -> List:
+		return [self.Toggle.isChecked()]
+	def restoreState(self, state: List):
+		if state[0]:
+			self.Container.show()
+			self.Toggle.setChecked(True)
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		elif not state[0] :
+			self.Container.hide()
+			self.Toggle.setChecked(False)
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid
@@ -660,7 +671,6 @@ class Dropdown(QT_Linear_Contents):
 		column = Column()
 		self.uid = column.setUID(self.uid)
 		self.Container.addWidget(column)
-		
 		return column
 	def box(self) -> 'Box':
 		box = Box()
@@ -695,7 +705,6 @@ class Dropdown(QT_Linear_Contents):
 			self.uid = prop.setUID(self.uid)
 			self.Container.addWidget(self.prop)
 		if window: window.Properties.append(prop)
-		
 		return prop
 
 class Search_List(QT_Linear_Contents):
@@ -710,6 +719,17 @@ class Search_List(QT_Linear_Contents):
 		self.addWidget(self.Container)
 		self.Container.addWidget(self.SearchBar)
 		self.Toggle.clicked.connect(self.expandCollapse)
+	def saveState(self) -> List:
+		return [self.Toggle.isChecked()]
+	def restoreState(self, state: List):
+		if state[0]:
+			self.Container.show()
+			self.Toggle.setChecked(True)
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		elif not state[0] :
+			self.Container.hide()
+			self.Toggle.setChecked(False)
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid

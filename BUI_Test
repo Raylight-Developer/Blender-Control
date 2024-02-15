@@ -23,5 +23,6 @@ class Tesing_Window(Central_Layout):
 		list    : Search_List   = row.list()
 		test    : EnumProperty  = list.prop(Prop_Type.ENUM)
 		# -----------------------------------------------------------------------------------------
+		layout.restore()
 
 Window = Tesing_Window()

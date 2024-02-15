@@ -8,10 +8,10 @@ class Central_Layout(QT_Window):
 
 		self.mouse_pressed = False
 		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/file_refresh.svg"))
-		Reload_Analyzer.clicked.connect(lambda: self.quit())
+		Reload_Analyzer.clicked.connect(lambda: self.processUI())
 
 		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/panel_close.svg"))
-		Exit_Analyzer.clicked.connect(lambda: self.close())
+		Exit_Analyzer.clicked.connect(lambda: self.quit())
 
 		self.BUI_Header = Row()
 		self.BUI_Header.setContentsMargins(5,5,5,5)
@@ -33,7 +33,6 @@ class Central_Layout(QT_Window):
 
 	def loadSettings(self):
 		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
-		self.restore()
 		self.show()
 
 	def processUI(self) -> Column:
@@ -66,22 +65,36 @@ class Central_Layout(QT_Window):
 
 	def restore(self):
 		if os.path.exists(PATH+"/Resources/BUI.json"):
-			settings = json.loads(open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8"))
-			for widget in QApplication().allWidgets():
-				if widget.whatsThis() != "":
-					mo = widget.metaObject()
-					for i in range(mo.propertyCount()):
-						widget.setProperty(settings[f"{widget.whatsThis()}//{mo.property(i).name()}"])
+			with open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8") as file:
+				settings = json.load(file)
+				file.close()
+				for widget in QCoreApplication.instance().allWidgets():
+					if widget.whatsThis() != "":
+						try:
+							if type(widget) == Dropdown:
+								widget: Dropdown = widget
+								widget.restoreState(settings[f"{widget.whatsThis()}"])
+							elif type(widget) == Search_List:
+								widget: Search_List = widget
+								widget.restoreState(settings[f"{widget.whatsThis()}"])
+						except Exception as err: print(err)
 
 	def save(self):
 		settings = {}
-		for widget in QApplication().allWidgets():
+		for widget in QCoreApplication.instance().allWidgets():
 			if widget.whatsThis() != "":
-				mo = widget.metaObject()
-				for i in range(mo.propertyCount()):
-					settings[f"{widget.whatsThis()}//{mo.property(i).name()}"] = widget.property(mo.property(i).name())
-		with open(PATH+"/Resources/BUI.json", "w", encoding = "utf-8") as file:
-			file.write(json.dump(settings))
+				try:
+					if type(widget) == Dropdown:
+						widget: Dropdown = widget
+						settings[f"{widget.whatsThis()}"] = widget.saveState()
+					elif type(widget) == Search_List:
+						widget: Search_List = widget
+						settings[f"{widget.whatsThis()}"] = widget.saveState()
+				except Exception as err: print(err)
+
+		print(settings)
+		with open(PATH+"/Resources/BUI.json", "wt", encoding = "utf-8") as file:
+			json.dump(settings, file)
 			file.close()
 
 	def row(self) -> Row:
