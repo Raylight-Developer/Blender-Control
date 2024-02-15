@@ -51,6 +51,7 @@ class QT_Slider(QSlider):
 	
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Button(QPushButton):
@@ -105,6 +106,7 @@ class QT_Button(QPushButton):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
@@ -169,6 +171,7 @@ class QT_Icon_Button(QToolButton):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Option(QComboBox):
@@ -208,6 +211,7 @@ class QT_Option(QComboBox):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Linear_Contents(QWidget):
@@ -249,6 +253,7 @@ class QT_Linear_Contents(QWidget):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Line_Editor(QLineEdit):
@@ -291,6 +296,7 @@ class QT_Line_Editor(QLineEdit):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
@@ -376,6 +382,7 @@ class QT_Scroll_Area(QScrollArea):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Splitter(QSplitter):
@@ -411,6 +418,7 @@ class QT_Splitter(QSplitter):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Label(QLabel):
@@ -445,6 +453,7 @@ class QT_Label(QLabel):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
@@ -488,6 +497,7 @@ class QT_Widget(QWidget):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1
 
 class QT_Window(QMainWindow):
@@ -525,4 +535,5 @@ class QT_Window(QMainWindow):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
+		print(uid)
 		return uid + 1

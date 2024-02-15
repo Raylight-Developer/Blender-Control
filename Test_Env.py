@@ -21,8 +21,8 @@ class Central_Layout(QT_Window):
 		self.BUI_Header.installEventFilter(self)
 
 		self.BUI_Layout = Column()
-		self.BUI_Layout.setContentsMargins(5,5,5,5)
 		self.uid = self.BUI_Layout.setUID(self.uid)
+		self.BUI_Layout.setContentsMargins(5,5,5,5)
 		self.Properties = []
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
@@ -80,15 +80,27 @@ class Central_Layout(QT_Window):
 				mo = widget.metaObject()
 				for i in range(mo.propertyCount()):
 					settings[f"{widget.whatsThis()}//{mo.property(i).name()}"] = widget.property(mo.property(i).name())
-		open(PATH+"/Resources/BUI.json", "w", encoding = "utf-8").write(json.dump(settings))
+		with open(PATH+"/Resources/BUI.json", "w", encoding = "utf-8") as file:
+			file.write(json.dump(settings))
+			file.close()
 
 	def row(self) -> Row:
-		return self.BUI_Layout.row()
+		row = self.BUI_Layout.row()
+		self.uid +=1
+		return row
 	def column(self) -> Column:
-		return self.BUI_Layout.column()
+		column = self.BUI_Layout.column()
+		self.uid +=1
+		return column
 	def box(self) -> Box:
-		return self.BUI_Layout.box()
+		box = self.BUI_Layout.box()
+		self.uid +=1
+		return box
 	def dropdown(self) -> Dropdown:
-		return self.BUI_Layout.dropdown()
+		dropdown = self.BUI_Layout.dropdown()
+		self.uid +=1
+		return dropdown
 	def list(self) -> Search_List:
-		return self.BUI_Layout.list()
+		list = self.BUI_Layout.list()
+		self.uid +=1
+		return list
