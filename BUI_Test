@@ -1,25 +1,27 @@
 from Test_Env import *
 
 class Tesing_Window(Central_Layout):
-	def processUI(self):
+	def __init__(self):
+		App = QApplication()
+		super().__init__()
+		sys.exit(App.exec())
+
+	def processUI(layout):
 		super().processUI()
-		layout = self.BUI_Layout
 
-		# TEST YOUR CODE HERE (code) -----------------------------
-		row : Row = layout.row()
-		test: FloatProperty = row.prop(Prop_Type.FLOAT, self)
-		row : Row = layout.row()
-		dropdown: Dropdown = layout.dropdown()
-		test: IntProperty = dropdown.prop(Prop_Type.INT, self)
-		test: BoolProperty = dropdown.prop(Prop_Type.BOOL, self)
-		test: IntProperty = dropdown.prop(Prop_Type.INT, self)
-		test: IntProperty = dropdown.prop(Prop_Type.INT, self)
-		row = dropdown.row()
-		dropdown: Dropdown = row.dropdown()
-		list: Search_List = row.list()
-		list.prop(Prop_Type.ENUM, self)
-		#----------------------------------------
+		# TEST YOUR CODE HERE ---------------------------------------------------------------------
+		row     : Row           = layout.row()
+		test    : FloatProperty = row.prop(Prop_Type.FLOAT)
+		row     : Row           = layout.row()
+		dropdown: Dropdown      = layout.dropdown()
+		test    : IntProperty   = dropdown.prop(Prop_Type.INT)
+		test    : BoolProperty  = dropdown.prop(Prop_Type.BOOL)
+		test    : IntProperty   = dropdown.prop(Prop_Type.INT)
+		test    : IntProperty   = dropdown.prop(Prop_Type.INT)
+		row     : Row           = dropdown.row()
+		dropdown: Dropdown      = row.dropdown()
+		list    : Search_List   = row.list()
+		test    : EnumProperty  = list.prop(Prop_Type.ENUM)
+		# -----------------------------------------------------------------------------------------
 
-App = QApplication()
 Window = Tesing_Window()
-sys.exit(App.exec())

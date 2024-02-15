@@ -1,5 +1,5 @@
 from typing import *
-import math, sys, os
+import math, json, sys, os
 from enum import Enum
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
@@ -48,6 +48,10 @@ class QT_Slider(QSlider):
 	def setFixedSize(self, Width: int, Height: int):
 		super().setFixedSize(Width, Height)
 		return self
+	
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 class QT_Button(QPushButton):
 	def __init__(self):
@@ -90,6 +94,18 @@ class QT_Button(QPushButton):
 	def setFixedWidth(self, W: int):
 		super().setFixedWidth(W)
 		return self
+	
+	def show(self):
+		super().show()
+		return self
+	
+	def hide(self):
+		super().hide()
+		return self
+
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
 		self.aligned_icon = Icon
@@ -151,6 +167,9 @@ class QT_Icon_Button(QToolButton):
 		super().setFixedWidth(W)
 		return self
 
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 class QT_Option(QComboBox):
 	def __init__(self):
@@ -187,12 +206,9 @@ class QT_Option(QComboBox):
 		super().setFixedWidth(W)
 		return self
 
-class QT_Spacer(QLabel):
-	def __init__(self, Vertical: bool = True, Size: int = 10):
-		super().__init__()
-		super().setContentsMargins(0,0,0,0)
-		if Vertical: super().setFixedHeight(Size)
-		else: super().setFixedWidth(Size)
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 class QT_Linear_Contents(QWidget):
 	def __init__(self, Vertical: bool = False):
@@ -230,6 +246,10 @@ class QT_Linear_Contents(QWidget):
 	def setFixedSize(self, Width: int, Height: int):
 		super().setFixedSize(Width, Height)
 		return self
+
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 class QT_Line_Editor(QLineEdit):
 	def __init__(self):
@@ -269,6 +289,10 @@ class QT_Line_Editor(QLineEdit):
 		super().setFixedSize(Width, Height)
 		return self
 
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
+
 	def setLeftIcon(self, Icon: QIcon):
 		self.aligned_icon = Icon
 		self.update()
@@ -286,36 +310,6 @@ class QT_Line_Editor(QLineEdit):
 			left_icon_rect.setWidth(left_icon_size.width())
 			left_icon_rect.translate(5,0)
 			self.aligned_icon.paint(painter, left_icon_rect)
-
-class QT_Text_Editor(QTextEdit):
-	def __init__(self):
-		super().__init__()
-		super().setContentsMargins(0,0,0,0)
-		super().setTabStopDistance(40)
-
-	def setText(self, Text: str):
-		super().setText(Text)
-		return self
-
-	def setHtml(self, Text: str):
-		super().setHtml(Text)
-		return self
-
-	def selectAll(self):
-		super().selectAll()
-		return self
-
-	def setFixedHeight(self, Height: int):
-		super().setFixedHeight(Height)
-		return self
-
-	def setFixedWidth(self, Width: int):
-		super().setFixedWidth(Width)
-		return self
-
-	def setFixedSize(self, Width: int, Height: int):
-		super().setFixedSize(Width, Height)
-		return self
 
 class QT_Linear_Layout(QBoxLayout):
 	def __init__(self, Vertical: bool = True):
@@ -380,6 +374,10 @@ class QT_Scroll_Area(QScrollArea):
 		super().setFixedSize(Width, Height)
 		return self
 
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
+
 class QT_Splitter(QSplitter):
 	def __init__(self, Vertical: bool = True):
 		if Vertical: super().__init__(Qt.Orientation.Vertical)
@@ -411,6 +409,10 @@ class QT_Splitter(QSplitter):
 		super().setFixedSize(Width, Height)
 		return self
 
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
+
 class QT_Label(QLabel):
 	def __init__(self):
 		super().__init__()
@@ -440,7 +442,11 @@ class QT_Label(QLabel):
 	def setFixedSize(self, Width: int, Height: int):
 		super().setFixedSize(Width, Height)
 		return self
-	
+
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
+
 	def setLeftIcon(self, Icon: QIcon):
 		self.aligned_icon = Icon
 		self.update()
@@ -480,30 +486,9 @@ class QT_Widget(QWidget):
 		super().setFixedSize(Width, Height)
 		return self
 
-class QT_Menu(QMenu):
-	def __init__(self, Title = "Title"):
-		super().__init__(Title)
-		super().setContentsMargins(0,0,0,0)
-
-	def addAction(self, Text:str, Action):
-		super().addAction(Text, Action)
-		return self
-
-	def setLayout(self, Layout):
-		super().setLayout(Layout)
-		return self
-
-	def setFixedHeight(self, Height: int):
-		super().setFixedHeight(Height)
-		return self
-
-	def setFixedWidth(self, Width: int):
-		super().setFixedWidth(Width)
-		return self
-
-	def setFixedSize(self, Width: int, Height: int):
-		super().setFixedSize(Width, Height)
-		return self
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 class QT_Window(QMainWindow):
 	def __init__(self):
@@ -537,3 +522,7 @@ class QT_Window(QMainWindow):
 	def setWindowFlags(self, Flags):
 		super().setWindowFlags(Flags)
 		return self
+
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1

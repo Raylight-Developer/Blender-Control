@@ -117,44 +117,88 @@ class Prop_Type(Enum):
 	ENUM = 3
 
 class Icon(Enum):
-	NONE = 0
+	SEARCH = 0
 
 # PROPERTY-----------------------------------------------------------------------------------------
 class IntProperty(QT_Linear_Contents):
+	python_driver_expression = None
+	blender_fetch_expression = None
+	add_keyframe_expression = None
+	remove_keyframe_expression = None
+	label_text = None
+	label_icon = None
+	label_visibility = True
+
+	label : QT_Label
+	keyframer : QT_Button
+
+	min = 0
+	max = 1
+	step = 1
+
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
+		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
-		self.driver_expression = ""
-		self.add_keyframe_expression = ""
-		self.remove_keyframe_expression = ""
-		self.fetch_expression = None
-		self.text = ""
-		self.icon = Icon.NONE
-		self.min = 0
-		self.max = 1
-
-		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
-		self.slider = Int_Slider().setToolTip(self.text)
-		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+		self.slider = Int_Slider().setToolTip(self.label_text)
 		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/left_arrow_thin.svg"))
 		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
 
 		self.addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
-		if self.fetch_expression:
+		if self.blender_fetch_expression:
 			try:
-				exec(f"self.input.setText({self.fetch_expression})")
-				exec(f"self.slider.setValue({self.fetch_expression})")
+				exec(f"self.input.setText({self.blender_fetch_expression})")
+				exec(f"self.slider.setValue({self.blender_fetch_expression})")
 			except Exception as error: print(error)
-		self.slider.valueChanged.connect(self.execute_expression)
-		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
+		self.slider.valueChanged.connect(self.executePythonExpression)
+		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
 		self.input.editingFinished.connect(self.cancelValueChange)
 		self.input.returnPressed.connect(self.changeValue)
 		self.input.focusOutEvent = self.cancelValueChange
 		self.decrease.clicked.connect(lambda: self.slider.setValue(self.slider.value()-1))
 		self.increase.clicked.connect(lambda: self.slider.setValue(self.slider.value()+1))
+
+	# Shared Property Methods -------------------
+	def setLabel(self, label: str):
+		self.label_text = label
+		self.label.setText(label).setToolTip(self.label_text)
+	def setLabelIcon(self, label_icon: Icon):
+		self.label.setIcon(QIcon(label_icon))
+	def setLabelIsVisible(self, visible: bool):
+		if visible: self.label.show()
+		else: self.label.hide()
+	def setPythonDriver(self, python_driver_expression: str):
+		self.python_driver_expression = python_driver_expression
+	def setAddKeyframeExpresssion(self, keyframe_expression: str):
+		self.add_keyframe_expression = keyframe_expression
+		if self.remove_keyframe_expression: self.keyframer.show()
+	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
+		self.remove_keyframe_expression = keyframe_expression
+		if self.add_keyframe_expression: self.keyframer.show()
+	def executeAddRemoveKeyframe(self, keyframe: bool):
+		if self.add_keyframe_expression and self.remove_keyframe_expression:
+			if keyframe:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				try: exec(self.add_keyframe_expression)
+				except Exception as error: print(error)
+			else:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				try: exec(self.remove_keyframe_expression)
+				except Exception as error: print(error)
+	def executePythonExpression(self, driver: int):
+		if self.python_driver_expression:
+			try: exec(self.python_driver_expression)
+			except Exception as error: print(error)
+	def executeBlenderFetch(self):
+		if self.blender_fetch_expression:
+			try: exec(self.blender_fetch_expression)
+			except Exception as error: print(error)
+	#IntProperty Methods ------------------------
+
 	def mousePressEvent(self, event):
 		if event.button() == Qt.MouseButton.RightButton:
 			self.slider.hide()
@@ -164,84 +208,99 @@ class IntProperty(QT_Linear_Contents):
 		self.slider.show()
 		self.input.hide()
 	def changeValue(self):
-		val = int(self.input.text())
+		val = int(self.input.label_text())
 		if val > self.max: val = self.max
 		elif val < self.min: val = self.min
 		self.slider.setValue(val)
-	def set_driver_expression(self, driver_expression: str = ""):
-		self.driver_expression = driver_expression
-	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
-		self.add_keyframe_expression = keyframe_expression
-	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
-		self.remove_keyframe_expression = keyframe_expression
-	def set_label(self, value: str = "", enabled: bool = True):
-		self.text = value
-		self.slider.setToolTip(self.text)
-		self.label.setText(value).setToolTip(self.text)
-		if enabled: self.label.show()
-		else: self.label.hide()
-	def set_icon(self, value: Icon = Icon.NONE):
-		self.icon = value
-	def set_min(self, value : int = 0):
+	def setMin(self, value : int = 0):
 		self.min = value
 		self.input.setValidator(QDoubleValidator(value, self.max))
-	def set_max(self, value : int = 1):
+	def setMax(self, value : int = 1):
 		self.max = value
 		self.input.setValidator(QIntValidator(self.min, value))
 	def set_use_soft_limits(self, value : bool = True): pass
-	def set_soft_min(self, value : int = 0):
+	def setSoft_min(self, value : int = 0):
 		self.slider.setRange(value, self.slider.maximum())
-	def set_soft_max(self, value : int = 1):
+	def setSoft_max(self, value : int = 1):
 		self.slider.setRange(self.slider.minimum(), value)
-	def set_step(self, value : int = 1): pass
-	def execute_keyframe(self, keyframe):
-		if keyframe:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
-			try: exec(self.add_keyframe_expression)
-			except Exception as error: print(error)
-		else:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
-			try: exec(self.remove_keyframe_expression)
-			except Exception as error: print(error)
-	def execute_expression(self, driver):
-		self.input.setText(f"{driver}")
-		try: exec(self.driver_expression)
-		except Exception as error: print(error)
-	def fetch(self):
-		if self.fetch_expression:
-			try: exec(self.fetch_expression)
-			except Exception as error: print(error)
+	def setStep(self, value : int = 1): pass
 
 class FloatProperty(QT_Linear_Contents):
+	python_driver_expression = None
+	blender_fetch_expression = None
+	add_keyframe_expression = None
+	remove_keyframe_expression = None
+	label_text = None
+	label_icon = None
+	label_visibility = True
+
+	label : QT_Label
+	keyframer : QT_Button
+
+	min = 0.0
+	max = 1.0
+	step = 0.001
+	precision = 3
+
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
+		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
-		self.driver_expression = ""
-		self.add_keyframe_expression = ""
-		self.remove_keyframe_expression = ""
-		self.fetch_expression = None
-		self.text = ""
-		self.icon = Icon.NONE
-		self.min = 0
-		self.max = 1
-		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
-		self.slider = Float_Slider().setToolTip(self.text)
-		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+		self.slider = Float_Slider().setToolTip(self.label_text)
 
 		self.addWidget(self.label).addWidget(self.slider).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
-		if self.fetch_expression:
+		if self.blender_fetch_expression:
 			try:
-				exec(f"self.input.setText({self.fetch_expression})")
-				exec(f"self.slider.setValue({self.fetch_expression})")
+				exec(f"self.input.setText({self.blender_fetch_expression})")
+				exec(f"self.slider.setValue({self.blender_fetch_expression})")
 			except Exception as error: print(error)
-		self.slider.valueChanged.connect(self.execute_expression)
-		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
+		self.slider.valueChanged.connect(self.executePythonExpression)
+		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
 		self.input.editingFinished.connect(self.cancelValueChange)
 		self.input.returnPressed.connect(self.changeValue)
 		self.input.focusOutEvent = self.cancelValueChange
+
+	# Shared Property Methods -------------------
+	def setLabel(self, label: str):
+		self.label_text = label
+		self.label.setText(label).setToolTip(self.label_text)
+	def setLabelIcon(self, label_icon: Icon):
+		self.label.setIcon(QIcon(label_icon))
+	def setLabelIsVisible(self, visible: bool):
+		if visible: self.label.show()
+		else: self.label.hide()
+	def setPythonDriver(self, python_driver_expression: str):
+		self.python_driver_expression = python_driver_expression
+	def setAddKeyframeExpresssion(self, keyframe_expression: str):
+		self.add_keyframe_expression = keyframe_expression
+		if self.remove_keyframe_expression: self.keyframer.show()
+	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
+		self.remove_keyframe_expression = keyframe_expression
+		if self.add_keyframe_expression: self.keyframer.show()
+	def executeAddRemoveKeyframe(self, keyframe: bool):
+		if self.add_keyframe_expression and self.remove_keyframe_expression:
+			if keyframe:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				try: exec(self.add_keyframe_expression)
+				except Exception as error: print(error)
+			else:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				try: exec(self.remove_keyframe_expression)
+				except Exception as error: print(error)
+	def executePythonExpression(self, driver: float):
+		if self.python_driver_expression:
+			try: exec(self.python_driver_expression)
+			except Exception as error: print(error)
+	def executeBlenderFetch(self):
+		if self.blender_fetch_expression:
+			try: exec(self.blender_fetch_expression)
+			except Exception as error: print(error)
+	#
+
 	def mousePressEvent(self, event):
 		if event.button() == Qt.MouseButton.RightButton:
 			self.slider.hide()
@@ -251,24 +310,12 @@ class FloatProperty(QT_Linear_Contents):
 		self.slider.show()
 		self.input.hide()
 	def changeValue(self):
-		val = float(self.input.text())
+		val = float(self.input.label_text())
 		if val > self.max: val = self.max
 		elif val < self.min: val = self.min
 		self.slider.setValue(val)
-	def set_driver_expression(self, driver_expression: str = ""):
-		self.driver_expression = driver_expression
-	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
-		self.add_keyframe_expression = keyframe_expression
-	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
-		self.remove_keyframe_expression = keyframe_expression
-	def set_label(self, value: str = "", enabled: bool = True):
-		self.text = value
-		self.slider.setToolTip(self.text)
-		self.label.setText(value).setToolTip(self.text)
-		if enabled: self.label.show()
-		else: self.label.hide()
-	def set_icon(self, value: Icon = Icon.NONE):
-		self.icon = value
+	def set_label_icon(self, value: Icon = None):
+		self.label_icon = value
 	def set_min(self, value : float = 0.0):
 		self.min = value
 		self.input.setValidator(QDoubleValidator(decimals = 10))
@@ -283,118 +330,130 @@ class FloatProperty(QT_Linear_Contents):
 	def set_step(self, value : float = 0.1): pass
 	def set_precision(self, value: int = 3):
 		self.slider.precision = value
-	def execute_keyframe(self, keyframe):
-		if keyframe:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
-			try: exec(self.add_keyframe_expression)
-			except Exception as error: print(error)
-		else:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
-			try: exec(self.remove_keyframe_expression)
-			except Exception as error: print(error)
-	def execute_expression(self, driver):
-		self.input.setText(f"{driver / self.slider.divider}")
-		driver = float(driver / self.slider.divider)
-		try: exec(self.driver_expression)
-		except Exception as error: print(error)
-	def fetch(self):
-		if self.fetch_expression:
-			try: exec(self.fetch_expression)
-			except Exception as error: print(error)
 
 class BoolProperty(QT_Linear_Contents):
+	python_driver_expression = None
+	blender_fetch_expression = None
+	add_keyframe_expression = None
+	remove_keyframe_expression = None
+	label_text = None
+	label_icon = None
+	label_visibility = True
+
+	label : QT_Label
+	keyframer : QT_Button
+
+	button_text = None
+	button_icon = None
+
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
+		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
-		self.driver_expression = ""
-		self.add_keyframe_expression = ""
-		self.remove_keyframe_expression = ""
-		self.fetch_expression = None
-		self.text = ""
-		self.icon = Icon.NONE
-
-		self.label = QT_Label().setText(self.text).setToolTip(self.text).setFixedWidth(120)
-		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.text).setToolTip(self.text)
+		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.label_text).setToolTip(self.label_text)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
 
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
-		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
-		self.input.clicked.connect(self.execute_expression)
-	def set_label(self, value: str = "", enabled: bool = False):
-		self.text = value
-		self.label.setText(value).setToolTip(self.text)
-		self.input.setText(value).setToolTip(self.text)
-		if enabled: self.label.show()
+		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
+		self.input.clicked.connect(self.executePythonExpression)
+
+	# Shared Property Methods -------------------
+	def setLabel(self, label: str):
+		self.label_text = label
+		self.label.setText(label).setToolTip(self.label_text)
+	def setLabelIcon(self, label_icon: Icon):
+		self.label.setIcon(QIcon(label_icon))
+	def setLabelIsVisible(self, visible: bool):
+		if visible: self.label.show()
 		else: self.label.hide()
-	def set_driver_expression(self, driver_expression: str = ""):
-		self.driver_expression = driver_expression
-	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
+	def setPythonDriver(self, python_driver_expression: str):
+		self.python_driver_expression = python_driver_expression
+	def setAddKeyframeExpresssion(self, keyframe_expression: str):
 		self.add_keyframe_expression = keyframe_expression
-	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
+		if self.remove_keyframe_expression: self.keyframer.show()
+	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
 		self.remove_keyframe_expression = keyframe_expression
-	def execute_keyframe(self, keyframe):
-		if keyframe:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
-			try: exec(self.add_keyframe_expression)
+		if self.add_keyframe_expression: self.keyframer.show()
+	def executeAddRemoveKeyframe(self, keyframe: bool):
+		if self.add_keyframe_expression and self.remove_keyframe_expression:
+			if keyframe:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				try: exec(self.add_keyframe_expression)
+				except Exception as error: print(error)
+			else:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				try: exec(self.remove_keyframe_expression)
+				except Exception as error: print(error)
+	def executePythonExpression(self, driver: bool):
+		if self.python_driver_expression:
+			try: exec(self.python_driver_expression)
 			except Exception as error: print(error)
-		else:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
-			try: exec(self.remove_keyframe_expression)
-			except Exception as error: print(error)
-	def execute_expression(self, driver):
-		try: exec(self.driver_expression)
-		except Exception as error: print(error)
-	def fetch(self):
-		if self.fetch_expression:
-			try: exec(self.fetch_expression)
+	def executeBlenderFetch(self):
+		if self.blender_fetch_expression:
+			try: exec(self.blender_fetch_expression)
 			except Exception as error: print(error)
 
 class EnumProperty(QT_Linear_Contents):
+	python_driver_expression = None
+	blender_fetch_expression = None
+	add_keyframe_expression = None
+	remove_keyframe_expression = None
+	label_text = None
+	label_icon = None
+	label_visibility = True
+
+	label : QT_Label
+	keyframer : QT_Button
+
+	dropdown_mode = True
+
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
+		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
-		self.driver_expression = ""
-		self.add_keyframe_expression = ""
-		self.remove_keyframe_expression = ""
-		self.fetch_expression = None
-		self.text = ""
-		self.icon = Icon.NONE
-
-		self.label = QT_Label().setText(self.text).setFixedWidth(120).setToolTip(self.text)
 		self.input = QT_Option().addItem("Item")
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
-
+		
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
-		self.keyframer.clicked.connect(lambda clicked: self.execute_keyframe(clicked))
-	def set_label(self, value: str = "", enabled: bool = True):
-		self.text = value
-		self.label.setText(value).setToolTip(self.text)
-		if enabled: self.label.show()
+		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
+
+	# Shared Property Methods -------------------
+	def setLabel(self, label: str):
+		self.label_text = label
+		self.label.setText(label).setToolTip(self.label_text)
+	def setLabelIcon(self, label_icon: Icon):
+		self.label.setIcon(QIcon(label_icon))
+	def setLabelIsVisible(self, visible: bool):
+		if visible: self.label.show()
 		else: self.label.hide()
-	def set_driver_expression(self, driver_expression: str = ""):
-		self.driver_expression = driver_expression
-	def set_add_keyframe_expression(self, keyframe_expression: str = ""):
+	def setPythonDriver(self, python_driver_expression: str):
+		self.python_driver_expression = python_driver_expression
+	def setAddKeyframeExpresssion(self, keyframe_expression: str):
 		self.add_keyframe_expression = keyframe_expression
-	def set_remove_keyframe_expression(self, keyframe_expression: str = ""):
+		if self.remove_keyframe_expression: self.keyframer.show()
+	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
 		self.remove_keyframe_expression = keyframe_expression
-	def execute_keyframe(self, keyframe):
-		if keyframe:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
-			try: exec(self.add_keyframe_expression)
+		if self.add_keyframe_expression: self.keyframer.show()
+	def executeAddRemoveKeyframe(self, keyframe: bool):
+		if self.add_keyframe_expression and self.remove_keyframe_expression:
+			if keyframe:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				try: exec(self.add_keyframe_expression)
+				except Exception as error: print(error)
+			else:
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				try: exec(self.remove_keyframe_expression)
+				except Exception as error: print(error)
+	def executePythonExpression(self, driver: str):
+		if self.python_driver_expression:
+			try: exec(self.python_driver_expression)
 			except Exception as error: print(error)
-		else:
-			self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
-			try: exec(self.remove_keyframe_expression)
-			except Exception as error: print(error)
-	def execute_expression(self, driver):
-		try: exec(self.driver_expression)
-		except Exception as error: print(error)
-	def fetch(self):
-		if self.fetch_expression:
-			try: exec(self.fetch_expression)
+	def executeBlenderFetch(self):
+		if self.blender_fetch_expression:
+			try: exec(self.blender_fetch_expression)
 			except Exception as error: print(error)
 
 # LAYOUT-------------------------------------------------------------------------------------------
@@ -416,15 +475,15 @@ class Row(QT_Linear_Contents):
 		box = Box()
 		self.addWidget(box)
 		return box
-	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
-		dropdown = Dropdown(text)
+	def dropdown(self, label_text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(label_text)
 		self.addWidget(dropdown)
 		return dropdown
-	def list(self, text: str = "List"):
-		list = Search_List(text)
+	def list(self, label_text: str = "List"):
+		list = Search_List(label_text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window: 'DRIVER_Program_Window' = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			self.addWidget(prop)
@@ -437,7 +496,7 @@ class Row(QT_Linear_Contents):
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			self.addWidget(prop)
-		window.Properties.append(prop)
+		if window: window.Properties.append(prop)
 		return prop
 
 class Column(QT_Linear_Contents):
@@ -456,15 +515,15 @@ class Column(QT_Linear_Contents):
 		box = Box()
 		self.addWidget(box)
 		return box
-	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
-		dropdown = Dropdown(text)
+	def dropdown(self, label_text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(label_text)
 		self.addWidget(dropdown)
 		return dropdown
-	def list(self, text: str = "List"):
-		list = Search_List(text)
+	def list(self, label_text: str = "List"):
+		list = Search_List(label_text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			self.addWidget(prop)
@@ -477,7 +536,7 @@ class Column(QT_Linear_Contents):
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			self.addWidget(prop)
-		window.Properties.append(prop)
+		if window: window.Properties.append(prop)
 		return prop
 
 class Box(QT_Linear_Contents):
@@ -497,15 +556,15 @@ class Box(QT_Linear_Contents):
 		box = Box()
 		self.addWidget(box)
 		return box
-	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
-		dropdown = Dropdown(text)
+	def dropdown(self, label_text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(label_text)
 		self.addWidget(dropdown)
 		return dropdown
-	def list(self, text: str = "List"):
-		list = Search_List(text)
+	def list(self, label_text: str = "List"):
+		list = Search_List(label_text)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			self.addWidget(prop)
@@ -518,13 +577,13 @@ class Box(QT_Linear_Contents):
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			self.addWidget(prop)
-		window.Properties.append(prop)
+		if window: window.Properties.append(prop)
 		return prop
 
 class Dropdown(QT_Linear_Contents):
-	def __init__(self, text):
+	def __init__(self, label_text):
 		super().__init__(True)
-		self.Toggle = QT_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText(label_text).setToolTip(label_text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
@@ -549,15 +608,15 @@ class Dropdown(QT_Linear_Contents):
 		box = Box()
 		self.Container.addWidget(box)
 		return box
-	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
-		dropdown = Dropdown(text)
+	def dropdown(self, label_text: str = "Dropdown") -> 'Dropdown':
+		dropdown = Dropdown(label_text)
 		self.Container.addWidget(dropdown)
 		return dropdown
-	def list(self, text: str = "List"):
-		list = Search_List(text)
+	def list(self, label_text: str = "List"):
+		list = Search_List(label_text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			self.Container.addWidget(prop)
@@ -570,15 +629,15 @@ class Dropdown(QT_Linear_Contents):
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			self.Container.addWidget(prop)
-		window.Properties.append(prop)
+		if window: window.Properties.append(prop)
 		return prop
 
 class Search_List(QT_Linear_Contents):
-	def __init__(self, text):
+	def __init__(self, label_text):
 		super().__init__(True)
 		self.SearchBar = QT_Line_Editor().setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/viewzoom.svg"))
 		self.SearchBar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-		self.Toggle = QT_Button().setStyleName("Dropdown").setText(text).setToolTip(text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText(label_text).setToolTip(label_text).setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
@@ -604,15 +663,15 @@ class Search_List(QT_Linear_Contents):
 		box = Box()
 		self.Container.addWidget(box)
 		return box
-	def dropdown(self, text: str = "Dropdown") -> 'Dropdown':
-		dropdown = Dropdown(text)
+	def dropdown(self, label_text: str) -> 'Dropdown':
+		dropdown = Dropdown(label_text)
 		self.Container.addWidget(dropdown)
 		return dropdown
-	def list(self, text: str = "List"):
-		list = Search_List(text)
+	def list(self, label_text: str):
+		list = Search_List(label_text)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
+	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
 			self.Container.addWidget(prop)
@@ -625,5 +684,5 @@ class Search_List(QT_Linear_Contents):
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
 			self.Container.addWidget(prop)
-		window.Properties.append(prop)
+		if window: window.Properties.append(prop)
 		return prop

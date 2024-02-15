@@ -78,7 +78,7 @@ class DRIVER_Program_Window(QT_Window):
 
 	def focusInEvent(self, event: QFocusEvent):
 		for widget in self.Properties:
-			try: widget.fetch()
+			try: widget.executeBlenderFetch()
 			except Exception as err: print(err)
 
 	def quit(self):

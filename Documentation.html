@@ -420,14 +420,16 @@ prop<def>.setBlenderFetch</def><brck>(</brck><str>"driver = True if bpy.data.obj
 </div></div></div>
 	<desc>Set expression to update UI value on blender value change.</desc>
 
-<div><def>.setAddKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
+<des>- Both keyframe expressions <u>MUST</u> be set for the button to become visible.</des>
+
+<div><def>.setAddKeyframeExpresssion</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
 <button class="Example T8" onclick="toggleCollapsible('setAddKeyframeExample')">Examples</button><div class="Dropdown" id="setAddKeyframeExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
 prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>FLOAT</enum><brck>)</brck>
 prop<def>.setAddKeyframe</def><brck>(</brck><str>"bpy.data.objects['Cube'].keyframe_delete(data_path = 'data.shape_keys.key_blocks[\"Slant\"].value', frame = current_frame)"</str><brck>)</brck>
 </div></div></div>
 	<desc>Set add_keyframe expression.</desc>
 
-<div><def>.setRemoveKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
+<div><def>.setRemoveKeyframeExpression</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
 <button class="Example T8" onclick="toggleCollapsible('setRemoveKeyframeExample')">Examples</button><div class="Dropdown" id="setRemoveKeyframeExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
 prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
 prop<def>.setRemoveKeyframe</def><brck>(</brck><str>"bpy.data.objects['Cube'].keyframe_insert(data_path = 'data.shape_keys.key_blocks[\"Slant\"].value', frame = current_frame)"</str><brck>)</brck>

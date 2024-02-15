@@ -3,12 +3,15 @@ from BUI import *
 class Central_Layout(QT_Window):
 	def __init__(self):
 		super().__init__()
-		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/file_refresh.svg"))
-		Reload_Analyzer.clicked.connect(self.processUI)
+		self.uid = 0
+		self.uid = self.setUID(self.uid)
 
-		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon("./Resources/panel_close.svg"))
-		Exit_Analyzer.clicked.connect(self.quit)
+		self.mouse_pressed = False
+		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/file_refresh.svg"))
+		Reload_Analyzer.clicked.connect(lambda: self.quit())
+
+		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/panel_close.svg"))
+		Exit_Analyzer.clicked.connect(lambda: self.close())
 
 		self.BUI_Header = Row()
 		self.BUI_Header.setContentsMargins(5,5,5,5)
@@ -19,16 +22,21 @@ class Central_Layout(QT_Window):
 
 		self.BUI_Layout = Column()
 		self.BUI_Layout.setContentsMargins(5,5,5,5)
+		self.uid = self.BUI_Layout.setUID(self.uid)
 		self.Properties = []
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
 		self.setCentralWidget(BUI_Splitter)
 
-		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
 		self.processUI()
-		self.showNormal()
+		self.loadSettings()
 
-	def processUI(self):
+	def loadSettings(self):
+		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+		self.restore()
+		self.show()
+
+	def processUI(self) -> Column:
 		QApplication.instance().setStyleSheet(open(PATH+"/Resources/Stylesheet.css","r").read())
 		self.BUI_Layout.clear()
 
@@ -53,13 +61,34 @@ class Central_Layout(QT_Window):
 		super().mousePressEvent(event)
 
 	def quit(self):
+		self.save()
 		self.close()
-		QCoreApplication.quit()
-		QCoreApplication.exit()
-		QCoreApplication.instance().quit()
-		QCoreApplication.instance().exit()
 
-	def focusInEvent(self, event: QFocusEvent):
-		for widget in self.Properties:
-			try: widget.fetch()
-			except Exception as err: print(err)
+	def restore(self):
+		if os.path.exists(PATH+"/Resources/BUI.json"):
+			settings = json.loads(open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8"))
+			for widget in QApplication().allWidgets():
+				if widget.whatsThis() != "":
+					mo = widget.metaObject()
+					for i in range(mo.propertyCount()):
+						widget.setProperty(settings[f"{widget.whatsThis()}//{mo.property(i).name()}"])
+
+	def save(self):
+		settings = {}
+		for widget in QApplication().allWidgets():
+			if widget.whatsThis() != "":
+				mo = widget.metaObject()
+				for i in range(mo.propertyCount()):
+					settings[f"{widget.whatsThis()}//{mo.property(i).name()}"] = widget.property(mo.property(i).name())
+		open(PATH+"/Resources/BUI.json", "w", encoding = "utf-8").write(json.dump(settings))
+
+	def row(self) -> Row:
+		return self.BUI_Layout.row()
+	def column(self) -> Column:
+		return self.BUI_Layout.column()
+	def box(self) -> Box:
+		return self.BUI_Layout.box()
+	def dropdown(self) -> Dropdown:
+		return self.BUI_Layout.dropdown()
+	def list(self) -> Search_List:
+		return self.BUI_Layout.list()
