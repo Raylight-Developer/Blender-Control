@@ -43,12 +43,16 @@
 		tab-size: 4;
 		white-space: pre-wrap;
 	}
+	h4 {
+		margin: 0;
+		padding: 5px;
+	}
 	body {
 		background: rgb(30,30,30);
 	}
 	div {
 		position: relative;
-		background: rgb(75,75,75);
+		background: rgba(255,255,255, 0.15);
 		border-radius: 10px;
 		padding: 10px;
 	}
@@ -97,9 +101,17 @@
 		color: rgb(185, 160, 245);
 	}
 	opt {
+		position: absolute;
+		right: 15px;
+		margin-top: 5px;
+		font-size: xx-small;
 		color: rgb(255, 115, 115);
 	}
 	req {
+		position: absolute;
+		right: 15px;
+		margin-top: 5px;
+		font-size: xx-small;
 		color: rgb(115, 255, 120);
 	}
 	str {
@@ -138,7 +150,7 @@
 	.Example {
 		font-weight: 500;
 		position: absolute;
-		bottom: 0px;
+		top: 0px;
 		right: 0px;
 		padding: 2px;
 		padding-left: 5px;
@@ -146,17 +158,41 @@
 		background: rgba(145, 205, 255, 0.4);
 		color: rgb(255, 255, 255);
 		border-radius: 10px;
+		cursor: pointer;
 	}
-	a:hover {
+	a:hover, .Example:hover {
 		color: rgb(150, 205, 255);
 	}
-
-
+	.Code {
+		background: rgb(30,30,30);
+	}
+	.Dropdown {
+		/*display: none;
+		overflow: hidden;*/
+	}
 </style>
+
+
+<script>
+	function toggleCollapsible(sectionId) {
+		var content = document.getElementById(sectionId);
+		var button = document.getElementById(sectionId);
+
+		if (content.style.display === "block") {
+			content.style.display = "none";
+			button.classList.remove("active");
+		} else {
+			content.style.display = "block";
+			button.classList.add("active");
+		}
+	}
+</script>
+
+
 <body>
 <h1>Blender DRIVER Documentation</h1>
 <h2>Sections</h2>
-<pre class="Box"><a class="Example T8" href="#">Examples</a>
+<pre class="Box">
 <a class="T3" href="#Enums">Enumerators</a>
 	<a class="T4" href="#Prop_Type">Prop_Type</a>
 	<a class="T4" href="#Icon">Icon</a>
@@ -181,7 +217,11 @@
 	<a class="T4" href="#BoolProperty">BoolProperty</a>
 	<a class="T4" href="#EnumProperty">EnumProperty</a>
 	<a class="T4" href="#SharedPropMethods">Shared Property Methods</a>
+
+<a class="T3" href="#Examples">Code Examples</a>
 </pre>
+
+
 <h2 id="Enums">Enumerators</h2>
 <h3 id="Prop_Type"><func>Enum</func> <class>Prop_Type</class></h3>
 <pre>
@@ -224,6 +264,7 @@ ENUM</enum>
 </div>
 </pre>
 
+
 <h2 id="Layout_Methods">Layout Methods</h2>
 <h3><def>row</def></h3>
 <pre>
@@ -246,14 +287,14 @@ ENUM</enum>
 <h3><def>dropdown</def></h3>
 <pre>
 <div id="dropdown"><def>.dropdown</def><brck>(</brck>
-	text <opt>(optional)</opt> : <class>String</class>
+	text : <class>String</class><opt>(Opt)</opt>
 <brck>)</brck> <func>return</func> <class>Dropdown</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
 <h3><def>list</def></h3>
 <pre>
 <div id="list"><def>.list</def><brck>(</brck>
-	text <opt>(optional)</opt> : <class>String</class>
+	text : <class>String</class><opt>(Opt)</opt>
 <brck>)</brck> <func>return</func> <class>Search_List</class><a class="Example T8" href="#">Examples</a>
 </div>
 </pre>
@@ -261,18 +302,18 @@ ENUM</enum>
 <h3><def>prop</def></h3>
 <pre>
 <div id="prop"><def>.prop</def><brck>(</brck>
-	prop_type <req>(required)</req> : <class>Prop_Type.</class><enum>ENUM</enum>
-	register  <opt>(optional)</opt> : <type>self</type>
-	label     <opt>(optional)</opt> : <class>String</class>
-	icon      <opt>(optional)</opt> : <class>Icon.</class><enum>ENUM</enum>
-<brck>)</brck> <func>return</func> <class>[ IntProperty | BoolProperty | FloatProperty | EnumProperty ]</class><a class="Example T8" href="#">Examples</a>
+	prop_type : <class>Prop_Type.</class><enum>ENUM</enum><req>(Req)</req>
+	register  : <type>self</type><opt>(Opt)</opt>
+	label     : <class>String</class><opt>(Opt)</opt>
+	icon      : <class>Icon.</class><enum>ENUM</enum><opt>(Opt)</opt>
+<brck>)</brck> <func>return</func> <class>IntProperty | BoolProperty | FloatProperty | EnumProperty</class><a class="Example T8" href="#">Examples</a>
 </div>
 prop_type : <desc>Type of the driver, set from the Enum.</desc>
 register  : <desc>If set to self, the property will be refreshed with the changes made in blender. Else its value will not change in sync with blender.</desc>
 </pre>
 
-<h2 id="Properties">Properties</h2>
 
+<h2 id="Properties">Properties</h2>
 <h3 id="IntProperty"><class>IntProperty </class></h3>
 <pre>
 <div><def>.setMin</def><brck>(</brck> min : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
@@ -325,32 +366,72 @@ register  : <desc>If set to self, the property will be refreshed with the change
 </pre>
 <h3 id="EnumProperty"><class>EnumProperty</class></h3>
 <pre>
+<div><def>.setEnumItems</def><brck>(</brck> items : <class>List[ String ]</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>Set the available enumerators of the button.</desc>
+
+<div><def>.setToggleMode</def><brck>(</brck> toggle_mode : <class>Boolean</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>If true it makes a button for each item. Else it will remain as a dropdown option.</desc>
 </pre>
 
 <h3 id="SharedPropMethods">Shared Property Methods</h3>
 <pre>
-<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
-</div>
+<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setLabelExample')">Examples</button><div class="Dropdown" id="setLabelExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
+prop<def>.setLabel</def><brck>(</brck><str>"My Label"</str><brck>)</brck>
+</div></div></div>
 	<desc>Set the labels and the tooltips text.</desc>
 
-<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck><a class="Example T8" href="#">Examples</a>
-</div>
+<div><def>.setLabelIcon</def><brck>(</brck> icon : <class>Icon.</class><enum>ENUM</enum> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setLabelIconExample')">Examples</button><div class="Dropdown" id="setLabelIconExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
+prop<def>.setLabelIcon</def><brck>(</brck><class>Icon.</class><enum>SHAPEKEY</enum><brck>)</brck>
+</div></div></div>
 	<desc>Set the icon of the label.</desc>
 
-<div><def>.setLabelIsVisible</def><brck>(</brck> visible : <class>Boolean</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
-</div>
+<div><def>.setLabelIsVisible</def><brck>(</brck> visible : <class>Boolean</class> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setLabelIsVisibleExample')">Examples</button><div class="Dropdown" id="setLabelIsVisibleExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
+prop<def>.setLabelIsVisible</def><brck>(</brck><type>False</type><brck>)</brck>
+</div></div></div>
 	<desc>Whether the label should be visible.</desc>
 
-<div><def>.setPythonDriver</def><brck>(</brck> expr : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+<div><def>.setPythonDriver</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setPythonDriverExample')">Examples</button><div class="Dropdown" id="setAddKeyframeExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>FLOAT</enum><brck>)</brck>
+prop<def>.setAddKeyframe</def><brck>(</brck><str>"bpy.data.objects['Cube'].data.shape_keys.key_blocks['Slant'].value = driver"</str><brck>)</brck>
 </div>
-	<desc>Python Driver Expression.</desc>
+<div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
+prop<def>.setAddKeyframe</def><brck>(</brck><str>"bpy.data.objects['Cube'].data.shape_keys.key_blocks['Slant'].value = 1.0 if driver == True else 0.0"</str><brck>)</brck>
+</div></div></div>
+	<desc>Set python driver expression that changes data with bpy using the input 'driver' variable.</desc>
 
-<div><def>.setAddKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+<div><def>.setBlenderFetch</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setBlenderFetchExample')">Examples</button><div class="Dropdown" id="setBlenderFetchExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>FLOAT</enum><brck>)</brck>
+prop<def>.setBlenderFetch</def><brck>(</brck><str>"driver = bpy.data.objects['Cube'].data.shape_keys.key_blocks['Slant'].value"</str><brck>)</brck>
 </div>
-	<desc>Add Keyframe Expression.</desc>
+<div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
+prop<def>.setBlenderFetch</def><brck>(</brck><str>"driver = True if bpy.data.objects['Cube'].data.shape_keys.key_blocks['Slant'].value driver >= 0.5 else False"</str><brck>)</brck>
+</div></div></div>
+	<desc>Set expression to update UI value on blender value change.</desc>
 
-<div><def>.setRemoveKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
-</div>
-	<desc>Remove Keyframe Expression.</desc>
+<div><def>.setAddKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setAddKeyframeExample')">Examples</button><div class="Dropdown" id="setAddKeyframeExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>FLOAT</enum><brck>)</brck>
+prop<def>.setAddKeyframe</def><brck>(</brck><str>"bpy.data.objects['Cube'].keyframe_delete(data_path = 'data.shape_keys.key_blocks[\"Slant\"].value', frame = current_frame)"</str><brck>)</brck>
+</div></div></div>
+	<desc>Set add_keyframe expression.</desc>
+
+<div><def>.setRemoveKeyframe</def><brck>(</brck> expr : <class>String</class> <brck>)</brck>
+<button class="Example T8" onclick="toggleCollapsible('setRemoveKeyframeExample')">Examples</button><div class="Dropdown" id="setRemoveKeyframeExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>
+prop = row<def>.prop</def><brck>(</brck><class>Prop_Typ.</class><enum>BOOL</enum><brck>)</brck>
+prop<def>.setRemoveKeyframe</def><brck>(</brck><str>"bpy.data.objects['Cube'].keyframe_insert(data_path = 'data.shape_keys.key_blocks[\"Slant\"].value', frame = current_frame)"</str><brck>)</brck>
+</div></div></div>
+	<desc>Set remove_keyframe expression.</desc>
 </pre>
 </body>

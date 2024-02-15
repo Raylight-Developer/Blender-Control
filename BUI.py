@@ -467,19 +467,15 @@ class Column(QT_Linear_Contents):
 	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.INT:
 			prop = IntProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
@@ -512,19 +508,15 @@ class Box(QT_Linear_Contents):
 	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.INT:
 			prop = IntProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
-			prop.set_label(text)
 			self.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
@@ -568,19 +560,15 @@ class Dropdown(QT_Linear_Contents):
 	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Prop_Type.INT:
 			prop = IntProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		window.Properties.append(prop)
 		return prop
@@ -627,19 +615,15 @@ class Search_List(QT_Linear_Contents):
 	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty | EnumProperty]:
 		if type == Prop_Type.FLOAT:
 			prop = FloatProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Prop_Type.INT:
 			prop = IntProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Prop_Type.BOOL:
 			prop = BoolProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		elif type == Prop_Type.ENUM:
 			prop = EnumProperty()
-			prop.set_label(text)
 			self.Container.addWidget(prop)
 		window.Properties.append(prop)
 		return prop

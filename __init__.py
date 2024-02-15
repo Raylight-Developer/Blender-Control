@@ -49,7 +49,8 @@ class DRIVER_Program_Window(QT_Window):
 	def processUI(self):
 		self.BUI_Layout.clear()
 		layout = self.BUI_Layout
-		code = bpy.data.texts.get("DRIVER").as_string()
+		code: str = bpy.data.texts.get("DRIVER").as_string()
+		code = code.replace('\"', '"')
 		exec(code)
 		for widget in self.Properties:
 			try: widget.fetch()

@@ -7,17 +7,17 @@ class Tesing_Window(Central_Layout):
 
 		# TEST YOUR CODE HERE (code) -----------------------------
 		row : Row = layout.row()
-		test: FloatProperty = row.prop(Prop_Type.FLOAT, self, "Test Float")
+		test: FloatProperty = row.prop(Prop_Type.FLOAT, self)
 		row : Row = layout.row()
 		dropdown: Dropdown = layout.dropdown()
-		test: IntProperty = dropdown.prop(Prop_Type.INT, self, "Test Int")
-		test: BoolProperty = dropdown.prop(Prop_Type.BOOL, self, "Test Bool")
-		test: IntProperty = dropdown.prop(Prop_Type.INT, self, "Test Integer Number walalala")
-		test: IntProperty = dropdown.prop(Prop_Type.INT, self, "Test Int 5")
+		test: IntProperty = dropdown.prop(Prop_Type.INT, self)
+		test: BoolProperty = dropdown.prop(Prop_Type.BOOL, self)
+		test: IntProperty = dropdown.prop(Prop_Type.INT, self)
+		test: IntProperty = dropdown.prop(Prop_Type.INT, self)
 		row = dropdown.row()
 		dropdown: Dropdown = row.dropdown()
 		list: Search_List = row.list()
-		list.prop(Prop_Type.ENUM, self, "Enum")
+		list.prop(Prop_Type.ENUM, self)
 		#----------------------------------------
 
 App = QApplication()
