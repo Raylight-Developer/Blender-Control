@@ -1,4 +1,8 @@
-from Layout import *
+try: from .Layout import *
+except: from Layout import *
+
+try: import bpy
+except: pass
 
 class DRIVER_Program_Window(QT_Window):
 	def __init__(self):
@@ -51,6 +55,7 @@ class DRIVER_Program_Window(QT_Window):
 				try: widget.executeBlenderFetch()
 				except Exception as err: print(err)
 		except: pass
+		layout.restore()
 
 	def eventFilter(self, source, event: QEvent | QMouseEvent | QKeyEvent):
 		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
@@ -106,14 +111,14 @@ class DRIVER_Program_Window(QT_Window):
 				try:
 					if isinstance(widget, Dropdown):
 						widget: Dropdown = widget
-						widget.restoreState(settings[f"{type(widget)} || {widget.whatsThis()}"])
+						widget.restoreState(settings[f"Dropdown || {widget.whatsThis()}"])
 					elif isinstance(widget, Search_List):
 						widget: Search_List = widget
-						widget.restoreState(settings[f"{type(widget)} || {widget.whatsThis()}"])
+						widget.restoreState(settings[f"Search_List || {widget.whatsThis()}"])
 					elif isinstance(widget, QT_Window):
 						widget: QT_Window =  widget
-						widget.restoreState(settings[f"{type(widget)} || {widget.whatsThis()}"])
-				except Exception as err: print(err)
+						widget.restoreState(settings[f"QT_Window || {widget.whatsThis()}"])
+				except: pass
 
 	def save(self):
 		settings = {}
@@ -122,14 +127,14 @@ class DRIVER_Program_Window(QT_Window):
 				try:
 					if isinstance(widget, Dropdown):
 						widget: Dropdown = widget
-						settings[f"{type(widget)} || {widget.whatsThis()}"] = widget.saveState()
+						settings[f"Dropdown || {widget.whatsThis()}"] = widget.saveState()
 					elif isinstance(widget, Search_List):
 						widget: Search_List = widget
-						settings[f"{type(widget)} || {widget.whatsThis()}"] = widget.saveState()
+						settings[f"Search_List || {widget.whatsThis()}"] = widget.saveState()
 					elif isinstance(widget, QT_Window):
 						widget: QT_Window =  widget
-						settings[f"{type(widget)} || {widget.whatsThis()}"] = widget.saveState()
-				except Exception as err: print(err)
+						settings[f"QT_Window || {widget.whatsThis()}"] = widget.saveState()
+				except: pass
 
 		try:
 			file = bpy.data.texts.get("DRIVER Settings")

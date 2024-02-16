@@ -1,9 +1,5 @@
-from BUI import *
-
-from Items.IntProperty import *
-from Items.BoolProperty import *
-from Items.EnumProperty import*
-from Items.FloatProperty import*
+try: from .Items import *
+except: from Items import*
 
 class Row(QT_Linear_Contents):
 	def __init__(self):
@@ -73,7 +69,6 @@ class Column(QT_Linear_Contents):
 	def column(self) -> 'Column':
 		column = Column()
 		self.uid = column.setUID(self.uid)
-		
 		self.addWidget(column)
 		return column
 	def box(self) -> 'Box':

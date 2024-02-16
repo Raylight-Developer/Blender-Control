@@ -14,7 +14,8 @@ bl_info = {
 pip.main(["install", "PySide6", "--user"])
 
 #--------------------------------------------------------------------------------------------------
-from .Window_Env import *
+try: from .Window_Env import *
+except: from Window_Env import *
 #--------------------------------------------------------------------------------------------------
 
 class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
@@ -25,6 +26,7 @@ class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
 		self._widget = widget
 		self._args = args
 		self._kwargs = kwargs
+		self.App = None
 
 	def modal(self, context, event):
 		Window_Manager = context.window_manager
@@ -39,7 +41,6 @@ class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
 		return {'PASS_THROUGH'}
 
 	def execute(self, context):
-		self.App = QApplication.instance()
 		if not self.App:
 			self.App = QApplication(sys.argv)
 
