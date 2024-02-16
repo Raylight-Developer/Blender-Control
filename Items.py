@@ -1,7 +1,7 @@
 try: from .BUI import *
 except: from BUI import *
 
-class BoolProperty(QT_Linear_Contents):
+class B_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
 	blender_fetch_expression = None
 	add_keyframe_expression = None
@@ -68,7 +68,7 @@ class BoolProperty(QT_Linear_Contents):
 			try: exec(self.blender_fetch_expression)
 			except Exception as error: print(error)
 
-class EnumProperty(QT_Linear_Contents):
+class E_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
 	blender_fetch_expression = None
 	add_keyframe_expression = None
@@ -132,7 +132,7 @@ class EnumProperty(QT_Linear_Contents):
 			try: exec(self.blender_fetch_expression)
 			except Exception as error: print(error)
 			
-class FloatProperty(QT_Linear_Contents):
+class F_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
 	blender_fetch_expression = None
 	add_keyframe_expression = None
@@ -242,7 +242,7 @@ class FloatProperty(QT_Linear_Contents):
 		self.slider.precision = value
 
 		
-class IntProperty(QT_Linear_Contents):
+class I_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
 	blender_fetch_expression = None
 	add_keyframe_expression = None

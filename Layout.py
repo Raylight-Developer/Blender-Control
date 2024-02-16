@@ -1,7 +1,7 @@
 try: from .Items import *
 except: from Items import*
 
-class Row(QT_Linear_Contents):
+class HBox(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
 		self.Linear_Layout.setSpacing(5)
@@ -9,161 +9,90 @@ class Row(QT_Linear_Contents):
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid
-	def row(self) -> 'Row':
-		row = Row()
-		self.uid = row.setUID(self.uid)
-		self.addWidget(row)
-		return row
-	def column(self) -> 'Column':
-		column = Column()
-		self.uid = column.setUID(self.uid)
-		self.addWidget(column)
-		return column
+	def hbox(self) -> 'HBox':
+		hbox = HBox()
+		self.uid = hbox.setUID(self.uid)
+		self.addWidget(hbox)
+		return hbox
+	def vbox(self) -> 'VBox':
+		vbox = VBox()
+		self.uid = vbox.setUID(self.uid)
+		self.addWidget(vbox)
+		return vbox
 	def box(self) -> 'Box':
 		box = Box()
 		self.uid = box.setUID(self.uid)
 		self.addWidget(box)
 		return box
-	def dropdown(self) -> 'Dropdown':
-		dropdown = Dropdown()
-		self.uid = dropdown.setUID(self.uid)
-		self.addWidget(dropdown)
-		return dropdown
-	def list(self):
-		list = Search_List()
+	def list(self) -> 'List':
+		list = List()
 		self.uid = list.setUID(self.uid)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
-		if type == Prop_Type.FLOAT:
-			prop = FloatProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.INT:
-			prop = IntProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.BOOL:
-			prop = BoolProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.ENUM:
-			prop = EnumProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		if window: window.Properties.append(prop)
-		return prop
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, B_DRIVER, F_DRIVER, E_DRIVER]:
+		if type == DRIVER_Type.F:
+			driver = F_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.I:
+			driver = I_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.B:
+			driver = B_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.E:
+			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		if window: window.Properties.append(driver)
+		return driver
 
-class Column(QT_Linear_Contents):
+class VBox(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
 		self.Linear_Layout.setSpacing(5)
+		#self.setStyleName("Box")
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid
-	def row(self) -> 'Row':
-		row = Row()
-		self.uid = row.setUID(self.uid)
-		self.addWidget(row)
-		return row
-	def column(self) -> 'Column':
-		column = Column()
-		self.uid = column.setUID(self.uid)
-		self.addWidget(column)
-		return column
-	def box(self) -> 'Box':
-		box = Box()
-		self.uid = box.setUID(self.uid)
-		self.addWidget(box)
-		return box
-	def dropdown(self) -> 'Dropdown':
-		dropdown = Dropdown()
-		self.uid = dropdown.setUID(self.uid)
-		self.addWidget(dropdown)
-		return dropdown
-	def list(self) -> 'Search_List':
-		list = Search_List()
+	def hbox(self) -> 'HBox':
+		hbox = HBox()
+		self.uid = hbox.setUID(self.uid)
+		self.addWidget(hbox)
+		return hbox
+	def vbox(self) -> 'VBox':
+		vbox = VBox()
+		self.uid = vbox.setUID(self.uid)
+		self.addWidget(vbox)
+		return vbox
+	def list(self) -> 'List':
+		list = List()
 		self.uid = list.setUID(self.uid)
 		self.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union['IntProperty', 'BoolProperty', 'FloatProperty', 'EnumProperty']:
-		if type == Prop_Type.FLOAT:
-			prop = FloatProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.INT:
-			prop = IntProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.BOOL:
-			prop = BoolProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.ENUM:
-			prop = EnumProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		if window: window.Properties.append(prop)
-		
-		return prop
-	
-class Box(QT_Linear_Contents):
-	def __init__(self):
-		super().__init__(True)
-		self.Linear_Layout.setSpacing(5)
-		self.setStyleName("Box")
-	def setUID(self, uid):
-		self.uid = super().setUID(uid)
-		return self.uid
-	def row(self) -> 'Row':
-		row = Row()
-		self.uid = row.setUID(self.uid)
-		self.addWidget(row)
-		return row
-	def column(self) -> 'Column':
-		column = Column()
-		self.uid = column.setUID(self.uid)
-		self.addWidget(column)
-		
-		return column
-	def box(self) -> 'Box':
-		box = Box()
-		self.uid = box.setUID(self.uid)
-		self.addWidget(box)
-		return box
-	def dropdown(self) -> 'Dropdown':
-		dropdown = Dropdown()
-		self.uid = dropdown.setUID(self.uid)
-		self.addWidget(dropdown)
-		return dropdown
-	def list(self):
-		list = Search_List()
-		self.uid = list.setUID(self.uid)
-		self.addWidget(list)
-		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
-		if type == Prop_Type.FLOAT:
-			prop = FloatProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.INT:
-			prop = IntProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.BOOL:
-			prop = BoolProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		elif type == Prop_Type.ENUM:
-			prop = EnumProperty()
-			self.uid = prop.setUID(self.uid)
-			self.addWidget(prop)
-		if window: window.Properties.append(prop)
-		
-		return prop
-	
-	
-class Dropdown(QT_Linear_Contents):
+	def driver(self, type: DRIVER_Type, window = None) -> Union['I_DRIVER', 'B_DRIVER', 'F_DRIVER', 'E_DRIVER']:
+		if type == DRIVER_Type.F:
+			driver = F_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.I:
+			driver = I_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.B:
+			driver = B_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.E:
+			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		if window: window.Properties.append(driver)
+		return driver
+
+class List(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
 		self.Toggle = QT_Button().setStyleName("Dropdown").setText("").setToolTip("").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
@@ -193,52 +122,42 @@ class Dropdown(QT_Linear_Contents):
 		else:
 			self.Container.hide()
 			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
-	def row(self) -> 'Row':
-		row = Row()
-		self.uid = row.setUID(self.uid)
-		self.Container.addWidget(row)
-		return row
-	def column(self) -> 'Column':
-		column = Column()
-		self.uid = column.setUID(self.uid)
-		self.Container.addWidget(column)
-		return column
-	def box(self) -> 'Box':
-		box = Box()
-		self.uid = box.setUID(self.uid)
-		self.Container.addWidget(box)
-		return box
-	def dropdown(self) -> 'Dropdown':
-		dropdown = Dropdown()
-		self.uid = dropdown.setUID(self.uid)
-		self.Container.addWidget(dropdown)
-		return dropdown
-	def list(self):
-		list = Search_List()
+	def hbox(self) -> 'HBox':
+		hbox = HBox()
+		self.uid = hbox.setUID(self.uid)
+		self.Container.addWidget(hbox)
+		return hbox
+	def vbox(self) -> 'VBox':
+		vbox = VBox()
+		self.uid = vbox.setUID(self.uid)
+		self.Container.addWidget(vbox)
+		return vbox
+	def list(self) -> 'List':
+		list = List()
 		self.uid = list.setUID(self.uid)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
-		if type == Prop_Type.FLOAT:
-			prop = FloatProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		elif type == Prop_Type.INT:
-			prop = IntProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		elif type == Prop_Type.BOOL:
-			prop = BoolProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		elif type == Prop_Type.ENUM:
-			prop = EnumProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		if window: window.Properties.append(prop)
-		return prop
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, B_DRIVER, F_DRIVER, E_DRIVER]:
+		if type == DRIVER_Type.F:
+			driver = F_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.I:
+			driver = I_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.B:
+			driver = B_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.E:
+			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		if window: window.Properties.append(driver)
+		return driver
 
-class Search_List(QT_Linear_Contents):
+class Tree(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
 		self.SearchBar = QT_Line_Editor().setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/viewzoom.svg"))
@@ -271,48 +190,37 @@ class Search_List(QT_Linear_Contents):
 		else:
 			self.Container.hide()
 			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
-	def row(self) -> 'Row':
-		row = Row()
-		self.uid = row.setUID(self.uid)
-		self.Container.addWidget(row)
-		return row
-	def column(self) -> 'Column':
-		column = Column()
-		self.uid = column.setUID(self.uid)
-		self.Container.addWidget(column)
-		return column
-	def box(self) -> 'Box':
-		box = Box()
-		self.uid = box.setUID(self.uid)
-		self.Container.addWidget(box)
-		return box
-	def dropdown(self) -> 'Dropdown':
-		dropdown = Dropdown()
-		self.uid = dropdown.setUID(self.uid)
-		self.Container.addWidget(dropdown)
-		return dropdown
-	def list(self):
-		list = Search_List()
+	def hbox(self) -> 'HBox':
+		hbox = HBox()
+		self.uid = hbox.setUID(self.uid)
+		self.Container.addWidget(hbox)
+		return hbox
+	def vbox(self) -> 'VBox':
+		vbox = VBox()
+		self.uid = vbox.setUID(self.uid)
+		self.Container.addWidget(vbox)
+		return vbox
+	def list(self) -> 'List':
+		list = List()
 		self.uid = list.setUID(self.uid)
 		self.Container.addWidget(list)
 		return list
-	def prop(self, type: Prop_Type, window = None) -> Union[IntProperty, BoolProperty, FloatProperty, EnumProperty]:
-		if type == Prop_Type.FLOAT:
-			prop = FloatProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		elif type == Prop_Type.INT:
-			prop = IntProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		elif type == Prop_Type.BOOL:
-			prop = BoolProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		elif type == Prop_Type.ENUM:
-			prop = EnumProperty()
-			self.uid = prop.setUID(self.uid)
-			self.Container.addWidget(prop)
-		if window: window.Properties.append(prop)
-		
-		return prop
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, B_DRIVER, F_DRIVER, E_DRIVER]:
+		if type == DRIVER_Type.F:
+			driver = F_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.I:
+			driver = I_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.B:
+			driver = B_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.E:
+			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		if window: window.Properties.append(driver)
+		return driver

@@ -1,4 +1,4 @@
-from typing import *
+from typing import Dict, Union
 import math, json, sys, os
 from enum import Enum
 from PySide6.QtWidgets import *

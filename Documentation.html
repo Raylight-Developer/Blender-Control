@@ -69,7 +69,7 @@
 		font-weight: 700;
 		tab-size: 4;
 		white-space: pre-wrap;
-		word-wrap: break-word;
+		word-wrap: normal;
 	}
 	.Box {
 		margin-left: 5%;
@@ -99,6 +99,9 @@
 	}
 	enum {
 		color: rgb(185, 160, 245);
+	}
+	.Item::before {
+		content: '\2022\0020';
 	}
 	opt {
 		position: absolute;
@@ -194,127 +197,69 @@
 <h2>Sections</h2>
 <pre class="Box">
 <a class="T3" href="#Enums">Enumerators</a>
-	<a class="T4" href="#Prop_Type">Prop_Type</a>
-	<a class="T4" href="#Icon">Icon</a>
+	<a class="T4" href="#Icon_Type">Icon_Type</a>
+	<a class="T4" href="#Driver_Type">Driver_Type</a>
 
-<a class="T3" href="#Layout_Items">Layout Items</a>
-	<a class="T4" href="#Row">Row</a>
-	<a class="T4" href="#Column">Column</a>
-	<a class="T4" href="#Box">Box</a>
-	<a class="T4" href="#Dropdown">Dropdown</a>
-	<a class="T4" href="#Search_List">Search_List</a>
+<a class="T3" href="#Layout_Elements">Layout Elements</a>
+	<a class="T4" href="#HBox">HBox</a>		<a class="T6" href="#.hbox()">.hbox()</a>
+	<a class="T4" href="#VBox">VBox</a>		<a class="T6" href="#.vbox()">.vbox()</a>
+	<a class="T4" href="#List">List</a>		<a class="T6" href="#.dropdown()">.list()</a>
+	<a class="T4" href="#Tree">Tree</a>		<a class="T6" href="#.tree()">.tree()</a>
 
-<a class="T3" href="#Layout_Methods">Layout Methods</a>
-	<a class="T4" href="#row">.row()</a>
-	<a class="T4" href="#column">.column()</a>
-	<a class="T4" href="#box">.box()</a>
-	<a class="T4" href="#dropdown">.dropdown()</a>
-	<a class="T4" href="#list">.list()</a>
+	<a class="T4" href="#Driver">Driver</a>		<a class="T6" href="#.driver()">.driver()</a>
 
-<a class="T3" href="#Properties">Properties</a>
-	<a class="T4" href="#IntProperty">IntProperty</a>
-	<a class="T4" href="#FloatProperty">FloatProperty</a>
-	<a class="T4" href="#BoolProperty">BoolProperty</a>
-	<a class="T4" href="#EnumProperty">EnumProperty</a>
-	<a class="T4" href="#SharedPropMethods">Shared Property Methods</a>
+<a class="T3" href="#Drivers">Drivers</a>
+	<a class="T4" href="#Int_DRIVER">Int_DRIVER</a>
+	<a class="T4" href="#Enum_DRIVER">Enum_DRIVER</a>
+	<a class="T4" href="#Float_DRIVER">Float_DRIVER</a>
+	<a class="T4" href="#Python_DRIVER">Python_DRIVER</a>
+	<a class="T4" href="#Boolean_DRIVER">Boolean_DRIVER</a>
 
-<a class="T3" href="#Examples">Code Examples</a>
 </pre>
 
 
 <h2 id="Enums">Enumerators</h2>
-<h3 id="Prop_Type"><func>Enum</func> <class>Prop_Type</class></h3>
-<pre>
-<enum>INT
-BOOL
-FLOAT
-ENUM</enum>
-</pre>
-<h3 id="Icon"><func>Enum</func> <class>Icon</class></h3>
+<h3 id="Icon_Type"><func>Enum</func> <class>Icon_Type</class></h3>
 <pre>
 <enum>SEARCH</enum>
 </pre>
-<h2 id="Layout_Items">Layout Items</h2>
-<h3 id="Row"><class>Row</class></h3>
+<h3 id="DRIVER_Type"><func>Enum</func> <class>DRIVER_Type</class></h3>
 <pre>
-<desc>Layout to add items horizontally.</desc>
+<enum>INT
+BOOL
+ENUM
+FLOAT
+PYTHON</enum>
 </pre>
-<h3 id="Column"><class>Column</class></h3>
+<h2 id="Layout_Elements">Layout Items</h2>
+<h3 id="HBox"><class>HBox</class></h3>
 <pre>
-<desc>Layout to add items vertically.</desc>
+<desc>Layout to add items horizontally. (ROW)</desc>
 </pre>
-<h3 id="Box"><class>Box</class></h3>
+<h3 id="VBox"><class>VBox</class></h3>
 <pre>
-<desc>Layout to add items vertically, while adding an outline.</desc>
+<desc>Layout to add items vertically. (COLUMN)</desc>
 </pre>
-<h3 id="Dropdown"><class>Dropdown</class></h3>
+<h3 id="List"><class>List</class></h3>
 <pre>
 <desc>Layout to add items vertically. Can be expanded and collapsed.</desc>
-
-<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
-	<desc>Set the labels and the tooltips text.</desc><a class="Example T8" href="#">Examples</a>
-</div>
 </pre>
-<h3 id="Search_List"><class>Search_List</class></h3>
+<h3 id="Tree"><class>Tree</class></h3>
 <pre>
-<desc>Layout to add items vertically. Can be expanded and collapsed. Has a Searchbar.</desc>
-
-<div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
-	<desc>Set the labels and the tooltips text.</desc><a class="Example T8" href="#">Examples</a>
-</div>
+<desc>Layout to add items with a hierarchy.</desc>
 </pre>
 
-
-<h2 id="Layout_Methods">Layout Methods</h2>
-<h3><def>row</def></h3>
+<h3 id="Methods">Methods</h3>
 <pre>
-<div id="row"><def>.row</def><brck>()</brck>
-<func>return</func> <class>Row</class><a class="Example T8" href="#">Examples</a>
-</div>
-</pre>
-<h3><def>column</def></h3>
-<pre>
-<div id="column"><def>.column</def><brck>()</brck>
-<func>return</func> <class>Column</class><a class="Example T8" href="#">Examples</a>
-</div>
-</pre>
-<h3><def>box</def></h3>
-<pre>
-<div id="box"><def>.box</def><brck>()</brck>
-<func>return</func> <class>Box</class><a class="Example T8" href="#">Examples</a>
-</div>
-</pre>
-<h3><def>dropdown</def></h3>
-<pre>
-<div id="dropdown"><def>.dropdown</def><brck>(</brck>
-	text : <class>String</class><opt>(Opt)</opt>
-<brck>)</brck> <func>return</func> <class>Dropdown</class><a class="Example T8" href="#">Examples</a>
-</div>
-</pre>
-<h3><def>list</def></h3>
-<pre>
-<div id="list"><def>.list</def><brck>(</brck>
-	text : <class>String</class><opt>(Opt)</opt>
-<brck>)</brck> <func>return</func> <class>Search_List</class><a class="Example T8" href="#">Examples</a>
-</div>
+<div id=".hbox()"><def>.hbox</def><brck>()</brck></div>
+<div id=".vbox()"><def>.vbox</def><brck>()</brck></div>
+<div id=".list()"><def>.list</def><brck>()</brck></div>
+<div id=".tree()"><def>.tree</def><brck>()</brck></div>
+<div id=".driver()"><def>.driver</def><brck>()</brck></div>
 </pre>
 
-<h3><def>prop</def></h3>
-<pre>
-<div id="prop"><def>.prop</def><brck>(</brck>
-	prop_type : <class>Prop_Type.</class><enum>ENUM</enum><req>(Req)</req>
-	register  : <type>self</type><opt>(Opt)</opt>
-	label     : <class>String</class><opt>(Opt)</opt>
-	icon      : <class>Icon.</class><enum>ENUM</enum><opt>(Opt)</opt>
-<brck>)</brck> <func>return</func> <class>IntProperty | BoolProperty | FloatProperty | EnumProperty</class><a class="Example T8" href="#">Examples</a>
-</div>
-prop_type : <desc>Type of the driver, set from the Enum.</desc>
-register  : <desc>If set to self, the property will be refreshed with the changes made in blender. Else its value will not change in sync with blender.</desc>
-</pre>
-
-
-<h2 id="Properties">Properties</h2>
-<h3 id="IntProperty"><class>IntProperty </class></h3>
+<h2 id="Drivers">DRIVERS</h2>
+<h3 id="Int_DRIVER"><class>Int_DRIVER </class></h3>
 <pre>
 <div><def>.setMin</def><brck>(</brck> min : <class>Int</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
@@ -332,7 +277,17 @@ register  : <desc>If set to self, the property will be refreshed with the change
 </div>
 	<desc>Set Slider Max.</desc>
 </pre>
-<h3 id="FloatProperty"><class>FloatProperty </class></h3>
+<h3 id="Enum_DRIVER"><class>EnumProperty</class></h3>
+<pre>
+<div><def>.setEnumItems</def><brck>(</brck> items : <class>List[ String ]</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>Set the available enumerators of the button.</desc>
+
+<div><def>.setToggleMode</def><brck>(</brck> toggle_mode : <class>Boolean</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
+</div>
+	<desc>If true it makes a button for each item. Else it will remain as a dropdown option.</desc>
+</pre>
+<h3 id="Float_DRIVER"><class>Float_DRIVER </class></h3>
 <pre>
 <div><def>.setMin</def><brck>(</brck> min : <class>Float</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
@@ -354,7 +309,10 @@ register  : <desc>If set to self, the property will be refreshed with the change
 </div>
 	<desc>Set displayed decimal places.</desc>
 </pre>
-<h3 id="BoolProperty"><class>BoolProperty </class></h3>
+<h3 id="Python_DRIVER"><class>Python_DRIVER</class></h3>
+<pre></pre>
+
+<h3 id="Boolean_DRIVER"><class>Boolean_DRIVER </class></h3>
 <pre>
 <div><def>.setButtonLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
 </div>
@@ -364,18 +322,9 @@ register  : <desc>If set to self, the property will be refreshed with the change
 </div>
 	<desc>Set the icon of the button.</desc>
 </pre>
-<h3 id="EnumProperty"><class>EnumProperty</class></h3>
-<pre>
-<div><def>.setEnumItems</def><brck>(</brck> items : <class>List[ String ]</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
-</div>
-	<desc>Set the available enumerators of the button.</desc>
 
-<div><def>.setToggleMode</def><brck>(</brck> toggle_mode : <class>Boolean</class> <brck>)</brck><a class="Example T8" href="#">Examples</a>
-</div>
-	<desc>If true it makes a button for each item. Else it will remain as a dropdown option.</desc>
-</pre>
 
-<h3 id="SharedPropMethods">Shared Property Methods</h3>
+<h3 id="Methods">Methods</h3>
 <pre>
 <div><def>.setLabel</def><brck>(</brck> text : <class>String</class> <brck>)</brck>
 <button class="Example T8" onclick="toggleCollapsible('setLabelExample')">Examples</button><div class="Dropdown" id="setLabelExample"><div class="Code">row  = layout<def>.row</def><brck>()</brck>

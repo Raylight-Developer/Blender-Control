@@ -110,11 +110,11 @@ class Float_Slider(QT_Slider):
 
 # TYPES--------------------------------------------------------------------------------------------
 
-class Prop_Type(Enum):
-	INT = 0
-	BOOL = 1
-	FLOAT = 2
-	ENUM = 3
+class DRIVER_Type(Enum):
+	I = 0
+	B = 1
+	F = 2
+	E = 3
 
 class Icon(Enum):
 	SEARCH = 0
