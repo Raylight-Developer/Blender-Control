@@ -535,5 +535,4 @@ class QT_Window(QMainWindow):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1

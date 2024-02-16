@@ -1,6 +1,6 @@
-from Test_Env import *
+from Window_Env import *
 
-class Tesing_Window(Central_Layout):
+class Testing_Window(DRIVER_Program_Window):
 	def __init__(self):
 		App = QApplication()
 		super().__init__()
@@ -16,8 +16,8 @@ class Tesing_Window(Central_Layout):
 		dropdown: Dropdown      = layout.dropdown()
 		test    : IntProperty   = dropdown.prop(Prop_Type.INT)
 		test    : BoolProperty  = dropdown.prop(Prop_Type.BOOL)
-		test    : IntProperty   = dropdown.prop(Prop_Type.INT)
-		test    : IntProperty   = dropdown.prop(Prop_Type.INT)
+		test    : FloatProperty = dropdown.prop(Prop_Type.FLOAT)
+		test    : EnumProperty  = dropdown.prop(Prop_Type.ENUM)
 		row     : Row           = dropdown.row()
 		dropdown: Dropdown      = row.dropdown()
 		list    : Search_List   = row.list()
@@ -25,4 +25,4 @@ class Tesing_Window(Central_Layout):
 		# -----------------------------------------------------------------------------------------
 		layout.restore()
 
-Window = Tesing_Window()
+Window = Testing_Window()

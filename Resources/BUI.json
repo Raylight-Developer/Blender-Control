@@ -1,1 +1,1 @@
-{"UID: 4": [true], "UID: 11": [true], "UID: 10": [true]}
+{"<class 'Layout.Dropdown'> || UID: 4": {"state": true}, "<class '__main__.Testing_Window'> || UID: 0": {"pos_x": 302, "pos_y": 37, "size_x": 1162, "size_y": 817}, "<class 'Layout.Search_List'> || UID: 11": {"state": true}, "<class 'Layout.Dropdown'> || UID: 10": {"state": true}}

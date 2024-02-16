@@ -14,80 +14,7 @@ bl_info = {
 pip.main(["install", "PySide6", "--user"])
 
 #--------------------------------------------------------------------------------------------------
-from .BUI import *
-#--------------------------------------------------------------------------------------------------
-class DRIVER_Program_Window(QT_Window):
-	def __init__(self):
-		super().__init__()
-		self.setStyleSheet(open(PATH+"/Resources/Stylesheet.css", "r", encoding="utf-8").read())
-		self.Properties = []
-
-		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/file_refresh.svg"))
-		Reload_Analyzer.clicked.connect(self.processUI)
-
-		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/panel_close.svg"))
-		Exit_Analyzer.clicked.connect(self.quit)
-
-		self.BUI_Header = Row()
-		self.BUI_Header.setContentsMargins(5,5,5,5)
-		self.BUI_Header.setFixedHeight(34)
-		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
-		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)
-		self.BUI_Header.installEventFilter(self)
-
-		self.BUI_Layout = Column()
-		self.BUI_Layout.setContentsMargins(5,5,5,5)
-
-		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
-		
-		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/shapekey_data.svg"))
-		self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.CustomizeWindowHint)
-		self.show()
-		self.processUI()
-
-	def processUI(self):
-		self.BUI_Layout.clear()
-		layout = self.BUI_Layout
-		code: str = bpy.data.texts.get("DRIVER").as_string()
-		code = code.replace('\"', '"')
-		exec(code)
-		for widget in self.Properties:
-			try: widget.fetch()
-			except Exception as err: print(err)
-
-	def eventFilter(self, source, event: QEvent | QMouseEvent | QKeyEvent):
-		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
-			if event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton:
-				self.initial_pos =  event.globalPosition()
-				self.mouse_pressed = True
-		elif source == self.BUI_Header and event.type() == QEvent.Type.MouseMove and self.mouse_pressed:
-			delta = event.globalPosition() - self.initial_pos
-			pos = QPointF(self.pos()) + delta
-			self.move(pos.x(), pos.y())
-			self.initial_pos =  event.globalPosition()
-		elif event.type() == QEvent.Type.MouseButtonRelease and (event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton):
-			self.mouse_pressed = False
-		return super().eventFilter(source, event)
-
-	def mousePressEvent(self, event):
-		focused_widget = QApplication.focusWidget()
-		if isinstance(focused_widget, QT_Line_Editor):
-			focused_widget.clearFocus()
-		super().mousePressEvent(event)
-
-	def focusInEvent(self, event: QFocusEvent):
-		for widget in self.Properties:
-			try: widget.executeBlenderFetch()
-			except Exception as err: print(err)
-
-	def quit(self):
-		self.close()
-		QCoreApplication.quit()
-		QCoreApplication.exit()
-		QCoreApplication.instance().quit()
-		QCoreApplication.instance().exit()
-
+from .Window_Env import *
 #--------------------------------------------------------------------------------------------------
 
 class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
@@ -138,23 +65,27 @@ class DRIVER_Blender_Interface(bpy.types.Panel):
 	bl_context = "scene"
 
 	def draw(self, context):
-		self.layout.row().operator("driver.open", text = "CONTROLS")
-		self.layout.row().operator("wm.toggle_system_console", icon = 'CONSOLE')
+		row = self.layout.row()
+		row.operator("driver.open", text = "CONTROLS")
+		row = self.layout.row()
+		row.operator("wm.toggle_system_console", icon = 'CONSOLE')
+
+class DRIVER_Console_Toggle(bpy.types.Operator):
+	bl_idname = "wm.toggle_system_console"
+	bl_label = "Toggle Console"
+
+	def execute(self, context):
+		bpy.ops.wm.console_toggle()
+		return {"FINISHED"}
 
 Classes = [
 	DRIVER_Blender_Interface,
 	DRIVER_Blender_Functions,
-	DRIVER_Qt_Window_Event_Loop
+	DRIVER_Qt_Window_Event_Loop,
+	DRIVER_Console_Toggle
 ]
 
 def register():
-	if not bpy.data.texts.get("DRIVER"):
-		new_text_block = bpy.data.texts.new(name="DRIVER")
-		new_text_block.write("row = layout.row()")
-		new_text_block.write("test: FloatProperty = row.prop(Type.FLOAT, self, \"Test Float\")")
-	if not bpy.data.texts.get("DRIVER Settings"):
-		new_text_block = bpy.data.texts.new(name="DRIVER Settings")
-		new_text_block.write("row = layout.row()")
 	for Class in Classes:
 		bpy.utils.register_class(Class)
 
