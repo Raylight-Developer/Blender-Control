@@ -48,6 +48,9 @@ QPushButton:hover {
 QPushButton:checked {
 	background: rgb(100, 100, 100);
 }
+QPushButton:pressed {
+	background: rgb(100,100,250);
+}
 #Bool_Prop:checked {
 	background: rgb(100,100,250);
 }

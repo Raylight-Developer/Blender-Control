@@ -115,6 +115,7 @@ class DRIVER_Type(Enum):
 	B = 1
 	F = 2
 	E = 3
+	P = 4
 
 class Icon(Enum):
 	SEARCH = 0

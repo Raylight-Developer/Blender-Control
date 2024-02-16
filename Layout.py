@@ -1,5 +1,5 @@
-try: from .Items import *
-except: from Items import*
+try: from .Drivers import *
+except: from Drivers import*
 
 class HBox(QT_Linear_Contents):
 	def __init__(self):
@@ -19,11 +19,6 @@ class HBox(QT_Linear_Contents):
 		self.uid = vbox.setUID(self.uid)
 		self.addWidget(vbox)
 		return vbox
-	def box(self) -> 'Box':
-		box = Box()
-		self.uid = box.setUID(self.uid)
-		self.addWidget(box)
-		return box
 	def list(self) -> 'List':
 		list = List()
 		self.uid = list.setUID(self.uid)
@@ -44,6 +39,10 @@ class HBox(QT_Linear_Contents):
 			self.addWidget(driver)
 		elif type == DRIVER_Type.E:
 			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.P:
+			driver = P_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.addWidget(driver)
 		if window: window.Properties.append(driver)
@@ -87,6 +86,10 @@ class VBox(QT_Linear_Contents):
 			self.addWidget(driver)
 		elif type == DRIVER_Type.E:
 			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.addWidget(driver)
+		elif type == DRIVER_Type.P:
+			driver = P_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.addWidget(driver)
 		if window: window.Properties.append(driver)
@@ -152,6 +155,10 @@ class List(QT_Linear_Contents):
 			self.Container.addWidget(driver)
 		elif type == DRIVER_Type.E:
 			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.P:
+			driver = P_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.Container.addWidget(driver)
 		if window: window.Properties.append(driver)
@@ -220,6 +227,10 @@ class Tree(QT_Linear_Contents):
 			self.Container.addWidget(driver)
 		elif type == DRIVER_Type.E:
 			driver = E_DRIVER()
+			self.uid = driver.setUID(self.uid)
+			self.Container.addWidget(driver)
+		elif type == DRIVER_Type.P:
+			driver = P_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.Container.addWidget(driver)
 		if window: window.Properties.append(driver)

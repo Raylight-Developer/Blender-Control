@@ -36,26 +36,26 @@ class DRIVER_Program_Window(QT_Window):
 		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
 		self.show()
 
-	def processUI(layout):
+	def processUI(main):
 		QApplication.instance().setStyleSheet(open(PATH+"/Resources/Stylesheet.css","r").read())
 		try:
 			if not bpy.data.texts.get("DRIVER"):
 				new_text_block = bpy.data.texts.new(name="DRIVER")
-				new_text_block.write("row = layout.row()")
+				new_text_block.write("hbox = main.hbox()")
 			if not bpy.data.texts.get("DRIVER Settings"):
 				new_text_block = bpy.data.texts.new(name="DRIVER Settings")
 				new_text_block.write("{}")
 		except: pass
-		layout.BUI_Layout.clear()
+		main.BUI_Layout.clear()
 		try:
 			code: str = bpy.data.texts.get("DRIVER").as_string()
 			code = code.replace('\"', '"')
 			exec(code)
-			for widget in layout.Properties:
+			for widget in main.Properties:
 				try: widget.executeBlenderFetch()
 				except Exception as err: print(err)
 		except: pass
-		layout.restore()
+		main.restore()
 
 	def eventFilter(self, source, event: QEvent | QMouseEvent | QKeyEvent):
 		if source == self.BUI_Header and event.type() == QEvent.Type.MouseButtonPress:
@@ -151,7 +151,7 @@ class DRIVER_Program_Window(QT_Window):
 	#def tree(self) -> Tree:
 	#	tree = self.BUI_Layout.tree()
 	#	return tree
-	def driver(self) -> Tree:
-		driver = self.BUI_Layout.driver()
+	def driver(self, type: DRIVER_Type) -> Tree:
+		driver = self.BUI_Layout.driver(type)
 		self.uid = driver.setUID(self.uid)
 		return driver

@@ -19,10 +19,10 @@ class B_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
-		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.label = QT_Label().setText("Boolean").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
-		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setText(self.label_text).setToolTip(self.label_text)
+		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 
 		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
@@ -85,7 +85,7 @@ class E_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
-		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.label = QT_Label().setText("Enum").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
 		self.input = QT_Option().addItem("Item")
@@ -131,7 +131,7 @@ class E_DRIVER(QT_Linear_Contents):
 		if self.blender_fetch_expression:
 			try: exec(self.blender_fetch_expression)
 			except Exception as error: print(error)
-			
+
 class F_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
 	blender_fetch_expression = None
@@ -152,7 +152,7 @@ class F_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
-		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.label = QT_Label().setText("Float").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
@@ -209,7 +209,7 @@ class F_DRIVER(QT_Linear_Contents):
 		if self.blender_fetch_expression:
 			try: exec(self.blender_fetch_expression)
 			except Exception as error: print(error)
-	#
+	# FloatProperty Methods ---------------------
 
 	def mousePressEvent(self, event):
 		if event.button() == Qt.MouseButton.RightButton:
@@ -241,7 +241,6 @@ class F_DRIVER(QT_Linear_Contents):
 	def set_precision(self, value: int = 3):
 		self.slider.precision = value
 
-		
 class I_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
 	blender_fetch_expression = None
@@ -261,7 +260,7 @@ class I_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
-		self.label = QT_Label().setText(self.label_text).setToolTip(self.label_text).setFixedWidth(120)
+		self.label = QT_Label().setText("Integer").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
 
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
@@ -349,3 +348,40 @@ class I_DRIVER(QT_Linear_Contents):
 	def setSoft_max(self, value : int = 1):
 		self.slider.setRange(self.slider.minimum(), value)
 	def setStep(self, value : int = 1): pass
+	
+class P_DRIVER(QT_Linear_Contents):
+	python_driver_expression = None
+	label_text = None
+	label_icon = None
+	label_visibility = True
+
+	label : QT_Label
+
+	def __init__(self):
+		super().__init__()
+		self.setFixedHeight(24)
+		self.label = QT_Label().setText("Python").setFixedWidth(120)
+		self.input = QT_Button().setStyleName("Bool_Prop").setText(self.label_text).setToolTip(self.label_text)
+		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+		self.addWidget(self.label).addWidget(self.input)
+		self.input.clicked.connect(self.executePythonExpression)
+
+	def setUID(self, uid):
+		self.uid = super().setUID(uid)
+		return self.uid
+	# Shared Property Methods -------------------
+	def setLabel(self, label: str):
+		self.label_text = label
+		self.label.setText(label).setToolTip(self.label_text)
+	def setLabelIcon(self, label_icon: Icon):
+		self.label.setIcon(QIcon(label_icon))
+	def setLabelIsVisible(self, visible: bool):
+		if visible: self.label.show()
+		else: self.label.hide()
+	def setPythonDriver(self, python_driver_expression: str):
+		self.python_driver_expression = python_driver_expression
+	def executePythonExpression(self, driver: bool):
+		if self.python_driver_expression:
+			try: exec(self.python_driver_expression)
+			except Exception as error: print(error)
