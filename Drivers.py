@@ -20,7 +20,7 @@ class B_DRIVER(QT_Linear_Contents):
 		super().__init__()
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Boolean").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
@@ -52,11 +52,11 @@ class B_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: bool):
@@ -86,7 +86,7 @@ class E_DRIVER(QT_Linear_Contents):
 		super().__init__()
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Enum").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Option().addItem("Item")
 		
@@ -116,11 +116,11 @@ class E_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: str):
@@ -153,7 +153,7 @@ class F_DRIVER(QT_Linear_Contents):
 		super().__init__(False)
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Float").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
 		self.slider = Float_Slider().setToolTip(self.label_text)
@@ -194,11 +194,11 @@ class F_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: float):
@@ -261,12 +261,12 @@ class I_DRIVER(QT_Linear_Contents):
 		super().__init__(False)
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Integer").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/keyframe.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
 		self.slider = Int_Slider().setToolTip(self.label_text)
-		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/left_arrow_thin.svg"))
-		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_LEFT.svg"))
+		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_RIGHT.svg"))
 
 		self.addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
@@ -290,27 +290,32 @@ class I_DRIVER(QT_Linear_Contents):
 	def setLabel(self, label: str):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
+		return self
 	def setLabelIcon(self, label_icon: Icon):
-		self.label.setIcon(QIcon(label_icon))
+		return self
 	def setLabelIsVisible(self, visible: bool):
 		if visible: self.label.show()
 		else: self.label.hide()
+		return self
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
+		return self
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
 		self.add_keyframe_expression = keyframe_expression
-		if self.remove_keyframe_expression: self.keyframer.show()
+		if self.add_keyframe_expression and self.remove_keyframe_expression: self.keyframer.show()
+		return self
 	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
 		self.remove_keyframe_expression = keyframe_expression
-		if self.add_keyframe_expression: self.keyframer.show()
+		if self.add_keyframe_expression and self.remove_keyframe_expression: self.keyframer.show()
+		return self
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/decorate_keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/keyframe.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: int):
@@ -338,15 +343,21 @@ class I_DRIVER(QT_Linear_Contents):
 		self.slider.setValue(val)
 	def setMin(self, value : int = 0):
 		self.min = value
-		self.input.setValidator(QDoubleValidator(value, self.max))
+		self.slider.setRange(value, self.slider.maximum())
+		self.input.setValidator(QIntValidator(value, self.max))
+		return self
 	def setMax(self, value : int = 1):
 		self.max = value
-		self.input.setValidator(QIntValidator(self.min, value))
-	def set_use_soft_limits(self, value : bool = True): pass
-	def setSoft_min(self, value : int = 0):
-		self.slider.setRange(value, self.slider.maximum())
-	def setSoft_max(self, value : int = 1):
 		self.slider.setRange(self.slider.minimum(), value)
+		self.input.setValidator(QIntValidator(self.min, value))
+		return self
+	def set_use_soft_limits(self, value : bool = True): pass
+	def setSoftMin(self, value : int = 0):
+		self.slider.setRange(value, self.slider.maximum())
+		return self
+	def setSoftMax(self, value : int = 1):
+		self.slider.setRange(self.slider.minimum(), value)
+		return self
 	def setStep(self, value : int = 1): pass
 	
 class P_DRIVER(QT_Linear_Contents):

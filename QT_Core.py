@@ -7,53 +7,6 @@ from PySide6.QtCore import *
 
 PATH = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 
-class QT_Slider(QSlider):
-	def __init__(self, Vertical: bool = False):
-		if Vertical: super().__init__(Qt.Orientation.Vertical)
-		else: super().__init__(Qt.Orientation.Horizontal)
-		super().setContentsMargins(0,0,0,0)
-
-	def setToolTip(self, Tip: str):
-		super().setToolTip(Tip)
-		return self
-
-	def setStyleName(self, Name: str):
-		super().setObjectName(Name)
-		return self
-
-	def setRange(self, Min: int, Max: int):
-		super().setRange(Min, Max)
-		return self
-
-	def setValue(self, Value):
-		super().setValue(Value)
-		return self
-
-	def setMinimum(self, Value: int = 0):
-		super().setMinimum(Value)
-		return self
-
-	def setMaximum(self, Value: int = 0):
-		super().setMaximum(Value)
-		return self
-
-	def setFixedHeight(self, Height: int):
-		super().setFixedHeight(Height)
-		return self
-
-	def setFixedWidth(self, Width: int):
-		super().setFixedWidth(Width)
-		return self
-
-	def setFixedSize(self, Width: int, Height: int):
-		super().setFixedSize(Width, Height)
-		return self
-	
-	def setUID(self, uid: int):
-		super().setWhatsThis(f"UID: {uid}")
-		
-		return uid + 1
-
 class QT_Button(QPushButton):
 	def __init__(self):
 		super().__init__()
@@ -106,7 +59,6 @@ class QT_Button(QPushButton):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
@@ -171,7 +123,6 @@ class QT_Icon_Button(QToolButton):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 class QT_Option(QComboBox):
@@ -179,7 +130,7 @@ class QT_Option(QComboBox):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
 		super().setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-		super().setStyleSheet("QComboBox::down-arrow { image: url(" + PATH +"/Resources/down_arrow_thin.svg); }")
+		super().setStyleSheet("QComboBox::down-arrow { image: url(" + PATH +"/Resources/Icons/Directions/ARROW_DOWN.svg); }")
 
 	def setStyleName(self, Style: str):
 		super().setObjectName(Style)
@@ -211,7 +162,6 @@ class QT_Option(QComboBox):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 class QT_Linear_Contents(QWidget):
@@ -253,7 +203,6 @@ class QT_Linear_Contents(QWidget):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 class QT_Line_Editor(QLineEdit):
@@ -296,7 +245,6 @@ class QT_Line_Editor(QLineEdit):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
@@ -382,7 +330,52 @@ class QT_Scroll_Area(QScrollArea):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
+		return uid + 1
+
+class QT_Slider(QSlider):
+	def __init__(self, Vertical: bool = False):
+		if Vertical: super().__init__(Qt.Orientation.Vertical)
+		else: super().__init__(Qt.Orientation.Horizontal)
+		super().setContentsMargins(0,0,0,0)
+
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
+		return self
+
+	def setStyleName(self, Name: str):
+		super().setObjectName(Name)
+		return self
+
+	def setRange(self, Min: int, Max: int):
+		super().setRange(Min, Max)
+		return self
+
+	def setValue(self, Value):
+		super().setValue(Value)
+		return self
+
+	def setMinimum(self, Value: int = 0):
+		super().setMinimum(Value)
+		return self
+
+	def setMaximum(self, Value: int = 0):
+		super().setMaximum(Value)
+		return self
+
+	def setFixedHeight(self, Height: int):
+		super().setFixedHeight(Height)
+		return self
+
+	def setFixedWidth(self, Width: int):
+		super().setFixedWidth(Width)
+		return self
+
+	def setFixedSize(self, Width: int, Height: int):
+		super().setFixedSize(Width, Height)
+		return self
+	
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
 		return uid + 1
 
 class QT_Splitter(QSplitter):
@@ -418,7 +411,6 @@ class QT_Splitter(QSplitter):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 class QT_Label(QLabel):
@@ -453,7 +445,6 @@ class QT_Label(QLabel):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 	def setLeftIcon(self, Icon: QIcon):
@@ -473,6 +464,27 @@ class QT_Label(QLabel):
 			left_icon_rect.setWidth(left_icon_size.width())
 			left_icon_rect.translate(5,0)
 			self.aligned_icon.paint(painter, left_icon_rect)
+
+class QT_Tree(QWidget):
+	def __init__(self):
+		super().__init__()
+		super().setContentsMargins(0,0,0,0)
+
+	def setFixedHeight(self, Height: int):
+		super().setFixedHeight(Height)
+		return self
+
+	def setFixedWidth(self, Width: int):
+		super().setFixedWidth(Width)
+		return self
+
+	def setFixedSize(self, Width: int, Height: int):
+		super().setFixedSize(Width, Height)
+		return self
+
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
 
 class QT_Widget(QWidget):
 	def __init__(self):
@@ -497,7 +509,6 @@ class QT_Widget(QWidget):
 
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
-		
 		return uid + 1
 
 class QT_Window(QMainWindow):

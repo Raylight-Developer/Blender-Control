@@ -11,10 +11,10 @@ class DRIVER_Program_Window(QT_Window):
 		self.uid = self.setUID(self.uid)
 		
 		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/file_refresh.svg"))
+		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/REFRESH.svg"))
 		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/panel_close.svg"))
+		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/CLOSE.svg"))
 		Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = HBox()
@@ -30,7 +30,7 @@ class DRIVER_Program_Window(QT_Window):
 		self.Properties = []
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
-		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/shapekey_data.svg"))
+		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/Icons/Data/SHAPEKEY_DATA.svg"))
 
 		self.processUI()
 		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -38,6 +38,7 @@ class DRIVER_Program_Window(QT_Window):
 
 	def processUI(main):
 		QApplication.instance().setStyleSheet(open(PATH+"/Resources/Stylesheet.css","r").read())
+		main.BUI_Layout.clear()
 		try:
 			if not bpy.data.texts.get("DRIVER"):
 				new_text_block = bpy.data.texts.new(name="DRIVER")
@@ -45,16 +46,13 @@ class DRIVER_Program_Window(QT_Window):
 			if not bpy.data.texts.get("DRIVER Settings"):
 				new_text_block = bpy.data.texts.new(name="DRIVER Settings")
 				new_text_block.write("{}")
-		except: pass
-		main.BUI_Layout.clear()
-		try:
 			code: str = bpy.data.texts.get("DRIVER").as_string()
 			code = code.replace('\"', '"')
 			exec(code)
-			for widget in main.Properties:
-				try: widget.executeBlenderFetch()
-				except Exception as err: print(err)
 		except: pass
+		for widget in main.Properties:
+			try: widget.executeBlenderFetch()
+			except Exception as err: print(err)
 		main.restore()
 
 	def eventFilter(self, source, event: QEvent | QMouseEvent | QKeyEvent):
@@ -98,14 +96,9 @@ class DRIVER_Program_Window(QT_Window):
 		self.resize(state["size_x"], state["size_y"])
 
 	def restore(self):
-		try:
-			file = bpy.data.texts.get("DRIVER Settings")
-			settings = json.loads(file.as_string())
-		except:
-			if os.path.exists(PATH+"/Resources/BUI.json"):
-				with open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8") as file:
-					settings = json.load(file)
-					file.close()
+		file = bpy.data.texts.get("DRIVER Settings")
+		settings = json.loads(file.as_string())
+		
 		for widget in QCoreApplication.instance().allWidgets():
 			if widget.whatsThis() != "":
 				try:
@@ -130,14 +123,9 @@ class DRIVER_Program_Window(QT_Window):
 						settings[f"QT_Window || {widget.whatsThis()}"] = widget.saveState()
 				except: pass
 
-		try:
-			file = bpy.data.texts.get("DRIVER Settings")
-			file.clear()
-			file.write(json.dumps(settings))
-		except:
-			with open(PATH+"/Resources/BUI.json", "wt", encoding = "utf-8") as file:
-				json.dump(settings, file)
-				file.close()
+		file = bpy.data.texts.get("DRIVER Settings")
+		file.clear()
+		file.write(json.dumps(settings))
 
 	def hbox(self) -> HBox:
 		row = self.BUI_Layout.hbox()
@@ -155,3 +143,49 @@ class DRIVER_Program_Window(QT_Window):
 		driver = self.BUI_Layout.driver(type)
 		self.uid = driver.setUID(self.uid)
 		return driver
+
+class Standalone_Window(DRIVER_Program_Window):
+	def __init__(self):
+		self.App = QApplication.instance()
+		if self.App is None:
+			self.App = QApplication(sys.argv)
+		super().__init__()
+		self.App.exec()
+
+	def processUI(main):
+		QApplication.instance().setStyleSheet(open(PATH+"/Resources/Stylesheet.css","r").read())
+		main.BUI_Layout.clear()
+
+	def restore(self): pass
+		#if os.path.exists(PATH+"/Resources/BUI.json"):
+		#	with open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8") as file:
+		#		settings = json.load(file)
+		#		file.close()
+#
+		#for widget in QCoreApplication.instance().allWidgets():
+		#	if widget.whatsThis() != "":
+		#		try:
+		#			if isinstance(widget, List):
+		#				widget: List = widget
+		#				widget.restoreState(settings[f"Dropdown || {widget.whatsThis()}"])
+		#			elif isinstance(widget, QT_Window):
+		#				widget: QT_Window =  widget
+		#				widget.restoreState(settings[f"QT_Window || {widget.whatsThis()}"])
+		#		except: pass
+
+	def save(self): pass
+		#settings = {}
+		#for widget in QCoreApplication.instance().allWidgets():
+		#	if widget.whatsThis() != "":
+		#		try:
+		#			if isinstance(widget, List):
+		#				widget: List = widget
+		#				settings[f"Dropdown || {widget.whatsThis()}"] = widget.saveState()
+		#			elif isinstance(widget, QT_Window):
+		#				widget: QT_Window =  widget
+		#				settings[f"QT_Window || {widget.whatsThis()}"] = widget.saveState()
+		#		except: pass
+#
+		#with open(PATH+"/Resources/BUI.json", "wt", encoding = "utf-8") as file:
+		#	json.dump(settings, file)
+		#	file.close()

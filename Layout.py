@@ -98,7 +98,7 @@ class VBox(QT_Linear_Contents):
 class List(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
-		self.Toggle = QT_Button().setStyleName("Dropdown").setText("").setToolTip("").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText("").setToolTip("").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_DOWN.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
@@ -110,21 +110,21 @@ class List(QT_Linear_Contents):
 		if state["state"]:
 			self.Container.show()
 			self.Toggle.setChecked(True)
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_DOWN.svg"))
 		elif not state["state"] :
 			self.Container.hide()
 			self.Toggle.setChecked(False)
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_RIGHT.svg"))
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid
 	def expandCollapse(self, toggle):
 		if toggle:
 			self.Container.show()
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_DOWN.svg"))
 		else:
 			self.Container.hide()
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_RIGHT.svg"))
 	def hbox(self) -> 'HBox':
 		hbox = HBox()
 		self.uid = hbox.setUID(self.uid)
@@ -167,9 +167,9 @@ class List(QT_Linear_Contents):
 class Tree(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(True)
-		self.SearchBar = QT_Line_Editor().setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/viewzoom.svg"))
+		self.SearchBar = QT_Line_Editor().setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/Icons/Window/SEARCH.svg"))
 		self.SearchBar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-		self.Toggle = QT_Button().setStyleName("Dropdown").setText("").setToolTip("").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+		self.Toggle = QT_Button().setStyleName("Dropdown").setText("").setToolTip("").setCheckable(True).setChecked(True).setFixedHeight(24).setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_DOWN.svg"))
 		self.Container = QT_Scroll_Area().setStyleName("Box")
 		self.Toggle.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 		self.addWidget(self.Toggle)
@@ -182,21 +182,21 @@ class Tree(QT_Linear_Contents):
 		if state["state"]:
 			self.Container.show()
 			self.Toggle.setChecked(True)
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_DOWN.svg"))
 		elif not state["state"] :
 			self.Container.hide()
 			self.Toggle.setChecked(False)
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_RIGHT.svg"))
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid
 	def expandCollapse(self, toggle):
 		if toggle:
 			self.Container.show()
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/down_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_DOWN.svg"))
 		else:
 			self.Container.hide()
-			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/right_arrow_thin.svg"))
+			self.Toggle.setLeftIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_RIGHT.svg"))
 	def hbox(self) -> 'HBox':
 		hbox = HBox()
 		self.uid = hbox.setUID(self.uid)

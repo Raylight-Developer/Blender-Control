@@ -1,0 +1,181 @@
+* {
+	font-family: 'Courier New', monospace;
+	font-size: medium;
+	background: transparent;
+	color: rgb(155,220,255);
+	border-style: solid;
+	border-color: rgb(0,0,0);
+	border-width: 0px;
+}
+a {
+	color: rgb(85, 155, 215);
+	text-decoration: none;
+}
+h1 {
+	font-size: xx-large;
+	font-weight: bolder;
+	text-align: center;
+	color: rgb(255,255,255);
+}
+h2 {
+	font-size: x-large;
+	padding-left: 2.5%;
+	color: rgb(255,255,255);
+
+	padding-top: 20px;
+	border-color: rgb(200, 200, 200);
+	border-top-width: 2px;
+}
+h3 {
+	font-size: large;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background: rgb(5,5,5);
+	margin: 0px;
+	margin-left: 5%;
+	padding: 10px;
+	tab-size: 4;
+	white-space: pre-wrap;
+}
+h4 {
+	margin: 0;
+	padding: 5px;
+}
+body {
+	background: rgb(30,30,30);
+}
+div {
+	position: relative;
+	background: rgba(255,255,255, 0.15);
+	border-radius: 10px;
+	padding: 10px;
+}
+pre {
+	padding: 30px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-top: 0px;
+	margin-left: 5%;
+	border-width: 1px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background: rgb(50,50,50);
+	font-weight: 700;
+	tab-size: 4;
+	white-space: pre-wrap;
+	word-wrap: normal;
+}
+img {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	top: 6px;
+	width: 20px;
+	height: 20px;
+}
+.Box {
+	margin-left: 5%;
+	font-weight: 700;
+	border-width: 1px;
+	border-radius: 0px;
+	border-width: 0px;
+	padding: 0px;
+	background: transparent;
+}
+desc {
+	color:rgb(255,255,255);
+	font-size: 16px;
+	font-weight: 500;
+}
+.Class {
+	color: rgb(80, 200, 175);
+}
+.Func {
+	color: rgb(220, 220, 170);
+}
+.Func::after {
+	content: '()';
+	color: rgb(255,215,0);
+}
+.Reserved {
+	color: rgb(200, 135, 190);
+}
+brck {
+	color: rgb(255,215,0);
+}
+.Enum {
+	color: rgb(185, 160, 245);
+}
+.Item::before {
+	content: '\2022\0020';
+}
+opt {
+	position: absolute;
+	right: 15px;
+	margin-top: 5px;
+	font-size: xx-small;
+	color: rgb(255, 115, 115);
+}
+req {
+	position: absolute;
+	right: 15px;
+	margin-top: 5px;
+	font-size: xx-small;
+	color: rgb(115, 255, 120);
+}
+str {
+	color: rgb(205, 145, 120);
+}
+type {
+	color: rgb(85, 155, 215);
+}
+.T1 {
+	font-size: xx-large;
+}
+.T2 {
+	font-size: x-large;
+}
+.T3 {
+	font-size: larger;
+}
+.T4 {
+	font-size: large;
+}
+.T5 {
+	font-size: medium;
+}
+.T6 {
+	font-size: smaller;
+}
+.T7 {
+	font-size: small;
+}
+.T8 {
+	font-size: x-small;
+}
+.T9 {
+	font-size: xx-small;
+}
+.Example {
+	font-weight: 500;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	padding: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background: rgba(145, 205, 255, 0.4);
+	color: rgb(255, 255, 255);
+	border-radius: 10px;
+	cursor: pointer;
+}
+a:hover, .Example:hover {
+	color: rgb(150, 205, 255);
+}
+.Code {
+	background: rgb(30,30,30);
+}
+.Dropdown {
+	/*display: none;
+	overflow: hidden;*/
+}
