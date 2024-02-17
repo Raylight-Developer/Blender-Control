@@ -1,0 +1,81 @@
+<svg
+   inkscape:export-ydpi="96"
+   inkscape:export-xdpi="96"
+   inkscape:export-filename="blender_icons.png"
+   style="display:inline;enable-background:new"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:docname="blender_icons.svg"
+   version="1.0"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   sodipodi:version="0.32"
+   id="svg2"
+   height="13"
+   width="13.998944"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <metadata
+     id="metadata34337">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:pagecheckerboard="true"
+     inkscape:document-rotation="0"
+     pagecolor="#808080"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1728"
+     inkscape:window-height="1051"
+     id="namedview34335"
+     showgrid="false"
+     inkscape:zoom="1.7115805"
+     inkscape:cx="217.6351"
+     inkscape:cy="369.54148"
+     inkscape:window-x="767"
+     inkscape:window-y="92"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer4"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#808080" />
+  <defs
+     id="defs4" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer8"
+     inkscape:label="icons"
+     style="display:inline"
+     transform="translate(-69.000546,-432)">
+    <g
+       style="display:inline;fill:#ffffff;enable-background:new"
+       id="g14020"
+       transform="translate(153,38)"
+       inkscape:export-filename="blender_icons.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:label="U-4">
+      <path
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0.5;stroke-opacity:1;marker:none;paint-order:fill markers stroke;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m -76.5,394 -3.751953,0.006 c -0.228491,0.001 -0.427071,0.15722 -0.482422,0.37891 l -1.25,4.99414 c -0.07853,0.31517 0.159565,0.6204 0.484375,0.62095 h 3.75 c 0.22922,-3.6e-4 0.428845,-0.15652 0.484375,-0.37891 l 1.25,-5 C -75.936984,394.30587 -76.175116,394.00052 -76.5,394 Z m 6,0 -3.751953,0.006 c -0.228491,0.001 -0.427071,0.15722 -0.482422,0.37891 l -1.25,4.99414 c -0.07853,0.31517 0.159565,0.6204 0.484375,0.62095 h 3.75 c 0.22922,-3.6e-4 0.428845,-0.15652 0.484375,-0.37891 l 1.25,-5 C -69.936984,394.30587 -70.175116,394.00052 -70.5,394 Z m -8,7 -3.751953,0.006 c -0.228491,0.001 -0.427071,0.15722 -0.482422,0.37891 l -1.25,4.99414 c -0.07853,0.31517 0.159565,0.6204 0.484375,0.62095 h 3.75 c 0.22922,-3.6e-4 0.428845,-0.15652 0.484375,-0.37891 l 1.25,-5 C -77.936984,401.30587 -78.175116,401.00052 -78.5,401 Z m 6,0 -3.751953,0.006 c -0.228491,0.001 -0.427071,0.15722 -0.482422,0.37891 l -1.25,4.99414 c -0.07853,0.31517 0.159565,0.6204 0.484375,0.62095 h 3.75 c 0.22922,-3.6e-4 0.428845,-0.15652 0.484375,-0.37891 l 1.25,-5 C -71.936984,401.30587 -72.175116,401.00052 -72.5,401 Z"
+         id="path13999"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccc" />
+    </g>
+  </g>
+</svg>
