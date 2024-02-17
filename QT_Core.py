@@ -79,6 +79,74 @@ class QT_Button(QPushButton):
 			left_icon_rect.translate(5,0)
 			self.aligned_icon.paint(painter, left_icon_rect)
 
+
+class QT_Floating_Button (QPushButton):
+	def __init__(self):
+		super().__init__()
+		self.setContentsMargins(0,0,0,0)
+		self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+		self.setWindowFlags(Qt.WindowType.FramelessWindowHint| Qt.WindowType.WindowStaysOnTopHint)
+
+		self.Drag_Pos = QPoint(0,0)
+
+	def setStyleName(self, Style: str):
+		super().setObjectName(Style)
+		return self
+
+	def setToolTip(self, Tip: str):
+		super().setToolTip(Tip)
+		return self
+
+	def setText(self, Text: str):
+		super().setText(Text)
+		return self
+
+	def setCheckable(self, Checkable:bool):
+		super().setCheckable(Checkable)
+		return self
+
+	def setChecked(self, Checked:bool):
+		super().setChecked(Checked)
+		return self
+
+	def setIcon(self, Icon: QIcon):
+		super().setIcon(Icon)
+		return self
+
+	def setFixedSize(self, Width:int, Height:int):
+		super().setFixedSize(Width, Height)
+		return self
+
+	def setFixedHeight(self, H: int):
+		super().setFixedHeight(H)
+		return self
+
+	def setFixedWidth(self, W: int):
+		super().setFixedWidth(W)
+		return self
+	
+	def show(self):
+		super().show()
+		return self
+	
+	def hide(self):
+		super().hide()
+		return self
+
+	def setUID(self, uid: int):
+		super().setWhatsThis(f"UID: {uid}")
+		return uid + 1
+
+	def mousePressEvent(self, Event: QMouseEvent):
+		if Event.button() == Qt.MouseButton.RightButton:
+			self.Drag_Pos = Event.pos()
+		super().mousePressEvent(Event)
+
+	def mouseMoveEvent(self, Event: QMouseEvent): 
+		if Event.buttons() & Qt.MouseButton.RightButton:
+			self.move(self.mapToParent(Event.pos() - self.Drag_Pos))
+		super().mouseMoveEvent(Event)
+
 class QT_Icon_Button(QToolButton):
 	def __init__(self):
 		super().__init__()

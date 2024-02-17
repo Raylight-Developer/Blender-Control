@@ -24,13 +24,18 @@ class HBox(QT_Linear_Contents):
 		self.uid = list.setUID(self.uid)
 		self.addWidget(list)
 		return list
-	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, B_DRIVER, F_DRIVER, E_DRIVER]:
-		if type == DRIVER_Type.F:
-			driver = F_DRIVER()
+	def tree(self) -> 'Tree':
+		tree = Tree()
+		self.uid = tree.setUID(self.uid)
+		self.addWidget(tree)
+		return tree
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, F_DRIVER, B_DRIVER, E_DRIVER, P_DRIVER]:
+		if type == DRIVER_Type.I:
+			driver = I_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.addWidget(driver)
-		elif type == DRIVER_Type.I:
-			driver = I_DRIVER()
+		elif type == DRIVER_Type.F:
+			driver = F_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.addWidget(driver)
 		elif type == DRIVER_Type.B:
@@ -71,13 +76,18 @@ class VBox(QT_Linear_Contents):
 		self.uid = list.setUID(self.uid)
 		self.addWidget(list)
 		return list
-	def driver(self, type: DRIVER_Type, window = None) -> Union['I_DRIVER', 'B_DRIVER', 'F_DRIVER', 'E_DRIVER']:
-		if type == DRIVER_Type.F:
-			driver = F_DRIVER()
+	def tree(self) -> 'Tree':
+		tree = Tree()
+		self.uid = tree.setUID(self.uid)
+		self.addWidget(tree)
+		return tree
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, F_DRIVER, B_DRIVER, E_DRIVER, P_DRIVER]:
+		if type == DRIVER_Type.I:
+			driver = I_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.addWidget(driver)
-		elif type == DRIVER_Type.I:
-			driver = I_DRIVER()
+		elif type == DRIVER_Type.F:
+			driver = F_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.addWidget(driver)
 		elif type == DRIVER_Type.B:
@@ -140,13 +150,18 @@ class List(QT_Linear_Contents):
 		self.uid = list.setUID(self.uid)
 		self.Container.addWidget(list)
 		return list
-	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, B_DRIVER, F_DRIVER, E_DRIVER]:
-		if type == DRIVER_Type.F:
-			driver = F_DRIVER()
+	def tree(self) -> 'Tree':
+		tree = Tree()
+		self.uid = tree.setUID(self.uid)
+		self.Container.addWidget(tree)
+		return tree
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, F_DRIVER, B_DRIVER, E_DRIVER, P_DRIVER]:
+		if type == DRIVER_Type.I:
+			driver = I_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.Container.addWidget(driver)
-		elif type == DRIVER_Type.I:
-			driver = I_DRIVER()
+		elif type == DRIVER_Type.F:
+			driver = F_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.Container.addWidget(driver)
 		elif type == DRIVER_Type.B:
@@ -212,13 +227,18 @@ class Tree(QT_Linear_Contents):
 		self.uid = list.setUID(self.uid)
 		self.Container.addWidget(list)
 		return list
-	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, B_DRIVER, F_DRIVER, E_DRIVER]:
-		if type == DRIVER_Type.F:
-			driver = F_DRIVER()
+	def tree(self) -> 'Tree':
+		tree = Tree()
+		self.uid = tree.setUID(self.uid)
+		self.Container.addWidget(tree)
+		return tree
+	def driver(self, type: DRIVER_Type, window = None) -> Union[I_DRIVER, F_DRIVER, B_DRIVER, E_DRIVER, P_DRIVER]:
+		if type == DRIVER_Type.I:
+			driver = I_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.Container.addWidget(driver)
-		elif type == DRIVER_Type.I:
-			driver = I_DRIVER()
+		elif type == DRIVER_Type.F:
+			driver = F_DRIVER()
 			self.uid = driver.setUID(self.uid)
 			self.Container.addWidget(driver)
 		elif type == DRIVER_Type.B:

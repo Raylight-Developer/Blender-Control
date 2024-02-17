@@ -5,23 +5,38 @@ try: import bpy
 except: pass
 
 class DRIVER_Program_Window(QT_Window):
+	popout_pos = QPoint()
+	initial_pos = QPoint()
+	storeState = None
 	def __init__(self):
 		super().__init__()
 		self.uid = 0
 		self.uid = self.setUID(self.uid)
-		
 		self.mouse_pressed = False
-		Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/REFRESH.svg"))
-		Reload_Analyzer.clicked.connect(self.processUI)
 
-		Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/CLOSE.svg"))
-		Exit_Analyzer.clicked.connect(self.quit)
+		self.Popout_Mode = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/BOOKMARK.svg"))
+		self.Popout_Mode.clicked.connect(self.popoutMode)
+		self.uid = self.Popout_Mode.setUID(self.uid)
+
+		self.Popout_Analyzer = QT_Floating_Button().setStyleName("Bool_Prop").setCheckable(True).setChecked(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/EXPAND.svg"))
+		self.Popout_Analyzer.clicked.connect(self.popout)
+		self.uid = self.Popout_Analyzer.setUID(self.uid)
+
+		self.Pin_Analyzer = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/PINNED_OFF.svg"))
+		self.Pin_Analyzer.clicked.connect(self.pin)
+		self.uid = self.Pin_Analyzer.setUID(self.uid)
+
+		self.Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/REFRESH.svg"))
+		self.Reload_Analyzer.clicked.connect(self.processUI)
+
+		self.Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/CLOSE.svg"))
+		self.Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = HBox()
 		self.BUI_Header.setContentsMargins(5,5,5,5)
 		self.BUI_Header.setFixedHeight(34)
 		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
-		self.BUI_Header.addWidget(Reload_Analyzer).addWidget(Exit_Analyzer)
+		self.BUI_Header.addWidget(self.Popout_Mode).addWidget(self.Pin_Analyzer).addWidget(self.Reload_Analyzer).addWidget(self.Exit_Analyzer)
 		self.BUI_Header.installEventFilter(self)
 
 		self.BUI_Layout = VBox()
@@ -33,7 +48,36 @@ class DRIVER_Program_Window(QT_Window):
 		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/Icons/Data/SHAPEKEY_DATA.svg"))
 
 		self.processUI()
-		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
+		self.show()
+
+	def popoutMode(self, toggle):
+		if toggle:
+			self.Popout_Analyzer.show()
+			self.Reload_Analyzer.hide()
+			self.Exit_Analyzer.hide()
+		else:
+			self.Popout_Analyzer.hide()
+			self.Reload_Analyzer.show()
+			self.Exit_Analyzer.show()
+
+	def popout(self, toggle):
+		if toggle:
+			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Window/COLLAPSE.svg"))
+			self.show()
+			self.restoreGeometry(self.storeState)
+		else:
+			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Window/EXPAND.svg"))
+			self.storeState = self.saveGeometry()
+			self.hide()
+
+	def pin(self, toggle):
+		if toggle:
+			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/PINNED_ON.svg"))
+			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
+		else:
+			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/PINNED_OFF.svg"))
+			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, False)
 		self.show()
 
 	def processUI(main):
@@ -65,7 +109,7 @@ class DRIVER_Program_Window(QT_Window):
 			pos = QPointF(self.pos()) + delta
 			self.move(pos.x(), pos.y())
 			self.initial_pos =  event.globalPosition()
-		elif event.type() == QEvent.Type.MouseButtonRelease and (event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton):
+		if event.type() == QEvent.Type.MouseButtonRelease and (event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton):
 			self.mouse_pressed = False
 		return super().eventFilter(source, event)
 
@@ -98,7 +142,6 @@ class DRIVER_Program_Window(QT_Window):
 	def restore(self):
 		file = bpy.data.texts.get("DRIVER Settings")
 		settings = json.loads(file.as_string())
-		
 		for widget in QCoreApplication.instance().allWidgets():
 			if widget.whatsThis() != "":
 				try:
@@ -136,10 +179,10 @@ class DRIVER_Program_Window(QT_Window):
 	def list(self) -> List:
 		list = self.BUI_Layout.list()
 		return list
-	#def tree(self) -> Tree:
-	#	tree = self.BUI_Layout.tree()
-	#	return tree
-	def driver(self, type: DRIVER_Type) -> Tree:
+	def tree(self) -> Tree:
+		tree = self.BUI_Layout.tree()
+		return tree
+	def driver(self, type: DRIVER_Type) -> Union[I_DRIVER, F_DRIVER, B_DRIVER, E_DRIVER, P_DRIVER]:
 		driver = self.BUI_Layout.driver(type)
 		self.uid = driver.setUID(self.uid)
 		return driver

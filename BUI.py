@@ -58,7 +58,10 @@ class Float_Slider(QT_Slider):
 		self.precision = 3
 		self.divider = int("1"+"0"*self.precision)
 
-		self.setRange(0, self.divider)
+		self.setRange(0, 1)
+
+	def setRange(self, min, max):
+		super().setRange(min * self.divider, max * self.divider)
 
 	def setPrecision(self, precision):
 		self.precision = precision

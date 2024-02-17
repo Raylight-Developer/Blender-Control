@@ -224,21 +224,28 @@ class F_DRIVER(QT_Linear_Contents):
 		if val > self.max: val = self.max
 		elif val < self.min: val = self.min
 		self.slider.setValue(val)
-	def set_label_icon(self, value: Icon = None):
+	def setLabelIcon(self, value: Icon = None):
 		self.label_icon = value
-	def set_min(self, value : float = 0.0):
+		return self
+	def setMin(self, value : float = 0.0):
 		self.min = value
 		self.input.setValidator(QDoubleValidator(decimals = 10))
-	def set_max(self, value : float = 1.0):
+		self.slider.setRange(value, self.max)
+		return self
+	def setMax(self, value : float = 1.0):
 		self.max = value
 		self.input.setValidator(QDoubleValidator(decimals = 10))
+		self.slider.setRange(self.min, value)
+		return self
 	def set_use_soft_limits(self, value : bool = True): pass
-	def set_soft_min(self, value : float = 0.0):
-		self.slider.setRange(value, self.slider.maximum())
-	def set_soft_max(self, value : float = 1.0):
-		self.slider.setRange(self.slider.minimum(), value)
-	def set_step(self, value : float = 0.1): pass
-	def set_precision(self, value: int = 3):
+	def setSoftMin(self, value : float = 0.0):
+		self.slider.setRange(value, self.max)
+		return self
+	def setSoftMax(self, value : float = 1.0):
+		self.slider.setRange(self.min, value)
+		return self
+	def setStep(self, value : float = 0.1): pass
+	def setPrecision(self, value: int = 3):
 		self.slider.precision = value
 
 class I_DRIVER(QT_Linear_Contents):

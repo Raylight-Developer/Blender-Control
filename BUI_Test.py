@@ -10,7 +10,7 @@ def processUI(main):
 	list : List     = main.list()
 	test : I_DRIVER = list.driver(DRIVER_Type.I)
 	test : B_DRIVER = list.driver(DRIVER_Type.B)
-	test : F_DRIVER = list.driver(DRIVER_Type.F)
+	test : F_DRIVER = list.driver(DRIVER_Type.F).setMin(-1)
 	test : E_DRIVER = list.driver(DRIVER_Type.E)
 	test : P_DRIVER = list.driver(DRIVER_Type.P)
 	hbox : HBox     = list.hbox()
