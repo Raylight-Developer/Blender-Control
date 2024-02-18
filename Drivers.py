@@ -20,7 +20,7 @@ class B_DRIVER(QT_Linear_Contents):
 		super().__init__()
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Boolean").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
@@ -52,11 +52,11 @@ class B_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: bool):
@@ -86,7 +86,7 @@ class E_DRIVER(QT_Linear_Contents):
 		super().__init__()
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Enum").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Option().addItem("Item")
 		
@@ -116,11 +116,11 @@ class E_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: str):
@@ -153,7 +153,7 @@ class F_DRIVER(QT_Linear_Contents):
 		super().__init__(False)
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Float").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
 		self.slider = Float_Slider().setToolTip(self.label_text)
@@ -194,11 +194,11 @@ class F_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: float):
@@ -268,7 +268,7 @@ class I_DRIVER(QT_Linear_Contents):
 		super().__init__(False)
 		self.setFixedHeight(24)
 		self.label = QT_Label().setText("Integer").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg")).hide()
+		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Line_Editor().setValidator(QIntValidator(0, 1))
 		self.slider = Int_Slider().setToolTip(self.label_text)
@@ -318,11 +318,11 @@ class I_DRIVER(QT_Linear_Contents):
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_ON.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_ON.svg"))
 				try: exec(self.add_keyframe_expression)
 				except Exception as error: print(error)
 			else:
-				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/KEYFRAME_OFF.svg"))
+				self.keyframer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg"))
 				try: exec(self.remove_keyframe_expression)
 				except Exception as error: print(error)
 	def executePythonExpression(self, driver: int):

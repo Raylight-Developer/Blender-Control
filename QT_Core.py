@@ -79,7 +79,6 @@ class QT_Button(QPushButton):
 			left_icon_rect.translate(5,0)
 			self.aligned_icon.paint(painter, left_icon_rect)
 
-
 class QT_Floating_Button (QPushButton):
 	def __init__(self):
 		super().__init__()
@@ -151,6 +150,7 @@ class QT_Icon_Button(QToolButton):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
+		super().setScaledContents(True)
 		super().setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
 
 	def setStyleName(self, Style: str):
@@ -485,6 +485,7 @@ class QT_Label(QLabel):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(5,0,5,0)
+		super().setScaledContents(True)
 		self.aligned_icon = None
 	
 	def setLayout(self, Layout: QLayout):

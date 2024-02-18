@@ -14,22 +14,22 @@ class DRIVER_Program_Window(QT_Window):
 		self.uid = self.setUID(self.uid)
 		self.mouse_pressed = False
 
-		self.Popout_Mode = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/BOOKMARK.svg"))
+		self.Popout_Mode = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/WINDOW_BOOKMARK.svg"))
 		self.Popout_Mode.clicked.connect(self.popoutMode)
 		self.uid = self.Popout_Mode.setUID(self.uid)
 
-		self.Popout_Analyzer = QT_Floating_Button().setStyleName("Bool_Prop").setCheckable(True).setChecked(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/EXPAND.svg"))
+		self.Popout_Analyzer = QT_Floating_Button().setStyleName("Bool_Prop").setCheckable(True).setChecked(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_EXPAND_ON.svg"))
 		self.Popout_Analyzer.clicked.connect(self.popout)
 		self.uid = self.Popout_Analyzer.setUID(self.uid)
 
-		self.Pin_Analyzer = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/PINNED_OFF.svg"))
+		self.Pin_Analyzer = QT_Button().setStyleName("Bool_Prop").setCheckable(True).setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_PINNED_OFF.svg"))
 		self.Pin_Analyzer.clicked.connect(self.pin)
 		self.uid = self.Pin_Analyzer.setUID(self.uid)
 
-		self.Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/REFRESH.svg"))
+		self.Reload_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/WINDOW_REFRESH.svg"))
 		self.Reload_Analyzer.clicked.connect(self.processUI)
 
-		self.Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/CLOSE.svg"))
+		self.Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/WINDOW_CLOSE.svg"))
 		self.Exit_Analyzer.clicked.connect(self.quit)
 
 		self.BUI_Header = HBox()
@@ -45,7 +45,7 @@ class DRIVER_Program_Window(QT_Window):
 		self.Properties = []
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
-		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/Icons/Data/SHAPEKEY_DATA.svg"))
+		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/Icons/Single Data/DATA_SHAPEKEY.svg"))
 
 		self.processUI()
 		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
@@ -63,20 +63,20 @@ class DRIVER_Program_Window(QT_Window):
 
 	def popout(self, toggle):
 		if toggle:
-			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Window/COLLAPSE.svg"))
+			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_EXPAND_ON.svg"))
 			self.show()
 			self.restoreGeometry(self.storeState)
 		else:
-			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Window/EXPAND.svg"))
+			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_EXPAND_OFF.svg"))
 			self.storeState = self.saveGeometry()
 			self.hide()
 
 	def pin(self, toggle):
 		if toggle:
-			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/PINNED_ON.svg"))
+			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_PINNED_ON.svg"))
 			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
 		else:
-			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/PINNED_OFF.svg"))
+			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_PINNED_OFF.svg"))
 			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, False)
 		self.show()
 
