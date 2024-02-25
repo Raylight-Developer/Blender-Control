@@ -1,5 +1,7 @@
 try: from .Drivers import *
 except: from Drivers import*
+if TYPE_CHECKING:
+	from Drivers import *
 
 class HBox(QT_Linear_Contents):
 	def __init__(self):
@@ -114,9 +116,9 @@ class List(QT_Linear_Contents):
 		self.addWidget(self.Toggle)
 		self.addWidget(self.Container)
 		self.Toggle.clicked.connect(self.expandCollapse)
-	def saveState(self) -> Dict:
+	def saveSettings(self) -> Dict:
 		return { "state": self.Toggle.isChecked()}
-	def restoreState(self, state: Dict):
+	def restoreSettings(self, state: Dict):
 		if state["state"]:
 			self.Container.show()
 			self.Toggle.setChecked(True)
@@ -191,9 +193,9 @@ class Tree(QT_Linear_Contents):
 		self.addWidget(self.Container)
 		self.Container.addWidget(self.SearchBar)
 		self.Toggle.clicked.connect(self.expandCollapse)
-	def saveState(self) -> Dict:
+	def saveSettings(self) -> Dict:
 		return { "state": self.Toggle.isChecked()}
-	def restoreState(self, state: Dict):
+	def restoreSettings(self, state: Dict):
 		if state["state"]:
 			self.Container.show()
 			self.Toggle.setChecked(True)

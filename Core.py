@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import *
 import math, json, sys, os
 from enum import Enum
 from PySide6.QtWidgets import *
@@ -7,10 +7,50 @@ from PySide6.QtCore import *
 
 PATH = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 
+# TYPES--------------------------------------------------------------------------------------------
+
+class DRIVER_Type(Enum):
+	I = 0
+	B = 1
+	F = 2
+	E = 3
+	P = 4
+
+class Icon(Enum):
+	SEARCH = ""
+	I_DRIVER = "Drivers/I_DRIVER.svg"
+	F_DRIVER = "Drivers/F_DRIVER.svg"
+	B_DRIVER = "Drivers/B_DRIVER.svg"
+	E_DRIVER = "Drivers/E_DRIVER.svg"
+	P_DRIVER = "Drivers/P_DRIVER.svg"
+
+# QT-----------------------------------------------------------------------------------------------
+
+class QT_Icon(QPushButton):
+	def __init__(self):
+		super().__init__()
+		super().setContentsMargins(0,0,0,0)
+		super().setFixedSize(24,24)
+		super().setIconSize(QSize(16,16))
+		super().setObjectName("Def_Icon")
+
+	def setIcon(self, Icon: Icon):
+		super().setIcon(QIcon(PATH + "/Resources/Icons/" + Icon.value))
+		return self
+
+	def show(self):
+		super().show()
+		return self
+	
+	def hide(self):
+		super().hide()
+		return self
+
 class QT_Button(QPushButton):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(0,0,0,0)
+		super().setIconSize(QSize(16,16))
 		self.aligned_icon = None
 
 	def setStyleName(self, Style: str):
@@ -48,7 +88,7 @@ class QT_Button(QPushButton):
 	def setFixedWidth(self, W: int):
 		super().setFixedWidth(W)
 		return self
-	
+
 	def show(self):
 		super().show()
 		return self
@@ -74,17 +114,17 @@ class QT_Button(QPushButton):
 
 		if self.aligned_icon:
 			left_icon_rect: QRect = option.rect
-			left_icon_size = self.aligned_icon.actualSize(left_icon_rect.size())
-			left_icon_rect.setWidth(left_icon_size.width())
-			left_icon_rect.translate(5,0)
+			left_icon_rect.setSize(QSize(16,16))
+			left_icon_rect.translate(5, (self.height()-16)/2)
 			self.aligned_icon.paint(painter, left_icon_rect)
 
 class QT_Floating_Button (QPushButton):
 	def __init__(self):
 		super().__init__()
-		self.setContentsMargins(0,0,0,0)
-		self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-		self.setWindowFlags(Qt.WindowType.FramelessWindowHint| Qt.WindowType.WindowStaysOnTopHint)
+		super().setContentsMargins(0,0,0,0)
+		super().setIconSize(QSize(16,16))
+		super().setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+		super().setWindowFlags(Qt.WindowType.FramelessWindowHint| Qt.WindowType.WindowStaysOnTopHint)
 
 		self.Drag_Pos = QPoint(0,0)
 
@@ -145,53 +185,6 @@ class QT_Floating_Button (QPushButton):
 		if Event.buttons() & Qt.MouseButton.RightButton:
 			self.move(self.mapToParent(Event.pos() - self.Drag_Pos))
 		super().mouseMoveEvent(Event)
-
-class QT_Icon_Button(QToolButton):
-	def __init__(self):
-		super().__init__()
-		super().setContentsMargins(0,0,0,0)
-		super().setScaledContents(True)
-		super().setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
-
-	def setStyleName(self, Style: str):
-		super().setObjectName(Style)
-		return self
-
-	def setToolTip(self, Tip: str):
-		super().setToolTip(Tip)
-		return self
-
-	def setText(self, Text: str):
-		super().setText(Text)
-		return self
-
-	def setCheckable(self, Checkable:bool):
-		super().setCheckable(Checkable)
-		return self
-
-	def setChecked(self, Checked:bool):
-		super().setChecked(Checked)
-		return self
-
-	def setIcon(self, Icon: QIcon):
-		super().setIcon(Icon)
-		return self
-
-	def setFixedSize(self, Width:int, Height:int):
-		super().setFixedSize(Width, Height)
-		return self
-
-	def setFixedHeight(self, H: int):
-		super().setFixedHeight(H)
-		return self
-
-	def setFixedWidth(self, W: int):
-		super().setFixedWidth(W)
-		return self
-
-	def setUID(self, uid: int):
-		super().setWhatsThis(f"UID: {uid}")
-		return uid + 1
 
 class QT_Option(QComboBox):
 	def __init__(self):
@@ -311,27 +304,17 @@ class QT_Line_Editor(QLineEdit):
 		super().setFixedSize(Width, Height)
 		return self
 
+	def show(self):
+		super().show()
+		return self
+	
+	def hide(self):
+		super().hide()
+		return self
+
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
 		return uid + 1
-
-	def setLeftIcon(self, Icon: QIcon):
-		self.aligned_icon = Icon
-		self.update()
-		return self
-
-	def paintEvent(self, event):
-		super().paintEvent(event)
-		painter = QPainter(self)
-		option = QStyleOption()
-		option.initFrom(self)
-
-		if self.aligned_icon:
-			left_icon_rect: QRect = option.rect
-			left_icon_size = self.aligned_icon.actualSize(left_icon_rect.size())
-			left_icon_rect.setWidth(left_icon_size.width())
-			left_icon_rect.translate(5,0)
-			self.aligned_icon.paint(painter, left_icon_rect)
 
 class QT_Linear_Layout(QBoxLayout):
 	def __init__(self, Vertical: bool = True):
@@ -485,8 +468,6 @@ class QT_Label(QLabel):
 	def __init__(self):
 		super().__init__()
 		super().setContentsMargins(5,0,5,0)
-		super().setScaledContents(True)
-		self.aligned_icon = None
 	
 	def setLayout(self, Layout: QLayout):
 		super().setLayout(Layout)
@@ -515,24 +496,6 @@ class QT_Label(QLabel):
 	def setUID(self, uid: int):
 		super().setWhatsThis(f"UID: {uid}")
 		return uid + 1
-
-	def setLeftIcon(self, Icon: QIcon):
-		self.aligned_icon = Icon
-		self.update()
-		return self
-
-	def paintEvent(self, event):
-		super().paintEvent(event)
-		painter = QPainter(self)
-		option = QStyleOption()
-		option.initFrom(self)
-
-		if self.aligned_icon:
-			left_icon_rect: QRect = option.rect
-			left_icon_size = self.aligned_icon.actualSize(left_icon_rect.size())
-			left_icon_rect.setWidth(left_icon_size.width())
-			left_icon_rect.translate(5,0)
-			self.aligned_icon.paint(painter, left_icon_rect)
 
 class QT_Tree(QWidget):
 	def __init__(self):

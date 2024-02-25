@@ -1,5 +1,7 @@
-try: from .QT_Core import *
-except: from QT_Core import *
+try: from .Core import *
+except: from Core import *
+if TYPE_CHECKING:
+	from Core import *
 
 class Int_Slider(QT_Slider):
 	def __init__(self):
@@ -110,15 +112,3 @@ class Float_Slider(QT_Slider):
 		painterPath.addText(QPointF(self.geometry().width() / 2 - QFontMetrics(self.font()).horizontalAdvance(f"{{:.{self.precision}f}}".format(self.value() / self.precision)) / 2, self.geometry().height() * 0.75), self.font() , f"{{:.{self.precision}f}}".format(self.value() / self.divider))
 		painter.strokePath(painterPath, QPen(QColor(250,250,250), 0.5))
 		painter.fillPath(painterPath, QColor(250,250,250))
-
-# TYPES--------------------------------------------------------------------------------------------
-
-class DRIVER_Type(Enum):
-	I = 0
-	B = 1
-	F = 2
-	E = 3
-	P = 4
-
-class Icon(Enum):
-	SEARCH = 0

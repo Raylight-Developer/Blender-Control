@@ -1,5 +1,7 @@
-try: from .Layout import *
-except: from Layout import *
+try: from Layout import *
+except: from .Layout import *
+if TYPE_CHECKING:
+	from Layout import *
 
 try: import bpy
 except: pass
@@ -7,7 +9,7 @@ except: pass
 class DRIVER_Program_Window(QT_Window):
 	popout_pos = QPoint()
 	initial_pos = QPoint()
-	storeState = None
+	geometryStore: QByteArray = None
 	def __init__(self):
 		super().__init__()
 		self.uid = 0
@@ -45,33 +47,43 @@ class DRIVER_Program_Window(QT_Window):
 		self.Properties = []
 
 		BUI_Splitter = QT_Splitter().addWidget(self.BUI_Header).addWidget(self.BUI_Layout)
-		self.setCentralWidget(BUI_Splitter).setWindowTitle("DRIVER").setWindowIcon(QIcon(PATH+"/Resources/Icons/Single Data/DATA_SHAPEKEY.svg"))
+		self.setCentralWidget(BUI_Splitter).setWindowTitle("BUI DRIVERS").setWindowIcon(QIcon(PATH+"/Resources/Icons/Workspaces/WORKSPACE_DRIVERS.svg"))
 
 		self.processUI()
 		self.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
 		self.show()
+		self.geometryStore = self.saveGeometry()
 
 	def popoutMode(self, toggle):
+		self.geometryStore = self.saveGeometry()
 		if toggle:
+			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
 			self.Popout_Analyzer.show()
 			self.Reload_Analyzer.hide()
 			self.Exit_Analyzer.hide()
+			self.Pin_Analyzer.hide()
 		else:
 			self.Popout_Analyzer.hide()
 			self.Reload_Analyzer.show()
 			self.Exit_Analyzer.show()
+			self.Pin_Analyzer.show()
+			if not self.Pin_Analyzer.isChecked():
+				self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, False)
+		self.show()
+		self.restoreGeometry(self.geometryStore)
 
 	def popout(self, toggle):
+		self.geometryStore = self.saveGeometry()
 		if toggle:
 			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_EXPAND_ON.svg"))
 			self.show()
-			self.restoreGeometry(self.storeState)
+			self.restoreGeometry(self.geometryStore)
 		else:
 			self.Popout_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_EXPAND_OFF.svg"))
-			self.storeState = self.saveGeometry()
 			self.hide()
 
 	def pin(self, toggle):
+		self.geometryStore = self.saveGeometry()
 		if toggle:
 			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_PINNED_ON.svg"))
 			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
@@ -79,6 +91,7 @@ class DRIVER_Program_Window(QT_Window):
 			self.Pin_Analyzer.setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_PINNED_OFF.svg"))
 			self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, False)
 		self.show()
+		self.restoreGeometry(self.geometryStore)
 
 	def processUI(main):
 		QApplication.instance().setStyleSheet(open(PATH+"/Resources/Stylesheet.css","r").read())
@@ -109,7 +122,7 @@ class DRIVER_Program_Window(QT_Window):
 			pos = QPointF(self.pos()) + delta
 			self.move(pos.x(), pos.y())
 			self.initial_pos =  event.globalPosition()
-		if event.type() == QEvent.Type.MouseButtonRelease and (event.button() == Qt.MouseButton.RightButton or event.button() == Qt.MouseButton.LeftButton):
+		if event.type() == QEvent.Type.MouseButtonRelease:
 			self.mouse_pressed = False
 		return super().eventFilter(source, event)
 
@@ -120,6 +133,7 @@ class DRIVER_Program_Window(QT_Window):
 		super().mousePressEvent(event)
 
 	def focusInEvent(self, event: QFocusEvent):
+		print("Refresh")
 		for widget in self.Properties:
 			try: widget.executeBlenderFetch()
 			except Exception as err: print(err)
@@ -132,38 +146,36 @@ class DRIVER_Program_Window(QT_Window):
 		QCoreApplication.instance().quit()
 		QCoreApplication.instance().exit()
 
-	def saveState(self) -> Dict:
-		return {"pos_x": self.pos().x(), "pos_y": self.pos().y(), "size_x": self.size().width(), "size_y": self.size().height()}
+	def saveSettings(self) -> str:
+		return self.geometryStore.toBase64().data().decode('utf-8') if self.geometryStore else None
 
-	def restoreState(self, state: Dict):
-		self.move(state["pos_x"], state["pos_y"])
-		self.resize(state["size_x"], state["size_y"])
+	def restoreSettings(self, state: str):
+		if state:
+			self.geometryStore = QByteArray.fromBase64(state.encode('utf-8'))
+			self.restoreGeometry(self.geometryStore)
 
 	def restore(self):
 		file = bpy.data.texts.get("DRIVER Settings")
 		settings = json.loads(file.as_string())
+
+		self.restoreSettings(settings[f"QT_Window"] if settings[f"QT_Window"] else None)
 		for widget in QCoreApplication.instance().allWidgets():
 			if widget.whatsThis() != "":
 				try:
 					if isinstance(widget, List):
 						widget: List = widget
-						widget.restoreState(settings[f"Dropdown || {widget.whatsThis()}"])
-					elif isinstance(widget, QT_Window):
-						widget: QT_Window =  widget
-						widget.restoreState(settings[f"QT_Window || {widget.whatsThis()}"])
+						widget.restoreSettings(settings[f"Dropdown || {widget.whatsThis()}"])
 				except: pass
 
 	def save(self):
 		settings = {}
+		settings[f"QT_Window"] = self.saveSettings()
 		for widget in QCoreApplication.instance().allWidgets():
 			if widget.whatsThis() != "":
 				try:
 					if isinstance(widget, List):
 						widget: List = widget
-						settings[f"Dropdown || {widget.whatsThis()}"] = widget.saveState()
-					elif isinstance(widget, QT_Window):
-						widget: QT_Window =  widget
-						settings[f"QT_Window || {widget.whatsThis()}"] = widget.saveState()
+						settings[f"Dropdown || {widget.whatsThis()}"] = widget.saveSettings()
 				except: pass
 
 		file = bpy.data.texts.get("DRIVER Settings")
@@ -193,42 +205,46 @@ class Standalone_Window(DRIVER_Program_Window):
 		if self.App is None:
 			self.App = QApplication(sys.argv)
 		super().__init__()
-		self.App.exec()
+		sys.exit(self.App.exec())
 
-	def processUI(main):
+	def processUI(main: VBox):
 		QApplication.instance().setStyleSheet(open(PATH+"/Resources/Stylesheet.css","r").read())
 		main.BUI_Layout.clear()
+		try: exec(open('./BUI_Test.py').read())
+		except Exception as err: print(err)
+		main.restore()
 
-	def restore(self): pass
-		#if os.path.exists(PATH+"/Resources/BUI.json"):
-		#	with open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8") as file:
-		#		settings = json.load(file)
-		#		file.close()
-#
-		#for widget in QCoreApplication.instance().allWidgets():
-		#	if widget.whatsThis() != "":
-		#		try:
-		#			if isinstance(widget, List):
-		#				widget: List = widget
-		#				widget.restoreState(settings[f"Dropdown || {widget.whatsThis()}"])
-		#			elif isinstance(widget, QT_Window):
-		#				widget: QT_Window =  widget
-		#				widget.restoreState(settings[f"QT_Window || {widget.whatsThis()}"])
-		#		except: pass
+	def restore(self):
+		return
+		if os.path.exists(PATH+"/Resources/BUI.json"):
+			with open(PATH+"/Resources/BUI.json", "r", encoding = "utf-8") as file:
+				settings = json.load(file)
+				file.close()
 
-	def save(self): pass
-		#settings = {}
-		#for widget in QCoreApplication.instance().allWidgets():
-		#	if widget.whatsThis() != "":
-		#		try:
-		#			if isinstance(widget, List):
-		#				widget: List = widget
-		#				settings[f"Dropdown || {widget.whatsThis()}"] = widget.saveState()
-		#			elif isinstance(widget, QT_Window):
-		#				widget: QT_Window =  widget
-		#				settings[f"QT_Window || {widget.whatsThis()}"] = widget.saveState()
-		#		except: pass
-#
-		#with open(PATH+"/Resources/BUI.json", "wt", encoding = "utf-8") as file:
-		#	json.dump(settings, file)
-		#	file.close()
+		self.restoreSettings(settings[f"QT_Window"] if settings[f"QT_Window"] else None)
+		for widget in QCoreApplication.instance().allWidgets():
+			if widget.whatsThis() != "":
+				try:
+					if isinstance(widget, List):
+						widget: List = widget
+						widget.restoreSettings(settings[f"Dropdown || {widget.whatsThis()}"])
+				except: pass
+
+	def save(self):
+		return
+		settings = {}
+		settings[f"QT_Window"] = self.saveSettings()
+		for widget in QCoreApplication.instance().allWidgets():
+			if widget.whatsThis() != "":
+				try:
+					if isinstance(widget, List):
+						widget: List = widget
+						settings[f"Dropdown || {widget.whatsThis()}"] = widget.saveSettings()
+				except: pass
+
+		with open(PATH+"/Resources/BUI.json", "wt", encoding = "utf-8") as file:
+			json.dump(settings, file)
+			file.close()
+
+Test_Window = Standalone_Window()
+main = VBox()

@@ -1,5 +1,7 @@
 try: from .BUI import *
 except: from BUI import *
+if TYPE_CHECKING:
+	from BUI import *
 
 class B_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
@@ -19,13 +21,14 @@ class B_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
+		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Boolean").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 
-		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
+		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
 		self.input.clicked.connect(self.executePythonExpression)
 
@@ -37,10 +40,10 @@ class B_DRIVER(QT_Linear_Contents):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
 	def setLabelIcon(self, label_icon: Icon):
-		self.label.setIcon(QIcon(label_icon))
-	def setLabelIsVisible(self, visible: bool):
-		if visible: self.label.show()
-		else: self.label.hide()
+		if label_icon:
+			self.label_icon.setIcon(label_icon)
+			self.label_icon.show()
+		else: self.label_icon.hide()
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
@@ -85,12 +88,13 @@ class E_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
+		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Enum").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Option().addItem("Item")
 		
-		self.addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
+		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
 
 	def setUID(self, uid):
@@ -101,10 +105,10 @@ class E_DRIVER(QT_Linear_Contents):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
 	def setLabelIcon(self, label_icon: Icon):
-		self.label.setIcon(QIcon(label_icon))
-	def setLabelIsVisible(self, visible: bool):
-		if visible: self.label.show()
-		else: self.label.hide()
+		if label_icon:
+			self.label_icon.setIcon(label_icon)
+			self.label_icon.show()
+		else: self.label_icon.hide()
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
@@ -152,14 +156,14 @@ class F_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
+		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Float").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
-		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10))
+		self.input = QT_Line_Editor().setValidator(QDoubleValidator(decimals = 10)).hide()
 		self.slider = Float_Slider().setToolTip(self.label_text)
 
-		self.addWidget(self.label).addWidget(self.slider).addWidget(self.input).addWidget(self.keyframer)
-		self.input.hide()
+		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.slider).addWidget(self.input).addWidget(self.keyframer)
 		if self.blender_fetch_expression:
 			try:
 				exec(f"self.input.setText({self.blender_fetch_expression})")
@@ -179,10 +183,10 @@ class F_DRIVER(QT_Linear_Contents):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
 	def setLabelIcon(self, label_icon: Icon):
-		self.label.setIcon(QIcon(label_icon))
-	def setLabelIsVisible(self, visible: bool):
-		if visible: self.label.show()
-		else: self.label.hide()
+		if label_icon:
+			self.label_icon.setIcon(label_icon)
+			self.label_icon.show()
+		else: self.label_icon.hide()
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
@@ -224,9 +228,6 @@ class F_DRIVER(QT_Linear_Contents):
 		if val > self.max: val = self.max
 		elif val < self.min: val = self.min
 		self.slider.setValue(val)
-	def setLabelIcon(self, value: Icon = None):
-		self.label_icon = value
-		return self
 	def setMin(self, value : float = 0.0):
 		self.min = value
 		self.input.setValidator(QDoubleValidator(decimals = 10))
@@ -267,6 +268,7 @@ class I_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__(False)
 		self.setFixedHeight(24)
+		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Integer").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
@@ -275,7 +277,7 @@ class I_DRIVER(QT_Linear_Contents):
 		self.decrease = QT_Button().setStyleName("Int_L").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_LEFT.svg"))
 		self.increase = QT_Button().setStyleName("Int_R").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Directions/ARROW_RIGHT.svg"))
 
-		self.addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
+		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.decrease).addWidget(self.slider).addWidget(self.increase).addWidget(self.input).addWidget(self.keyframer)
 		self.input.hide()
 		if self.blender_fetch_expression:
 			try:
@@ -299,11 +301,10 @@ class I_DRIVER(QT_Linear_Contents):
 		self.label.setText(label).setToolTip(self.label_text)
 		return self
 	def setLabelIcon(self, label_icon: Icon):
-		return self
-	def setLabelIsVisible(self, visible: bool):
-		if visible: self.label.show()
-		else: self.label.hide()
-		return self
+		if label_icon:
+			self.label_icon.setIcon(label_icon)
+			self.label_icon.show()
+		else: self.label_icon.hide()
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
 		return self
@@ -378,22 +379,23 @@ class P_DRIVER(QT_Linear_Contents):
 	def __init__(self):
 		super().__init__()
 		self.setFixedHeight(24)
+		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Python").setFixedWidth(120)
 		self.input = QT_Button().setStyleName("Bool_Prop").setText(self.label_text).setToolTip(self.label_text)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 
-		self.addWidget(self.label).addWidget(self.input)
+		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.input)
 		self.input.clicked.connect(self.executePythonExpression)
 
 	def setUID(self, uid):
 		self.uid = super().setUID(uid)
 		return self.uid
 	# Shared Property Methods -------------------
-	def setLabel(self, label: str):
-		self.label_text = label
-		self.label.setText(label).setToolTip(self.label_text)
 	def setLabelIcon(self, label_icon: Icon):
-		self.label.setIcon(QIcon(label_icon))
+		if label_icon:
+			self.label_icon.setIcon(label_icon)
+			self.label_icon.show()
+		else: self.label_icon.hide()
 	def setLabelIsVisible(self, visible: bool):
 		if visible: self.label.show()
 		else: self.label.hide()

@@ -18,7 +18,11 @@ QPushButton {
 	padding-left: 24px;
 	padding-right: 24px;
 }
-#Icon , #Key {
+#Def_Icon {
+	background: transparent;
+	border-radius: 0;
+}
+#Icon , #Key, #Def_Icon {
 	width: 24px;
 }
 #Int_R {
