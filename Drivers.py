@@ -20,10 +20,10 @@ class B_DRIVER(QT_Linear_Contents):
 
 	def __init__(self):
 		super().__init__()
-		self.setFixedHeight(24)
+		self.setStyleName("Driver").setFixedHeight(24)
 		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Boolean").setFixedWidth(120)
-		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
+		self.keyframer = QT_Button().setStyleName("Key").setFixedWidth(24).setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
 
 		self.input = QT_Button().setStyleName("Bool_Prop").setCheckable(True)
 		self.input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
@@ -32,26 +32,31 @@ class B_DRIVER(QT_Linear_Contents):
 		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
 		self.input.clicked.connect(self.executePythonExpression)
 
-	def setUID(self, uid):
-		self.uid = super().setUID(uid)
-		return self.uid
 	# Shared Property Methods -------------------
+	def setUID(self, uid):
+		uid = super().setUID(uid)
+		return uid
 	def setLabel(self, label: str):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
+		return self
 	def setLabelIcon(self, label_icon: Icon):
 		if label_icon:
 			self.label_icon.setIcon(label_icon)
 			self.label_icon.show()
 		else: self.label_icon.hide()
+		return self
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
+		return self
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
 		self.add_keyframe_expression = keyframe_expression
 		if self.remove_keyframe_expression: self.keyframer.show()
+		return self
 	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
 		self.remove_keyframe_expression = keyframe_expression
 		if self.add_keyframe_expression: self.keyframer.show()
+		return self
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
@@ -87,7 +92,7 @@ class E_DRIVER(QT_Linear_Contents):
 
 	def __init__(self):
 		super().__init__()
-		self.setFixedHeight(24)
+		self.setStyleName("Driver").setFixedHeight(24)
 		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Enum").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
@@ -97,26 +102,31 @@ class E_DRIVER(QT_Linear_Contents):
 		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.input).addWidget(self.keyframer)
 		self.keyframer.clicked.connect(lambda clicked: self.executeAddRemoveKeyframe(clicked))
 
-	def setUID(self, uid):
-		self.uid = super().setUID(uid)
-		return self.uid
 	# Shared Property Methods -------------------
+	def setUID(self, uid):
+		uid = super().setUID(uid)
+		return uid
 	def setLabel(self, label: str):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
+		return self
 	def setLabelIcon(self, label_icon: Icon):
 		if label_icon:
 			self.label_icon.setIcon(label_icon)
 			self.label_icon.show()
 		else: self.label_icon.hide()
+		return self
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
+		return self
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
 		self.add_keyframe_expression = keyframe_expression
 		if self.remove_keyframe_expression: self.keyframer.show()
+		return self
 	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
 		self.remove_keyframe_expression = keyframe_expression
 		if self.add_keyframe_expression: self.keyframer.show()
+		return self
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
@@ -155,7 +165,7 @@ class F_DRIVER(QT_Linear_Contents):
 
 	def __init__(self):
 		super().__init__(False)
-		self.setFixedHeight(24)
+		self.setStyleName("Driver").setFixedHeight(24)
 		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Float").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
@@ -175,26 +185,31 @@ class F_DRIVER(QT_Linear_Contents):
 		self.input.returnPressed.connect(self.changeValue)
 		self.input.focusOutEvent = self.cancelValueChange
 
-	def setUID(self, uid):
-		self.uid = super().setUID(uid)
-		return self.uid
 	# Shared Property Methods -------------------
+	def setUID(self, uid):
+		uid = super().setUID(uid)
+		return uid
 	def setLabel(self, label: str):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
+		return self
 	def setLabelIcon(self, label_icon: Icon):
 		if label_icon:
 			self.label_icon.setIcon(label_icon)
 			self.label_icon.show()
 		else: self.label_icon.hide()
+		return self
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
+		return self
 	def setAddKeyframeExpresssion(self, keyframe_expression: str):
 		self.add_keyframe_expression = keyframe_expression
 		if self.remove_keyframe_expression: self.keyframer.show()
+		return self
 	def setRemoveKeyframeExpresssion(self, keyframe_expression: str):
 		self.remove_keyframe_expression = keyframe_expression
 		if self.add_keyframe_expression: self.keyframer.show()
+		return self
 	def executeAddRemoveKeyframe(self, keyframe: bool):
 		if self.add_keyframe_expression and self.remove_keyframe_expression:
 			if keyframe:
@@ -238,16 +253,19 @@ class F_DRIVER(QT_Linear_Contents):
 		self.input.setValidator(QDoubleValidator(decimals = 10))
 		self.slider.setRange(self.min, value)
 		return self
-	def set_use_soft_limits(self, value : bool = True): pass
+	def set_use_soft_limits(self, value : bool = True):
+		return self
 	def setSoftMin(self, value : float = 0.0):
 		self.slider.setRange(value, self.max)
 		return self
 	def setSoftMax(self, value : float = 1.0):
 		self.slider.setRange(self.min, value)
 		return self
-	def setStep(self, value : float = 0.1): pass
+	def setStep(self, value : float = 0.1):
+		return self
 	def setPrecision(self, value: int = 3):
 		self.slider.precision = value
+		return self
 
 class I_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
@@ -267,7 +285,7 @@ class I_DRIVER(QT_Linear_Contents):
 
 	def __init__(self):
 		super().__init__(False)
-		self.setFixedHeight(24)
+		self.setStyleName("Driver").setFixedHeight(24)
 		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Integer").setFixedWidth(120)
 		self.keyframer = QT_Button().setFixedWidth(24).setStyleName("Key").setCheckable(True).setIcon(QIcon(PATH+"/Resources/Icons/Toggles/TOGGLE_KEYFRAME_OFF.svg")).hide()
@@ -292,10 +310,10 @@ class I_DRIVER(QT_Linear_Contents):
 		self.decrease.clicked.connect(lambda: self.slider.setValue(self.slider.value()-1))
 		self.increase.clicked.connect(lambda: self.slider.setValue(self.slider.value()+1))
 
-	def setUID(self, uid):
-		self.uid = super().setUID(uid)
-		return self.uid
 	# Shared Property Methods -------------------
+	def setUID(self, uid):
+		uid = super().setUID(uid)
+		return uid
 	def setLabel(self, label: str):
 		self.label_text = label
 		self.label.setText(label).setToolTip(self.label_text)
@@ -305,6 +323,7 @@ class I_DRIVER(QT_Linear_Contents):
 			self.label_icon.setIcon(label_icon)
 			self.label_icon.show()
 		else: self.label_icon.hide()
+		return self
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
 		return self
@@ -359,14 +378,16 @@ class I_DRIVER(QT_Linear_Contents):
 		self.slider.setRange(self.slider.minimum(), value)
 		self.input.setValidator(QIntValidator(self.min, value))
 		return self
-	def set_use_soft_limits(self, value : bool = True): pass
+	def set_use_soft_limits(self, value : bool = True):
+		return self
 	def setSoftMin(self, value : int = 0):
 		self.slider.setRange(value, self.slider.maximum())
 		return self
 	def setSoftMax(self, value : int = 1):
 		self.slider.setRange(self.slider.minimum(), value)
 		return self
-	def setStep(self, value : int = 1): pass
+	def setStep(self, value : int = 1):
+		return self
 	
 class P_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None
@@ -378,7 +399,7 @@ class P_DRIVER(QT_Linear_Contents):
 
 	def __init__(self):
 		super().__init__()
-		self.setFixedHeight(24)
+		self.setStyleName("Driver").setFixedHeight(24)
 		self.label_icon = QT_Icon().hide()
 		self.label = QT_Label().setText("Python").setFixedWidth(120)
 		self.input = QT_Button().setStyleName("Bool_Prop").setText(self.label_text).setToolTip(self.label_text)
@@ -387,20 +408,23 @@ class P_DRIVER(QT_Linear_Contents):
 		self.addWidget(self.label_icon).addWidget(self.label).addWidget(self.input)
 		self.input.clicked.connect(self.executePythonExpression)
 
-	def setUID(self, uid):
-		self.uid = super().setUID(uid)
-		return self.uid
 	# Shared Property Methods -------------------
+	def setUID(self, uid):
+		uid = super().setUID(uid)
+		return uid
+	def setLabel(self, label: str):
+		self.label_text = label
+		self.label.setText(label).setToolTip(self.label_text)
+		return self
 	def setLabelIcon(self, label_icon: Icon):
 		if label_icon:
 			self.label_icon.setIcon(label_icon)
 			self.label_icon.show()
 		else: self.label_icon.hide()
-	def setLabelIsVisible(self, visible: bool):
-		if visible: self.label.show()
-		else: self.label.hide()
+		return self
 	def setPythonDriver(self, python_driver_expression: str):
 		self.python_driver_expression = python_driver_expression
+		return self
 	def executePythonExpression(self, driver: bool):
 		if self.python_driver_expression:
 			try: exec(self.python_driver_expression)

@@ -34,14 +34,14 @@ class DRIVER_Program_Window(QT_Window):
 		self.Exit_Analyzer = QT_Button().setStyleName("Icon").setFixedWidth(24).setIcon(QIcon(PATH+"/Resources/Icons/Window/WINDOW_CLOSE.svg"))
 		self.Exit_Analyzer.clicked.connect(self.quit)
 
-		self.BUI_Header = HBox()
+		self.BUI_Header = QT_Linear_Contents()
 		self.BUI_Header.setContentsMargins(5,5,5,5)
 		self.BUI_Header.setFixedHeight(34)
 		self.BUI_Header.Linear_Layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 		self.BUI_Header.addWidget(self.Popout_Mode).addWidget(self.Pin_Analyzer).addWidget(self.Reload_Analyzer).addWidget(self.Exit_Analyzer)
 		self.BUI_Header.installEventFilter(self)
 
-		self.BUI_Layout = VBox()
+		self.BUI_Layout = VBox(self)
 		self.uid = self.BUI_Layout.setUID(self.uid)
 		self.BUI_Layout.setContentsMargins(5,5,5,5)
 		self.Properties = []
@@ -194,9 +194,20 @@ class DRIVER_Program_Window(QT_Window):
 	def tree(self) -> Tree:
 		tree = self.BUI_Layout.tree()
 		return tree
-	def driver(self, type: DRIVER_Type) -> Union[I_DRIVER, F_DRIVER, B_DRIVER, E_DRIVER, P_DRIVER]:
-		driver = self.BUI_Layout.driver(type)
-		self.uid = driver.setUID(self.uid)
+	def i_driver(self) -> I_DRIVER:
+		driver = self.BUI_Layout.i_driver()
+		return driver
+	def f_driver(self) -> F_DRIVER:
+		driver = self.BUI_Layout.f_driver()
+		return driver
+	def b_driver(self) -> B_DRIVER:
+		driver = self.BUI_Layout.b_driver()
+		return driver
+	def e_driver(self) -> E_DRIVER:
+		driver = self.BUI_Layout.e_driver()
+		return driver
+	def p_driver(self) -> P_DRIVER:
+		driver = self.BUI_Layout.p_driver()
 		return driver
 
 class Standalone_Window(DRIVER_Program_Window):
@@ -212,7 +223,8 @@ class Standalone_Window(DRIVER_Program_Window):
 		main.BUI_Layout.clear()
 		try: exec(open('./BUI_Test.py').read())
 		except Exception as err: print(err)
-		main.restore()
+		try: main.restore()
+		except Exception as err: print(err)
 
 	def restore(self):
 		return
@@ -247,4 +259,47 @@ class Standalone_Window(DRIVER_Program_Window):
 			file.close()
 
 Test_Window = Standalone_Window()
-main = VBox()
+
+if TYPE_CHECKING:
+	class VBox():
+		def hbox(self) -> 'HBox': pass
+		def vbox(self) -> 'VBox': pass
+		def list(self) -> 'List': pass
+		def tree(self) -> 'Tree': pass
+		def i_driver(self) -> I_DRIVER: pass
+		def f_driver(self) -> F_DRIVER: pass
+		def b_driver(self) -> B_DRIVER: pass
+		def e_driver(self) -> E_DRIVER: pass
+		def p_driver(self) -> P_DRIVER: pass
+	class HBox():
+		def hbox(self) -> 'HBox': pass
+		def vbox(self) -> 'VBox': pass
+		def list(self) -> 'List': pass
+		def tree(self) -> 'Tree': pass
+		def i_driver(self) -> I_DRIVER: pass
+		def f_driver(self) -> F_DRIVER: pass
+		def b_driver(self) -> B_DRIVER: pass
+		def e_driver(self) -> E_DRIVER: pass
+		def p_driver(self) -> P_DRIVER: pass
+	class List():
+		def hbox(self) -> 'HBox': pass
+		def vbox(self) -> 'VBox': pass
+		def list(self) -> 'List': pass
+		def tree(self) -> 'Tree': pass
+		def i_driver(self) -> I_DRIVER: pass
+		def f_driver(self) -> F_DRIVER: pass
+		def b_driver(self) -> B_DRIVER: pass
+		def e_driver(self) -> E_DRIVER: pass
+		def p_driver(self) -> P_DRIVER: pass
+	class Tree():
+		def hbox(self) -> 'HBox': pass
+		def vbox(self) -> 'VBox': pass
+		def list(self) -> 'List': pass
+		def tree(self) -> 'Tree': pass
+		def i_driver(self) -> I_DRIVER: pass
+		def f_driver(self) -> F_DRIVER: pass
+		def b_driver(self) -> B_DRIVER: pass
+		def e_driver(self) -> E_DRIVER: pass
+		def p_driver(self) -> P_DRIVER: pass
+
+	main = VBox()

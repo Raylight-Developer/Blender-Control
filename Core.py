@@ -9,13 +9,6 @@ PATH = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 
 # TYPES--------------------------------------------------------------------------------------------
 
-class DRIVER_Type(Enum):
-	I = 0
-	B = 1
-	F = 2
-	E = 3
-	P = 4
-
 class Icon(Enum):
 	SEARCH = ""
 	I_DRIVER = "Drivers/I_DRIVER.svg"
@@ -260,6 +253,10 @@ class QT_Linear_Contents(QWidget):
 
 	def setFixedSize(self, Width: int, Height: int):
 		super().setFixedSize(Width, Height)
+		return self
+
+	def setStyleName(self, Name: str):
+		super().setObjectName(Name)
 		return self
 
 	def setUID(self, uid: int):

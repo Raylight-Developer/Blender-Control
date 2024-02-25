@@ -143,3 +143,9 @@ QLabel {
 
 QComboBox { background: rgb(0,0,0); }
 QComboBox::drop-down { width: 24px; }
+
+#Driver {
+	background: rgb(255,75,75);
+	border-color: rgb(255,0,0);
+	border-width: 2px;
+}
