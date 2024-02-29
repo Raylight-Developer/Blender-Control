@@ -1,13 +1,18 @@
+import sys, pip, os
+
+pip.main(["install", "PySide6", "--user"])
+pip.main(["install", "sympy", "--user"])
+
 from typing import *
 from enum import Enum
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 
-import sympy, math, json, sys, os
+import sympy, math, json
+import bpy
 
 PATH = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
-TESTING = True
 
 # TYPES--------------------------------------------------------------------------------------------
 

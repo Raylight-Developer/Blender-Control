@@ -1,5 +1,5 @@
 * {
-	background: rgb(55,55,55);
+	background: rgb(50,50,50);
 	color: rgb(255,255,255);
 	border-style: solid;
 	border-width: 0px;
@@ -7,90 +7,6 @@
 	border-radius: 5px;
 	font-size: 14px;
 }
-
-QPushButton {
-	background: rgb(75,75,75);
-	height: 24px;
-}
-#Dropdown {
-	border-color: rgb(175, 175, 175);
-	border-width: 2px;
-	padding-left: 24px;
-	padding-right: 24px;
-}
-#Def_Icon {
-	background: transparent;
-	border-radius: 0;
-}
-#Icon , #Key, #Def_Icon {
-	width: 24px;
-}
-#Int_R {
-	border-radius: 0px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-}
-#Int_L {
-	border-radius: 0px;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
-#Int_L, #Int_R{
-	width: 24px;
-	height: 24px;
-	background: rgb(75,75,75);
-}
-#Int_L:hover, #Int_R:hover  {
-	background: rgb(100,100,100);
-}
-QPushButton:hover {
-	background: rgb(100,100,100);
-}
-#Key:checked {
-	background: rgba(215, 175, 55, 100);
-}
-QPushButton:checked {
-	background: rgb(100, 100, 100);
-}
-QPushButton:pressed {
-	background: rgb(100,100,250);
-}
-#Bool_Prop:checked {
-	background: rgb(100,100,250);
-}
-QPushButton:checked:hover {
-	background: rgb(125, 125, 125);
-}
-#Bool_Prop:checked:hover {
-	background: rgb(125,125,250);
-}
-
-QSlider {
-	height: 24px;
-	min-width: 72px;
-}
-#Int_Slider {
-	height: 24px;
-	min-width: 24px;
-	border-radius: 0px;
-}
-QSlider { background: rgb(75,75,75); }
-QSlider:hover { background: rgb(100,100,100); }
-QSlider:sub-page {
-	background: rgb(100,100,250);
-	border-style: solid;
-	border-width: 0px;
-	border-color: transparent;
-	border-radius: 5px;
-}
-#Int_Slider:sub-page {
-	background: rgb(100,100,250);
-	border-radius: 0px;
-}
-QSlider:handle:horizontal { background: transparent; width: 0px; }
-QSlider:groove:horizontal { background: transparent; }
-
-QSplitter:handle { background: rgb(0,0,0); }
 
 QScrollBar {
 	background: rgb(75, 75, 75);
@@ -115,7 +31,6 @@ QScrollBar:add-line:vertical {
 	subcontrol-position: bottom;
 	subcontrol-origin: margin;
 }
-
 QScrollBar:sub-line:vertical {
 	background: rgb(100,100,100);
 	height: 18px;
@@ -134,18 +49,132 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 	border-left-width: 1px;
 	border-right-width: 1px;
 }
-QLabel {
+
+QPushButton {
 	background: rgb(75,75,75);
 }
-#Box {
+QPushButton:hover {
+	background: rgb(100,100,100);
+}
+QPushButton:pressed {
+	background: rgb(125,125,250);
+}
+QPushButton:checked {
+	background: rgb(100,100,250)
+}
+QPushButton:checked:hover {
+	background: rgb(125,125,250);
+}
+QPushButton:checked:pressed {
+	background: rgb(100,100,100);
+}
+
+
+QSlider:handle:horizontal {
+	background: transparent;
+	width: 1px;
+}
+QSlider:groove:horizontal {
+	background: transparent;
+}
+
+#Window {
+	background: transparent;
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgb(255, 135, 0);
+	border-radius: 5px;
+}
+#Window:handle {
+	background: rgb(255, 135, 0);
+	width: 2px;
+}
+#Header_Button {
+	width: 24px;
+	height: 24px;
+}
+
+#List_Dropdown {
+	background: rgb(75,75,75);
+	border-color: rgb(125,125,125);
+	border-width: 1px;
+	padding-left: 24px;
+	padding-right: 24px;
+}
+#List_Contents {
+	background: transparent;
+}
+#List_Scroll_Area {
 	background: rgba(0,0,0,125);
 }
 
-QComboBox { background: rgb(0,0,0); }
-QComboBox::drop-down { width: 24px; }
+#Aligned_Driver_Layout {
+	background: rgb(75,75,75);
+}
+#Driver_Layout {
+	background: transparent;
+}
+#Driver_Label_Layout {
+	background: rgb(75,75,75);
+}
+#Driver_Label_Icon {
+	background: transparent;
+}
+#Driver_Label_Icon:pressed {
+	background: transparent;
+}
+#Driver_Label_Icon:hover {
+	background: transparent;
+}
+#Driver_Label {
+	background: rgb(75,75,75);
+}
 
-#Driver {
-	background: rgb(255,75,75);
-	border-color: rgb(255,0,0);
-	border-width: 2px;
+#I_Driver_Slider, #F_Driver_Slider {
+	height: 24px;
+	min-width: 24px;
+	border-radius: 0px;
+}
+#I_Driver_Slider:add-page, #F_Driver_Slider:add-page {
+	background: transparent;
+	border-radius: 5px;
+}
+#I_Driver_Slider:sub-page, #F_Driver_Slider:sub-page {
+	background: rgb(100,100,250);
+	border-radius: 0px;
+}
+#I_Driver_Add, #F_Driver_Add {
+	width: 24px;
+	height: 24px;
+	border-radius: 0;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+#I_Driver_Sub, #F_Driver_Sub {
+	width: 24px;
+	height: 24px;
+	border-radius: 0;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+
+#E_Driver_Dropdown {
+	height: 24px;
+	background: rgb(0,0,0);
+}
+#E_Driver_Dropdown:hover {
+	background: rgb(100,100,100);
+}
+#E_Driver_Dropdown::drop-down {
+	width: 20px;
+	border-width: 0;
+	border-radius: 5px;
+	border-style: solid;
+	border-color: transparent;
+}
+#E_Driver_Dropdown QAbstractItemView {
+	background: rgb(75,75,75);
+	border: 2px solid darkgray;
+	selection-background-color: lightgray;
 }

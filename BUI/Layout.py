@@ -1,7 +1,4 @@
-try: from .Drivers import *
-except: from Drivers import*
-if TYPE_CHECKING:
-	from Drivers import *
+from .Drivers import *
 
 class HBox(QT_Linear_Contents):
 	def __init__(self, main):

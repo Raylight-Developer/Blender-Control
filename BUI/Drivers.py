@@ -1,7 +1,4 @@
-try: from .Core import *
-except: from Core import *
-if TYPE_CHECKING:
-	from Core import *
+from .Core import *
 
 class I_DRIVER(QT_Linear_Contents):
 	python_driver_expression = None

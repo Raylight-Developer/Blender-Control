@@ -1,4 +1,6 @@
-import bpy, pip
+#--------------------------------------------------------------------------------------------------
+from .Window_Env import *
+#--------------------------------------------------------------------------------------------------
 
 bl_info = {
 	"name": "Blender DRIVER",
@@ -10,13 +12,6 @@ bl_info = {
 	"doc_url": "",
 	"category": "User Interface",
 }
-
-pip.main(["install", "PySide6", "--user"])
-
-#--------------------------------------------------------------------------------------------------
-try: from .Window_Env import *
-except: from Window_Env import *
-#--------------------------------------------------------------------------------------------------
 
 class DRIVER_Qt_Window_Event_Loop(bpy.types.Operator):
 	bl_idname = 'screen.qt_event_loop'
