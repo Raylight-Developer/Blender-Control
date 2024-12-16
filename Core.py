@@ -646,7 +646,7 @@ class Int_Slider(QT_Slider):
 		painter = QPainter(self)
 		painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 		painterPath = QPainterPath()
-		painterPath.addText(QPointF(self.geometry().width() / 2 - QFontMetrics(self.font()).horizontalAdvance(str(self.value())) / 2, self.geometry().height() * 0.75), self.font() ,str(self.value()))
+		painterPath.addText(QPointF(self.geometry().width() / 2 - QFontMetrics(self.font()).horizontalAdvance(str(self.value())) / 2, self.geometry().height() * 0.75), self.font(), str(self.value()))
 		painter.strokePath(painterPath, QPen(QColor(250,250,250), 0.5))
 		painter.fillPath(painterPath, QColor(250,250,250))
 
@@ -708,6 +708,6 @@ class Float_Slider(QT_Slider):
 		painter = QPainter(self)
 		painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 		painterPath = QPainterPath()
-		painterPath.addText(QPointF(self.geometry().width() / 2 - QFontMetrics(self.font()).horizontalAdvance(f"{{:.{self.precision}f}}".format(sympy.sympify(f"({self.value()} / {self.divider}) / {2}"))), self.geometry().height() * 0.75), self.font() , f"{{:.{self.precision}f}}".format(sympy.sympify(f"{self.value()} / {self.divider}")))
+		painterPath.addText(QPointF(self.geometry().width() / 2 - QFontMetrics(self.font()).horizontalAdvance(f"{{:.{self.precision}f}}".format(sympy.sympify(f"({self.value()} / {self.divider})")))/2, self.geometry().height() * 0.75), self.font() , f"{{:.{self.precision}f}}".format(sympy.sympify(f"{self.value()} / {self.divider}")))
 		painter.strokePath(painterPath, QPen(QColor(250,250,250), 0.5))
 		painter.fillPath(painterPath, QColor(250,250,250))

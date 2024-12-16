@@ -111,7 +111,9 @@ class DRIVER_Program_Window(QT_Window):
 			exec(code)
 		except: pass
 		for widget in main.Properties:
-			try: widget.executeBlenderFetch()
+			try:
+				if isinstance(widget, I_DRIVER) or isinstance(widget, F_DRIVER) or isinstance(widget, B_DRIVER) or isinstance(widget, E_DRIVER):
+					widget.executeBlenderFetch()
 			except Exception as err: print(err)
 		main.restore()
 

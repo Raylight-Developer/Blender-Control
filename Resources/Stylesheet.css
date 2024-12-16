@@ -175,6 +175,19 @@ QSlider:groove:horizontal {
 }
 #E_Driver_Dropdown QAbstractItemView {
 	background: rgb(75,75,75);
-	border: 2px solid darkgray;
-	selection-background-color: lightgray;
+	border-width: 2px;
+	border-color: rgb(150,150,150);
+	selection-background-color: rgb(150,150,150);
+}
+
+QListView::item {
+	border-style: solid;
+	border-color: rgb(150,150,150);
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+}
+QListView::item:hover {
+	background: rgb(100,100,250);
 }
